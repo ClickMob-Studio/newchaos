@@ -6,10 +6,13 @@ $db->query("SELECT days FROM bans WHERE id = ? AND type = 'gc'");
 $db->execute(array(
     $user_class->id
 ));
+
 if ($mins = $db->fetch_single())
     die();
+
 if (isset($user_class->permban) && $user_class->permban > 0)
     die();
+
 $db->query("SELECT * FROM gcusers WHERE userid = ?");
 $db->execute(array(
     $_SESSION['id']
@@ -23,8 +26,10 @@ if ($_SESSION['id'] != 0) {
         $typing
     ));
 }
+
 $db->query("DELETE FROM gcusers WHERE lastseen < unix_timestamp()");
 $db->execute();
+
 if (isset($_POST['msg'])) {
     $avatar = $user_class->avatar;
     $msg = nl2br($_POST['msg']);
@@ -49,25 +54,16 @@ if (isset($_POST['msg'])) {
 
     $db->query("SELECT * from globalchat WHERE id = ? LIMIT 1");
     $db->execute([$newid]);
-    $chatmessage = $db->fetch_row(true);
-    print renderChatMessage($chatmessage);
 
-    ?>
-
-
-
-    <?php
 } elseif (isset($_GET['lastID'])) {
     $db->query("UPDATE grpgusers SET globalchat = 0 WHERE id = ?");
     $db->execute(array(
         $_SESSION['id']
     ));
-    $db->query("SELECT * from globalchat WHERE id > ? AND playerid <> ? ORDER BY timesent");
-    $db->execute(array(
-        $_GET['lastID'],
-        $_SESSION['id']
-    ));
+    $db->query("SELECT * from globalchat WHERE id > ? ORDER BY timesent");
+    $db->execute([$_GET['lastID']]);
     $rows = $db->fetch_row();
+
     $db->query("SELECT id FROM globalchat ORDER BY id DESC");
     $db->execute();
     $lastid = $db->fetch_row(true);
@@ -81,35 +77,36 @@ if (isset($_POST['msg'])) {
     }
 
     foreach ($rows as $row) {
-        $reply_class = new User($row['playerid']);
-        $avatar = ($reply_class->avatar != "") ? $reply_class->avatar : "/images/no-avatar.png";
-        $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $row['body']);
-        echo '<div class="floaty">';
-        echo '<div class="flexcont" style="text-align:center;">';
-        echo '<div class="flexele">';
-        echo 'Now!';
-        echo '</div>';
-        echo '<div class="flexele">';
-        echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$reply_class->admin && !$reply_class->gm)) ? '<a href="?tavban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a> ' : '';
-        echo '</div>';
-        echo '<div class="flexele">';
-        echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $lastid['id'] . '">Delete Post</a>' : '';
-        echo '</div>';
-        echo '<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n", "\r"), array('', '\n'), $quotetext) . '[/quote]\\n\\n\');">';
-        echo 'Quote';
-        echo '</div>';
-        echo '</div>';
-        echo '<div class="flexcont">';
-        echo '<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
-        echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666;margin-bottom: 6px;" />';
-        echo '<br />';
-        echo $reply_class->formattedname;
-        echo '</div>';
-        echo '<div class="flexele" style="flex:3;padding:10px;max-width:73%;overflow-wrap:break-word;">';
-        echo BBCodeParse(stripslashes($row['body']));
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
+        echo renderChatMessage($row);
+        // $reply_class = new User($row['playerid']);
+        // $avatar = ($reply_class->avatar != "") ? $reply_class->avatar : "/images/no-avatar.png";
+        // $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $row['body']);
+        // echo '<div class="floaty">';
+        // echo '<div class="flexcont" style="text-align:center;">';
+        // echo '<div class="flexele">';
+        // echo 'Now!';
+        // echo '</div>';
+        // echo '<div class="flexele">';
+        // echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$reply_class->admin && !$reply_class->gm)) ? '<a href="?tavban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a> ' : '';
+        // echo '</div>';
+        // echo '<div class="flexele">';
+        // echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $lastid['id'] . '">Delete Post</a>' : '';
+        // echo '</div>';
+        // echo '<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n", "\r"), array('', '\n'), $quotetext) . '[/quote]\\n\\n\');">';
+        // echo 'Quote';
+        // echo '</div>';
+        // echo '</div>';
+        // echo '<div class="flexcont">';
+        // echo '<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
+        // echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666;margin-bottom: 6px;" />';
+        // echo '<br />';
+        // echo $reply_class->formattedname;
+        // echo '</div>';
+        // echo '<div class="flexele" style="flex:3;padding:10px;max-width:73%;overflow-wrap:break-word;">';
+        // echo BBCodeParse(stripslashes($row['body']));
+        // echo '</div>';
+        // echo '</div>';
+        // echo '</div>';
     }
 }
 ?>
