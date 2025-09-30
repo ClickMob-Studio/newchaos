@@ -47,7 +47,7 @@ if (isset($_POST['msg'])) {
     ));
     $newid = $db->insert_id();
 
-    $db->query("SELECT * from globalchat WHERE id = ?");
+    $db->query("SELECT * from globalchat WHERE id = ? LIMIT 1");
     $db->execute([$newid]);
     $chatmessage = $db->fetch_row(true);
     print renderChatMessage($chatmessage);
