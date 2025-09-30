@@ -47,7 +47,7 @@ if (!empty($currentQuestSeason['id'])) {
         ? (int) $progress['whitecollar_fraud']
         : 0;
 
-    if ($req === null || $prog < $req) {
+    if ($req === null || $prog >= $req) {
         $filter_ids[] = 52;
     }
 }

@@ -3153,7 +3153,6 @@ function getDisplayForQuestReq($req, $num, $progress)
         return 'Steal the books' . $status;
     } else if ($req === 'attack_player') {
         return 'Attack Player: ' . formatName($num) . $status;
-    } else if ($req === 'whitecollar_fraud') {
     } else if ($req === 'attacks') {
         return 'Attack: ' . number_format($progress[$req]) . '/' . $num . ' ' . $status;
     } else if ($req === 'whitecollar_fraud') {
