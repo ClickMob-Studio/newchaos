@@ -30,6 +30,8 @@ if ($tempItemUse['ghost_vacuum_time'] < time()) {
     $filter_ids[] = 51;
 }
 
+$is_admin = $user_class->admin > 0;
+
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
 if (!empty($currentQuestSeason['id'])) {
     $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
@@ -46,6 +48,13 @@ if (!empty($currentQuestSeason['id'])) {
     $prog = (is_object($progressObj) && isset($progressObj->whitecollar_fraud))
         ? (int) $progressObj->whitecollar_fraud
         : 0;
+
+    if ($is_admin) {
+        echo $req;
+        echo "<br>";
+        echo $prog;
+    }
+
 
     if ($req === null || $prog < $req) {
         $filter_ids[] = 52;
