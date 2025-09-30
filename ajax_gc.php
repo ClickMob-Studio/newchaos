@@ -1,5 +1,6 @@
 <?php
 include "ajax_header.php";
+
 $user_class = new User($_SESSION['id']);
 $db->query("SELECT days FROM bans WHERE id = ? AND type = 'gc'");
 $db->execute(array(
@@ -45,22 +46,14 @@ if (isset($_POST['msg'])) {
         $msg
     ));
     $newid = $db->insert_id();
-    $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $msg);
-    $banbutton = (($user_class->admin || $user_class->gm || $user_class->cm)) ? "<a href='?deltav=$newid'><button style='float:left;height:25px;'>Delete Post</button></a> " : "";
-    print gcTalking() . "|-|-|" . $newid . "|-|-|";
+
+    $db->query("SELECT * from globalchat WHERE id = ?");
+    $db->execute([$newid]);
+    $chatmessage = $db->fetch_row(true);
+    print renderChatMessage($chatmessage);
+
     ?>
-    <table class="flexcont" style="width:100%;">
-        <tbody>
-            <tr>
-                <td class="flexele" style="border-right:thin solid #333;text-align:center;width:200;"><img
-                        style="width:150px; height:150px; margin-bottom: 6px;"
-                        src="<?php echo $avatar; ?>"><br><?php echo $user_class->formattedname; ?></td>
-                <td class="flexele" style="padding:10px;">
-                    <?php echo $msg; ?><br><br>NOW <br><br>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
 
 
     <?php

@@ -472,82 +472,45 @@ TEXT;
         } else {
             $db->query("SELECT * FROM globalchat ORDER BY timesent DESC LIMIT 80");
         }
-        //$db->query("SELECT * from globalchat ORDER BY timesent DESC LIMIT 80");
+
         $rows = $db->fetch_row();
         foreach ($rows as $row) {
-
-            $db->query("SELECT COUNT(*) FROM chat_rating WHERE post_id = ? AND rating_action = 'like'");
-            $db->execute(
-                array(
-                    $row['id']
-                )
-            );
-            $likes = $db->fetch_single();
-
-            $db->query("SELECT COUNT(*) FROM chat_rating WHERE post_id = ? AND rating_action = 'dislike'");
-            $db->execute(
-                array(
-                    $row['id']
-                )
-            );
-            $dislikes = $db->fetch_single();
-
-            $db->query("SELECT * FROM chat_rating WHERE user_id = $user_class->id AND post_id = ? AND rating_action='like'");
-            $db->execute(
-                array(
-                    $row['id']
-                )
-            );
-            $userLiked = $db->fetch_single();
-
-            $db->query("SELECT * FROM chat_rating WHERE user_id = $user_class->id AND post_id = ? AND rating_action='dislike'");
-            $db->execute(
-                array(
-                    $row['id']
-                )
-            );
-            $userDisliked = $db->fetch_single();
-
-            $reply_class = new User($row['playerid']);
-            $array = array(
-                'name' => $reply_class->formattedname,
-                'avatar' => $reply_class->avatar,
-                'admin' => $reply_class->admin,
-                'gm' => $reply_class->gm
-            );
-
-            $avatar = ($array['avatar'] != "") ? $array['avatar'] : "/images/no-avatar.png";
-            $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $row['body']);
-            echo '<div class="floaty">';
-            echo '</div>';
-            echo '<table class="flexcont" style="width:100%;">';
-            echo '<tr>';
-
-            // Left cell for avatar and username
-            echo '<td class="flexele" style="border-right:thin solid #333;text-align:center;width:200px;">';
-            echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666;margin-bottom: 6px;" />';
-            echo '<br />';
-            if ($row['playerid'] > 0) {
-                echo $array['name'];
-            } else {
-                echo '<span style="color:red">System</span>';
-            }
-            echo '</td>';
-
-            // Right cell for the body content
-            echo '<td class="flexele" style="padding:10px;">';
-            echo BBCodeParse(stripslashes($row['body']));
-            echo '<br><br>';
-            echo howlongago($row['timesent']) . ' ago <br><br>';
-            echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])) ? '<a href="?gcban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
-            echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $row['id'] . '">Delete Post</a>' : '';
-            echo '<br><div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n", "\r"), array('', '\n'), $quotetext) . '[/quote]\\n\\n\');">';
-            echo 'Quote';
-            echo '</div>';
-            echo '</td>';
-
-            echo '</tr>';
-            echo '</table>';
+            // $db->query("
+            //     SELECT 
+            //         SUM(CASE WHEN rating_action = 'like' THEN 1 ELSE 0 END) AS likes,
+            //         SUM(CASE WHEN rating_action = 'dislike' THEN 1 ELSE 0 END) AS dislikes
+            //     FROM chat_rating
+            //     WHERE post_id = ?
+            // ");
+            // $db->execute([$row['id']]);
+            // $result = $db->fetch_row(true);
+        
+            // $likes = $result['likes'] ?? 0;
+            // $dislikes = $result['dislikes'] ?? 0;
+        
+            // $db->query("
+            //     SELECT rating_action 
+            //     FROM chat_rating 
+            //     WHERE user_id = ? 
+            //     AND post_id = ? 
+            //     AND rating_action IN ('like', 'dislike')
+            // ");
+            // $db->execute([$user_class->id, $row['id']]);
+        
+            // $ratings = $db->fetch_row();
+        
+            // $userLiked = false;
+            // $userDisliked = false;
+        
+            // foreach ($ratings as $r) {
+            //     if ($r['rating_action'] === 'like') {
+            //         $userLiked = true;
+            //     } elseif ($r['rating_action'] === 'dislike') {
+            //         $userDisliked = true;
+            //     }
+            // }
+        
+            renderChatMessage($row);
         }
 
         print "</div>";
