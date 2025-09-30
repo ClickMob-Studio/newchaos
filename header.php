@@ -670,7 +670,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/java.js?v=12" type="text/javascript"></script>
+    <script src="js/java.js?v=13" type="text/javascript"></script>
 
     <script src="/assets/js/cc-countdown.js"></script>
 
