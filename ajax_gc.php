@@ -50,11 +50,6 @@ if (isset($_POST['msg'])) {
         $_SESSION['id'],
         $msg
     ));
-    $newid = $db->insert_id();
-
-    $db->query("SELECT * from globalchat WHERE id = ? LIMIT 1");
-    $db->execute([$newid]);
-
 } elseif (isset($_GET['lastID'])) {
     $db->query("UPDATE grpgusers SET globalchat = 0 WHERE id = ?");
     $db->execute(array(
@@ -78,35 +73,6 @@ if (isset($_POST['msg'])) {
 
     foreach ($rows as $row) {
         echo renderChatMessage($row);
-        // $reply_class = new User($row['playerid']);
-        // $avatar = ($reply_class->avatar != "") ? $reply_class->avatar : "/images/no-avatar.png";
-        // $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $row['body']);
-        // echo '<div class="floaty">';
-        // echo '<div class="flexcont" style="text-align:center;">';
-        // echo '<div class="flexele">';
-        // echo 'Now!';
-        // echo '</div>';
-        // echo '<div class="flexele">';
-        // echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$reply_class->admin && !$reply_class->gm)) ? '<a href="?tavban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a> ' : '';
-        // echo '</div>';
-        // echo '<div class="flexele">';
-        // echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $lastid['id'] . '">Delete Post</a>' : '';
-        // echo '</div>';
-        // echo '<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n", "\r"), array('', '\n'), $quotetext) . '[/quote]\\n\\n\');">';
-        // echo 'Quote';
-        // echo '</div>';
-        // echo '</div>';
-        // echo '<div class="flexcont">';
-        // echo '<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
-        // echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666;margin-bottom: 6px;" />';
-        // echo '<br />';
-        // echo $reply_class->formattedname;
-        // echo '</div>';
-        // echo '<div class="flexele" style="flex:3;padding:10px;max-width:73%;overflow-wrap:break-word;">';
-        // echo BBCodeParse(stripslashes($row['body']));
-        // echo '</div>';
-        // echo '</div>';
-        // echo '</div>';
     }
 }
 ?>

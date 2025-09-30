@@ -249,7 +249,6 @@ const picker = new EmojiButton({
     showVariants: false,
     position: 'bottom'
 });
-const trigger = document.querySelector('#trigger');
 const textarea = document.querySelector('#reply')
 
 function addasmiley(text, textarea) {
@@ -267,7 +266,6 @@ picker.on('emoji', selection => {
     textarea.focus()
 });
 
-trigger.addEventListener('click', () => picker.togglePicker(trigger));
 </script>";
 
         if (isset($_GET['gcban']) && $_GET['conf'] == $_SESSION['security']) {
