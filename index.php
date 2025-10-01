@@ -1,8 +1,8 @@
 <?php
 
-checkMaintenanceIPs();
-
 require_once 'includes/functions.php';
+
+checkMaintenanceIPs();
 
 start_session_guarded();
 

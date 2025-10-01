@@ -1,10 +1,11 @@
 <?php
 
-checkMaintenanceIPs();
 
 include_once 'dbcon.php';
 include_once 'database/pdo_class.php';
 require_once 'includes/functions.php';
+
+checkMaintenanceIPs();
 
 start_session_guarded();
 
