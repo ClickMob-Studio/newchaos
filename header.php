@@ -1461,7 +1461,8 @@ $no2 = $db->num_rows();
                             </div>
                         </div>
                         <div class="row heroTop">
-                            <div class="col-5 col-lg-12 row mb-0 mb-lg-3 newTimeHolder">
+                            <div class="d-none d-lg-blockcol-lg-12 row mb-3 newTimeHolder">
+
                                 <div class="col-8 col-lg-7 g-0 row" style="margin-left:4px;">
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
@@ -1497,7 +1498,7 @@ $no2 = $db->num_rows();
                                     </div>
                                 </div>
 
-                                <div class="d-block d-lg-none">
+                                <div class="col-5 row mb-0 newTimeHolder">
                                     <div class="col-8 col-lg-7 g-0 row" style="margin-left:4px;">
                                         <div class="row my-1 g-0">
                                             <div class="col-2 d-flex align-items-center"><i
