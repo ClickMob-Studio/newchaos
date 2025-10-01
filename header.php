@@ -1437,7 +1437,7 @@ $no2 = $db->num_rows();
                                 </div>
                             </div>
                             <div style="margin-top: 4px;">
-                                Level <span class="level"><?= $user_class->level; ?></span>
+                                Level <span class="level"><?= number_format($user_class->level); ?></span>
                             </div>
                             <div class='time d-none d-md-block mt-2' style='text-align: left' ;>
                                 <span style="font-size: 12px;"><?php echo date('m/d h:i a', $now); ?></span>
