@@ -1232,7 +1232,7 @@ include 'header.php';
                 <tr>
                     <td style="text-align: center;">
                         <a href="store.php?buy=lep"
-                            style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY
+                            style="display: inline-block; padding: 10px 20px; background-color: var(--colorHighlight); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY
                             NOW</a><br />
                         This pack is limited to <?php echo $limitedPack['per_person_limit'] ?> purchases per player.
 
@@ -1605,7 +1605,7 @@ if (!empty($bpCategory)) {
             <tr>
                 <td style="text-align: center;">
                     <a href="store.php?buy=bapre"
-                        style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY
+                        style="display: inline-block; padding: 10px 20px; background-color: var(--colorHighlight); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY
                         NOW</a>
 
                 </td>
@@ -1633,7 +1633,7 @@ if (!empty($bpCategory)) {
         <tr>
             <td style="text-align: center;">
                 <a href="store.php?buy=7daygrad"
-                    style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY
+                    style="display: inline-block; padding: 10px 20px; background-color: var(--colorHighlight); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY
                     NOW</a>
 
             </td>
@@ -1660,7 +1660,7 @@ if (!empty($bpCategory)) {
         <tr>
             <td style="text-align: center;">
                 <a href="store.php?buy=14imgname"
-                    style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY
+                    style="display: inline-block; padding: 10px 20px; background-color: var(--colorHighlight); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY
                     NOW</a>
 
             </td>
@@ -1727,9 +1727,9 @@ if (!empty($bpCategory)) {
     }
 
     .new-shop-item {
-        background-color:
-            /* Dark background */
-            color: white;
+        background-color: var(--colorHighlight);
+        /* Dark background */
+        color: white;
         /* padding: 20px; */
         /* border-radius: 10px; */
         /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
@@ -1790,9 +1790,9 @@ if (!empty($bpCategory)) {
 
     .vip-package {
         text-align: center;
-        background-color:
-            /* Dark background */
-            color: white;
+        background-color: var(--colorHighlight);
+        /* Dark background */
+        color: white;
         /* padding: 20px; */
         /* border-radius: 10px; */
         /* box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); */
