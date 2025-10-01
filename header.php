@@ -1492,9 +1492,49 @@ $no2 = $db->num_rows();
                                                 class="mx-auto fab fa-medium-m"></i>
                                         </div>
                                         <div class="col-10 d-flex align-items-center credits"><a href="store.php"
-                                                style="text-decoration: none;"><?= shorthandNumber($user_class->credits); ?>
-                                                credits</a></div>
+                                                style="text-decoration: none;"><?= shorthandNumber($user_class->credits); ?></a>
+                                        </div>
                                     </div>
+                                </div>
+
+                                <div class="d-block d-lg-none">
+                                    <div class="col-8 col-lg-7 g-0 row" style="margin-left:4px;">
+                                        <div class="row my-1 g-0">
+                                            <div class="col-2 d-flex align-items-center"><i
+                                                    class="mx-auto fas fa-dollar-sign"></i></div>
+                                            <div class="col-10 d-flex align-items-center">$<div class="money">
+                                                    <?= shorthandNumber($user_class->money); ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-1 g-0">
+
+                                            <div class="col-2 d-flex align-items-center"><i
+                                                    class="mx-auto fas fa-piggy-bank"></i></div>
+                                            <div class="col-10 d-flex align-items-center"><a
+                                                    href="bank.php?h_deposit=cash"
+                                                    style="text-decoration: none;">$<?= shorthandNumber($user_class->bank); ?>
+                                            </div>
+                                            </a>
+                                        </div>
+                                        <div class="row my-1 g-0">
+                                            <div class="col-2 d-flex align-items-center"><i
+                                                    class="mx-auto far fa-gem"></i>
+                                            </div>
+                                            <div class="col-10 d-flex align-items-center points">
+                                                <?= shorthandNumber($user_class->points); ?>
+                                            </div>
+                                        </div>
+                                        <div class="row my-1 g-0">
+                                            <div class="col-2 d-flex align-items-center"><i
+                                                    class="mx-auto fab fa-medium-m"></i>
+                                            </div>
+                                            <div class="col-10 d-flex align-items-center credits"><a href="store.php"
+                                                    style="text-decoration: none;"><?= shorthandNumber($user_class->credits); ?></a>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
