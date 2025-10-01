@@ -477,7 +477,7 @@ class User
                 $this->housename = "Living with [x] in a {$worked['housename']}";
                 $this->house = $relhouse['id'];
             }
-            if (($relhouse['id'] == $worked['house'])) {
+            if (!empty($relhouse) && $relhouse['id'] == $worked['house']) {
                 $worked['houseawake'] = ceil(1.20 * $worked['houseawake']);
                 $this->house_shared = true;
             } else {
