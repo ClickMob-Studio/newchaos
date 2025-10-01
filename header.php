@@ -1,8 +1,4 @@
 <?php
-// TODO(Mathais): Remove before releasing to production
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ERROR | E_PARSE | E_NOTICE);
 
 ob_start();
 
@@ -1431,7 +1427,7 @@ $no2 = $db->num_rows();
                             <div class="d-none d-lg-block col-3">
                                 <img style="width: 55px;" src="<?= $user_class->avatar; ?>" alt="">
                             </div>
-                            <div class="col-5 dcUserName">
+                            <div class="col-9 dcUserName">
                                 <span class="dcHeaderUsername">
                                     <?= $user_class->formattedname; ?>
                                 </span>
@@ -1439,10 +1435,9 @@ $no2 = $db->num_rows();
                                     <a
                                         href="store.php#VIP"><?= ($user_class->rmdays > 0 ? $user_class->rmdays . ' VIP days' : 'Not VIP') ?></a>
                                 </div>
-
-                                <div class='time d-none d-lg-block mt-2' style='text-align: left' ;>
-                                    <span style="font-size: 12px;"><?php echo date('m/d h:i a', $now); ?></span>
-                                </div>
+                            </div>
+                            <div class='time d-none d-lg-block mt-2' style='text-align: left' ;>
+                                <span style="font-size: 12px;"><?php echo date('m/d h:i a', $now); ?></span>
                             </div>
                             <div class="col-7 text-center d-flex d-lg-none row g-0">
                                 <div class="row my-0 my-lg-1">
