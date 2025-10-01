@@ -231,7 +231,7 @@ $(document).ready(function() {
                     if ($user_class->id == 9 && $profile_class->id == 21) {
                         Send_Event(21, "You have been rated <span style='color:#00FF00;'><b>the hottest girlfriend</b></span> by " . $user_class->formattedname . ". Rate them back? <a href='profiles.php?id=$user_class->id&rate=up'><img src='images/up.png'></img></a> : <a href='profiles.php?id=$user_class->id&rate=down'><img src='images/down.png'></img></a>", 9);
                     } else {
-                        Send_Event($profile_class->id, "You have been Rated <font color=white><b>UP</b></font> By " . $user_class->formattedname . ". Rate them back? <a href='profiles.php?id=$user_class->id&rate=up'><img src='images/up.png'></img></a> : <a href='profiles.php?id=$user_class->id&rate=down'><img src='images/down.png'></img></a> ", $point_user->id);
+                        Send_Event($profile_class->id, "You have been Rated <font color=white><b>UP</b></font> By " . $user_class->formattedname . ". Rate them back? <a href='profiles.php?id=$user_class->id&rate=up'><img src='images/up.png'></img></a> : <a href='profiles.php?id=$user_class->id&rate=down'><img src='images/down.png'></img></a> ", $profile_class->id);
                     }
                     echo Message("You have rated " . $profile_class->formattedname . " <font color=green>Up</font>");
                     $profile_class->rating = $profile_class->rating + 1;
