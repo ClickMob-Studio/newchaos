@@ -549,7 +549,7 @@ if (isset($currentQuestSeason['id'])) {
                         $db->query("SELECT userid, motd FROM ofthes WHERE userid = ?");
                         $db->execute([$user_class->id]);
                         $mymotd = $db->fetch_row(true);
-                        if ($motd['motd'] == 0) {
+                        if (!$motd || $motd['motd'] == 0) {
                             echo "Nobody<br/><br/>";
                         } else {
                             echo "<br />" . formatName($motd['userid']) . "<br /><br />Mugs: " . prettynum($motd['motd']) . "<br /><br />You: " . prettynum($mymotd['motd']) . " Mugs<br /><br />";
@@ -575,7 +575,7 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $ofthes = $db->fetch_row(true);
 
-                        if ($botd['botd'] == 0) {
+                        if (!$botd || $botd['botd'] == 0) {
                             echo "Nobody<br /><br />";
                         } else {
                             echo "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
