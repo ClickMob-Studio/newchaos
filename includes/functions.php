@@ -953,8 +953,10 @@ function formatName($id, $nogang = 0)
         $name .= "<i><b><a title='$title' href='profiles.php?id=$id'><font color = '$whichfont'>{$row['username']}</a></font></b></i>";
     } else if (isset($row) && $row['rmdays'] > 0) {
         $name .= "<b><a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font></b>";
-    } else {
+    } else if (isset($row)) {
         $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font>";
+    } else {
+        $name .= "<a href='profiles.php?id=$id'>Unknown</a>";
     }
 
     if (isset($row) && $row['prestige'] > 0) {
