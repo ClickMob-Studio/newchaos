@@ -2,6 +2,7 @@
 
 // Force redirect to maintenance.php
 header('Location: maintenance.php');
+die();
 
 require_once 'includes/functions.php';
 
