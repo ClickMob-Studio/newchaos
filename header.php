@@ -1436,6 +1436,9 @@ $no2 = $db->num_rows();
                                         href="store.php#VIP"><?= ($user_class->rmdays > 0 ? $user_class->rmdays . ' VIP days' : 'Not VIP') ?></a>
                                 </div>
                             </div>
+                            <div>
+                                Level <div class="level"><?= $user_class->level; ?></div>
+                            </div>
                             <div class='time d-none d-lg-block mt-2' style='text-align: left' ;>
                                 <span style="font-size: 12px;"><?php echo date('m/d h:i a', $now); ?></span>
                             </div>
