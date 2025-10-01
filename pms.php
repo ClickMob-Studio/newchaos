@@ -248,7 +248,7 @@ include 'header.php';
                         $bold2 = "";
                     }
 
-                    if ($from_user_class) {
+                    if (!empty($from_user_class) && $from_user_class->id > 0) {
                         $namee = ($row['from'] == 0000) ? "<b><i>Auto Mail</i></b>" : $from_user_class->formattedname;
                     } else {
                         $namee = "<i>Unknown User</i>";
