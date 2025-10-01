@@ -649,7 +649,7 @@ $(document).ready(function() {
             $db->execute([$profile_class->id]);
             $worked222 = $db->fetch_row(true);
 
-            if ($worked222['referrer'] != 0) {
+            if ($worked222 && $worked222['referrer'] != 0) {
                 $refer_id = new User($worked222['referrer']);
                 $refer = ($worked222['referrer'] > 0) ? $refer_id->formattedname : "Nobody";
             }
