@@ -1,5 +1,8 @@
 <?php
 
+header('Location: maintenance.php');
+exit();
+
 require_once 'includes/functions.php';
 
 start_session_guarded();
