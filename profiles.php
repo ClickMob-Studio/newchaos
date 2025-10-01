@@ -596,8 +596,8 @@ $(document).ready(function() {
                 echo Message("You have {$unbanarray[3]} this user from the {$unbanarray[2]}.");
             }
         }
-        if (!empty($profile_class->protag))
-            print (getimagesize($profile_class->protag) !== false) ? "<tr><td colspan='4'><img src='images/$profile_class->protag' width='700' height='107' /></td></tr>" : "";
+        // if (!empty($profile_class->protag))
+        //     print (getimagesize($profile_class->protag) !== false) ? "<tr><td colspan='4'><img src='images/$profile_class->protag' width='700' height='107' /></td></tr>" : "";
         if ($profile_class->hospital > 0) {
             $avatar = "/images/hospital.png";
             if ($profile_class->hhow == "wasattacked")
