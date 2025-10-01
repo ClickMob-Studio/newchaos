@@ -2452,7 +2452,7 @@ $(document).ready(function() {
 $" . prettynum($worked2['cost']) . "<br>
 </td>
 ";
-                        $howmanyitems = $howmanyitems + 1;
+                        $howmanyitems = ($howmanyitems ?? 0) + 1;
                         if ($howmanyitems == 4) {
                             $weapons .= "</tr><tr height='15'></tr><tr>";
                             $howmanyitems = 0;
