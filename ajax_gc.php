@@ -52,7 +52,11 @@ if (isset($_POST['msg'])) {
     ));
     $newid = $db->insert_id();
 
-    echo "|-|-|" . $newid . "|-|-|" . renderChatMessage($newid);
+    $db->query("SELECT * FROM globalchat WHERE id = ?");
+    $db->execute(array($newid));
+    $chatMessage = $db->fetch_row(true);
+
+    echo "|-|-|" . $newid . "|-|-|" . renderChatMessage($chatMessage);
 } elseif (isset($_GET['lastID'])) {
     $db->query("UPDATE grpgusers SET globalchat = 0 WHERE id = ?");
     $db->execute(array(
