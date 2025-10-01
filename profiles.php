@@ -909,7 +909,8 @@ $(document).ready(function() {
                                         </div>
                                         <div class="text-center p-2" style="background-color: #111; color: white;">
                                             Relationship:</div>
-                                        <div class="text-center p-2"> <?php echo $rel; ?>
+                                        <div class="text-center p-2">
+                                            <?php echo isset($rel) ? $rel : "No Relationship"; ?>
                                             <?php if (!empty($profile_class->relplayer) && !empty($rel_user) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) { ?>
                                                 <a
                                                     href='relationship.php?action=end&player=<?php echo $user_class->relplayer; ?>'><button
