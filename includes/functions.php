@@ -4386,3 +4386,22 @@ function invalidateQuestSeasonCache($userId, $questSeasonId)
         $redis->del($key);
     }
 }
+
+function checkMaintenanceIPs()
+{
+    if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+        $user_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+    } else {
+        $user_ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+    }
+
+    $allowed_ips = [
+        '217.62.148.209', // Luuk
+        '2a00:4820:42e0:1400:5465:1987:e6e6:42b7', // Matt
+    ];
+
+    if (!in_array($user_ip, $allowed_ips, true)) {
+        header('Location: maintenance.php');
+        die();
+    }
+}

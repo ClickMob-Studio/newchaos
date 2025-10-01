@@ -3,6 +3,8 @@ session_start();
 
 include 'header.php';
 
+checkMaintenanceIPs();
+
 ?>
 
 <div class='container mt-3'>
