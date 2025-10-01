@@ -1,3 +1,8 @@
+var SEND_COOLDOWN_MS = 1500;
+var _sendLocked = false;
+var _lastSendAt = 0;
+var _lastMsg = null;
+
 function numbersonly(myfield, e, dec) {
     var key;
     var keychar;
@@ -74,29 +79,56 @@ function showemojis() {
     $.post("ajax_emojis.php?show");
     return false;
 }
+
 function sendGmail() {
     var $reply = $('#reply');
     var val = $.trim($reply.val());
+
     if (!val) return false;
 
-    var ts = Date.now();
-    $.post('ajax_gc.php?ts=' + ts, { msg: val }, function (d) {
-        if (!d) return;
+    var now = Date.now();
 
-        var parts = d.split('|-|-|');
-        var lastId = parts[0];
-        var html = parts[1];
+    if (_sendLocked || (now - _lastSendAt) < SEND_COOLDOWN_MS) {
+        return false;
+    }
 
-        var $wrap = $('<div/>', { id: 't' + ts, style: 'display:none' }).html(html);
-        $('#chat_block').prepend($wrap);
-        $('#t' + ts).slideDown(500);
+    if (_lastMsg !== null && val === _lastMsg) {
+        return false;
+    }
 
-        $reply.val('').focus();
-        lastGmailID = lastId;
-    });
+    _sendLocked = true;
+    _lastSendAt = now;
+    _lastMsg = val;
+
+    var ts = now;
+
+    $.post('ajax_gc.php?ts=' + ts, { msg: val })
+        .done(function (d) {
+            if (!d) return;
+
+            var parts = d.split('|-|-|'); // [ id, html ]
+            var lastId = parts[0];
+            var html = parts[1];
+
+            var $wrap = $('<div/>', { id: 't' + ts, style: 'display:none' }).html(html);
+            $('#chat_block').prepend($wrap);
+            $('#t' + ts).slideDown(500);
+
+            $reply.val('').focus();
+            lastGmailID = lastId;
+        })
+        .always(function () {
+            var elapsed = Date.now() - _lastSendAt;
+            var remaining = Math.max(0, SEND_COOLDOWN_MS - elapsed);
+
+            setTimeout(function () {
+                _sendLocked = false;
+            }, remaining);
+        });
 
     return false;
 }
+
 function syncGmail() {
     var ts = new Date().getTime();
     $.get("ajax_gc.php?ts=" + ts + "&lastID=" + lastGmailID, function (d) {
