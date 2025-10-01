@@ -1,44 +1,44 @@
 <?php
 require "header.php";
 ?>
- <div id="preview" class="preview">
-        <h3>Preview:</h3>
-        <div id="gradientPreview" class="preview-text"></div>
-    </div>
+<div id="preview" class="preview">
+    <h3>Preview:</h3>
+    <div id="gradientPreview" class="preview-text"></div>
+</div>
 
-    <!-- Success Message -->
-    <div id="successMessage" class="alert alert-success" style="display:none;">
-        Gradient settings saved successfully!
-    </div>
+<!-- Success Message -->
+<div id="successMessage" class="alert alert-success" style="display:none;">
+    Gradient settings saved successfully!
+</div>
 <div class="gradient-settings-container">
     <div class="gradient-settings">
         <h3>Customize Your Username Gradient</h3>
-        <input type="hidden" id="username" value="<?= $user_class->username; ?>"/>
+        <input type="hidden" id="username" value="<?= $user_class->username; ?>" />
         <div class="row">
             <div class="col-6">
-        <label for="startColor">Start Color:</label>
-        <input type="color" id="startColor" value="#FF0000" />
-        </div>
-        <div class="col-6">
-        <label for="endColor">End Color:</label>
-        <input type="color" id="endColor" value="#0000FF" />
-        </div>
+                <label for="startColor">Start Color:</label>
+                <input type="color" id="startColor" value="#FF0000" />
+            </div>
+            <div class="col-6">
+                <label for="endColor">End Color:</label>
+                <input type="color" id="endColor" value="#0000FF" />
+            </div>
         </div>
         <div class="row">
             <div class="col-4">
-        <label for="bold">Bold:</label>
-        <input type="checkbox" id="bold" />
+                <label for="bold">Bold:</label>
+                <input type="checkbox" id="bold" />
+            </div>
+            <div class="col-4">
+                <label for="italic">Italic:</label>
+                <input type="checkbox" id="italic" />
+            </div>
+            <div class="col-4">
+                <label for="glow">Glow Effect:</label>
+                <input type="checkbox" id="glow" />
+            </div>
         </div>
-        <div class="col-4">
-        <label for="italic">Italic:</label>
-        <input type="checkbox" id="italic" />
-        </div>
-        <div class="col-4">
-        <label for="glow">Glow Effect:</label>
-        <input type="checkbox" id="glow" />
-        </div>
-        </div>
-        <button class="apply-btn" onclick="saveGradientSettings(); saveGradientSettings()">Apply Gradient</button>
+        <button class="apply-btn" onclick="saveGradientSettings();">Apply Gradient</button>
     </div>
 
 
@@ -90,7 +90,7 @@ require "header.php";
         // Prepare the data to be sent to the server
         const params = `user_id=${encodeURIComponent(user_id)}&startColor=${encodeURIComponent(startColor)}&endColor=${encodeURIComponent(endColor)}&bold=${encodeURIComponent(isBold)}&italic=${encodeURIComponent(isItalic)}&glow=${encodeURIComponent(glow)}`;
 
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 // Display the success message on the page
                 const successMessage = document.getElementById("successMessage");
@@ -202,4 +202,3 @@ require "header.php";
         background-color: #0056b3;
     }
 </style>
-

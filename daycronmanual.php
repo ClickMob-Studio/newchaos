@@ -163,7 +163,7 @@ foreach ($allusers as $line) {
     perform_query("UPDATE grpgusers SET bank = ?, points = points + ? WHERE id = ?", [$newmoney, $ptsadd, $line['id']]);
     Send_Event($line['id'], "You have earned " . prettynum($interest, 1) . " for your bank", $line['id']);
 
-    if ($person_class->rmdays < 1) {
+    if ($person_class->rmdays < 1 || $person_class->gndays < 1) {
         invalidateFormattedName($person_class->id);
     }
 }
