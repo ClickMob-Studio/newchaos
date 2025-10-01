@@ -4859,7 +4859,9 @@ function getChatMessage($chatmessage): string
 
     $chatMessage .= '<div class="floaty">';
     $chatMessage .= '</div>';
-    $chatMessage .= '<table class="flexcont" style="width:100%;">';
+
+    $parityClass = ($chatmessage['id'] % 2 === 0) ? 'msg-even' : 'msg-odd';
+    $chatMessage .= '<table class="flexcont ' . $parityClass . '" style="width:100%;">';
     $chatMessage .= '<tr>';
 
     $chatMessage .= '<td class="flexele" style="border-right:thin solid #333;text-align:center;width:200px;">';
@@ -4873,8 +4875,7 @@ function getChatMessage($chatmessage): string
     $chatMessage .= '</td>';
 
     // Right cell for the body content
-    $parityClass = ($chatmessage['id'] % 2 === 0) ? 'msg-even' : 'msg-odd';
-    $chatMessage .= '<td class="flexele ' . $parityClass . '" style="padding:10px;" id="chat-' . $chatmessage['id'] . '">';
+    $chatMessage .= '<td class="flexele" style="padding:10px;">';
     $chatMessage .= BBCodeParse(stripslashes($chatmessage['body']));
     $chatMessage .= '<br><br>';
     $chatMessage .= howlongago($chatmessage['timesent']) . ' ago <br><br>';
