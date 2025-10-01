@@ -311,9 +311,9 @@ if (isset($_GET['ner'])) {
 
             missionCrimesCount += cm;
             $('.mission-crime-counter').data('value', missionCrimesCount);
-            $('.money').html(res.stats.money);
+            $('.money').html(res.stats.mb_money);
             $(".level").html(res.stats.level);
-            $(".points").html(res.stats.points);
+            $(".points").html(res.stats.mb_points);
             $(".mb-points").html(res.stats.mb_points);
             $(".mb-money").html(res.stats.mb_money);
             $(".response-text").html(res.text);
@@ -449,7 +449,6 @@ if (isset($_GET['ner'])) {
         .catch(error => {
             console.error('Error:', error);
         });
-
 </script>
 
 
