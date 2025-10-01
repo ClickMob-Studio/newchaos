@@ -502,7 +502,7 @@ if ($theirhp <= 0) {
             //echo $text;
         }
     }
-    $message = "You attacked " . $attack_person->formattedname . " and won! You gain " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . "." . $wartext;
+    $message = "You attacked " . $attack_person->formattedname . " and won! You gain " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".";
     if ($user_class->gang != 0) {
         $db->query("UPDATE gangs SET exp = exp + ?, bbattackwon = bbattackwon + 1, dailyKills = dailyKills + 1 WHERE id = ?");
         $db->execute(array(
