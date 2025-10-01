@@ -319,15 +319,15 @@ if (isset($_GET['ner'])) {
             $(".response-text").html(res.text);
             $("#missiontext").html(res.stats.mission);
 
-            $('.after_title').eq(1).text(res.bars.energy.title);
-            $('.after_title').eq(2).text(res.bars.nerve.title);
-            $('.after_title').eq(3).text(res.bars.awake.title + '%');
-            $('.after_title').eq(4).text(res.bars.exp.title + '%');
+            $('.after_title').eq(2).text(res.bars.energy.title);
+            $('.after_title').eq(3).text(res.bars.nerve.title);
+            $('.after_title').eq(4).text(res.bars.awake.title + '%');
+            $('.after_title').eq(5).text(res.bars.exp.title + '%');
 
-            $('.stat-bar .progress-bar').eq(1).width(res.bars.energy.percent + '%');
-            $('.stat-bar .progress-bar').eq(2).width(res.bars.nerve.percent + '%');
-            $('.stat-bar .progress-bar').eq(3).width(res.bars.awake.percent + '%');
-            $('.stat-bar .progress-bar').eq(4).width(res.bars.exp.percent + '%');
+            $('.stat-bar .progress-bar').eq(2).width(res.bars.energy.percent + '%');
+            $('.stat-bar .progress-bar').eq(3).width(res.bars.nerve.percent + '%');
+            $('.stat-bar .progress-bar').eq(4).width(res.bars.awake.percent + '%');
+            $('.stat-bar .progress-bar').eq(5).width(res.bars.exp.percent + '%');
 
             return res;
         }).catch(function (jqXHR) {
