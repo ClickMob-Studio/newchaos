@@ -460,7 +460,7 @@ if (isset($currentQuestSeason['id'])) {
                         $db->query("SELECT id, koth FROM grpgusers WHERE koth > 0 AND `admin` != 1 ORDER BY koth DESC LIMIT 1");
                         $db->execute();
                         $koth = $db->fetch_row(true);
-                        if ($koth && $koth['koth'] == 0) {
+                        if (!$koth || $koth['koth'] == 0) {
                             echo "Nobody<br /><br />";
                         } else {
                             echo "<br />" . formatName($koth['id']) . "<br /><br />Killed: " . prettynum($koth['koth']) . " Mobsters.<br /><br />You: " . prettynum($user_class->koth) . " Kills<br /><br />";
@@ -480,7 +480,7 @@ if (isset($currentQuestSeason['id'])) {
                         $db->query("SELECT id, loth FROM grpgusers WHERE loth > 0 AND `admin` = 0 ORDER BY loth DESC LIMIT 1");
                         $db->execute();
                         $loth = $db->fetch_row(true);
-                        if ($loth && $loth['loth'] == 0) {
+                        if (!$loth || $loth['loth'] == 0) {
                             echo "Nobody<br /><br />";
                         } else {
                             echo "<br />" . formatName($loth['id']) . "<br /><br />Gained: " . prettynum($loth['loth']) . " EXP.<br /><br />You: " . prettynum($user_class->loth) . " EXP<br /><br />";
@@ -501,7 +501,7 @@ if (isset($currentQuestSeason['id'])) {
                         $db->query("SELECT id, `both` FROM grpgusers WHERE `both` > 0 AND `admin` = 0 ORDER BY `both` DESC LIMIT 1");
                         $db->execute();
                         $both = $db->fetch_row(true);
-                        if ($both && $both['both'] == 0) {
+                        if (!$both || $both['both'] == 0) {
                             echo "Nobody<br /><br />";
                         } else {
                             echo "<br />" . formatName($both['id']) . "<br /><br />Busted: " . prettynum($both['both']) . " Mobsters.<br /><br />You busted: " . prettynum($user_class->both) . " Mobsters<br /><br />";
@@ -525,7 +525,7 @@ if (isset($currentQuestSeason['id'])) {
                         $db->query("SELECT id, moth FROM grpgusers WHERE `moth` > 0 AND `admin` != 1 ORDER BY moth DESC LIMIT 1");
                         $db->execute();
                         $moth = $db->fetch_row(true);
-                        if ($moth['moth'] == 0) {
+                        if (!$moth || $moth['moth'] == 0) {
                             echo "Nobody<br/><br/>";
                         } else {
                             echo "<br />" . formatName($moth['id']) . "<br /><br />Mugs: " . prettynum($moth['moth']) . "<br /><br />You: " . prettynum($user_class->moth) . " Mugs<br /><br />";
