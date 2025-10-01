@@ -306,11 +306,11 @@ td {
   border-collapse: collapse;
 }
 
-.flexcont:nth-of-type(even) {
-  background: #212121;
+.flexcont.msg-even {
+  background: #222020;
 }
 
-.flexcont:nth-of-type(odd) {
+.flexcont.msg-odd {
   background: #262626;
 }
 

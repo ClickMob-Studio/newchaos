@@ -260,14 +260,6 @@ hr.orange-line {
   border-radius: 5px;
 }
 
-.flexcont.msg-even {
-  background: #222020;
-}
-
-.flexcont.msg-odd {
-  background: #262626;
-}
-
 .town2 {
   transition: filter 0.5s, transform 0.5s;
   border: none;
