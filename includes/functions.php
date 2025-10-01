@@ -2782,11 +2782,13 @@ function getBpCategoryUser($bpCategory, $user_class)
 {
     global $db;
 
-    $db->query("SELECT * FROM bp_category_user WHERE user_id = ? AND bp_category_id = ? LIMIT 1");
-    $db->execute([$user_class->id, $bpCategory['id']]);
-    $r = $db->fetch_row(true);
-    if (isset($r['id'])) {
-        return $r;
+    if (isset($bpCategory['id'])) {
+        $db->query("SELECT * FROM bp_category_user WHERE user_id = ? AND bp_category_id = ? LIMIT 1");
+        $db->execute([$user_class->id, $bpCategory['id']]);
+        $r = $db->fetch_row(true);
+        if (isset($r['id'])) {
+            return $r;
+        }
     }
 
     $db->query("INSERT INTO bp_category_user (bp_category_id, user_id) VALUES (?, ?)");
