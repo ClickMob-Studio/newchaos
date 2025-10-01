@@ -50,6 +50,9 @@ if (isset($_POST['msg'])) {
         $_SESSION['id'],
         $msg
     ));
+    $newid = $db->insert_id();
+
+    echo $newid;
 } elseif (isset($_GET['lastID'])) {
     $db->query("UPDATE grpgusers SET globalchat = 0 WHERE id = ?");
     $db->execute(array(
