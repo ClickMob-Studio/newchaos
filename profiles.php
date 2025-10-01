@@ -2466,7 +2466,7 @@ $" . prettynum($worked2['cost']) . "<br>
 $" . prettynum($worked2['cost']) . "<br>
 </td>
 ";
-                        $howmanyitems2 = $howmanyitems2 + 1;
+                        $howmanyitems2 = ($howmanyitems2 ?? 0) + 1;
                         if ($howmanyitems2 == 4) {
                             $armor .= "</tr><tr height='15'></tr><tr>";
                             $howmanyitems2 = 0;
@@ -2480,7 +2480,7 @@ $" . prettynum($worked2['cost']) . "<br>
 $" . prettynum($worked2['cost']) . "<br>
 </td>
 ";
-                        $howmanyitems3 = $howmanyitems3 + 1;
+                        $howmanyitems3 = ($howmanyitems3 ?? 0) + 1;
                         if ($howmanyitems3 == 4) {
                             $shoes .= "</tr><tr height='15'></tr><tr>";
                             $howmanyitems3 = 0;
@@ -2493,7 +2493,7 @@ $" . prettynum($worked2['cost']) . "<br>
 " . item_popup($worked2['itemname'], $worked2['id']) . " [x" . $line['quantity'] . "]<br>
 </td>
 ";
-                        $howmanyitems6 = $howmanyitems6 + 1;
+                        $howmanyitems6 = ($howmanyitems6 ?? 0) + 1;
                         if ($howmanyitems6 == 4) {
                             $rares .= "</tr><tr height='15'></tr><tr>";
                             $howmanyitems6 = 0;
@@ -2506,7 +2506,7 @@ $" . prettynum($worked2['cost']) . "<br>
 " . item_popup($worked2['itemname'], $worked2['id']) . " [x" . $line['quantity'] . "]<br>
 </td>
 ";
-                        $howmanyitems7 = $howmanyitems7 + 1;
+                        $howmanyitems7 = ($howmanyitems7 ?? 0) + 1;
                         if ($howmanyitems7 == 4) {
                             $misc .= "</tr><tr height='15'></tr><tr>";
                             $howmanyitems7 = 0;
@@ -2527,7 +2527,7 @@ $" . prettynum($worked2['cost']) . "<br>
 $" . prettynum($worked2['cost']) . "<br>
 </td>
 ";
-                        $howmanyitems = $howmanyitems + 1;
+                        $howmanyitems = ($howmanyitems ?? 0) + 1;
                         if ($howmanyitems == 4) {
                             $loaned .= "</tr><tr height='15'></tr><tr>";
                             $howmanyitems = 0;
