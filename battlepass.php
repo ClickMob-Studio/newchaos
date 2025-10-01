@@ -17,6 +17,10 @@ if (isset($_GET['override_id']) && (int) $_GET['override_id'] > 0) {
     $bpCategory = getBpCategory($overrideId);
 }
 
+if ($user_class->id == 1239) {
+    print_r($bpCategory);
+}
+
 $bpCategoryPrizes = getBpCategoryPrizes($bpCategory);
 $bpCategoryChallenges = getBpCategoryChallenges($bpCategory);
 $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
