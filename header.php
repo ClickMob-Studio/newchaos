@@ -1446,7 +1446,7 @@ $no2 = $db->num_rows();
                                 <div class="row my-0 my-lg-1">
                                     <div class="col-3 d-flex align-items-center">
                                         <div class="d-flex">Level <div class="level" style="margin-left: 4px;">
-                                                <?= $user_class->level; ?>
+                                                <?= number_format($user_class->level); ?>
                                             </div>
                                         </div>
                                     </div>
