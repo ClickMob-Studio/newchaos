@@ -41,7 +41,7 @@ include 'header.php';
         }
 
 
-        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 16 LIMIT 1");
+        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 17 LIMIT 1");
         $db->execute();
         $limitedPack = $db->fetch_row(true);
 
@@ -1210,6 +1210,17 @@ include 'header.php';
                                 <li>5 x <?= item_popup('Love Potion', 322) ?></li>
                                 <li>5 x <?= item_popup('Gold Rush Token Chest', 283) ?></li>
                                 <li>50 x <?= item_popup('Dracula Blood Bag', 285) ?></li>
+                            </ul>
+                        <?php endif; ?>
+
+                        <?php if ($limitedPack['id'] == 9): ?>
+                            <p>Pack Contains:</p>
+                            <ul>
+                                <li>500,000 Points</li>
+                                <li>$1,000,000,000</li>
+                                <li>100 x <?= item_popup('Dracula Blood Bag', 285) ?></li>
+                                <li>25 x <?= item_popup('Halloween Candies', 361) ?></li>
+                                <li>1 x <?= item_popup('Statue of Samhain', 360) ?></li>
                             </ul>
                         <?php endif; ?>
 

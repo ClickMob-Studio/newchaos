@@ -808,6 +808,18 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You open Kingpin's Hoard and find 1,000,000 points, $1,000,000,000, 10 x Mission Pass, 5 x Double EXP, 5 x Perfume, 5 x Love Potion, 5 x Gold Rush Token Chest and 50 x Dracula Blood Bag!";
                 break;
+            case 362:
+                $db->query("UPDATE grpgusers SET points = points + 500000, money = money + 1000000000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+
+                Give_Item(285, $user_class->id, 100);
+                Give_Item(361, $user_class->id, 25);
+                Give_Item(360, $user_class->id, 1);
+
+                $response['success'] = true;
+                $response['message'] = "You open your halloween crate and inside find 500,000 points, $1,000,000,000, 100 x Dracula Blood Bag, 1 x Statue of Samhain, and 25 x Halloween Candies!";
+                break;
             default:
                 $failed = true;
                 $response['message'] = "Item not recognized or cannot be used.";
