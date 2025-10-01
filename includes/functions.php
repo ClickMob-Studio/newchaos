@@ -4816,7 +4816,7 @@ function checkMaintenanceIPs()
 
     $allowed_ips = [
         '217.62.148.209', // Luuk
-        '2a00:4820:42e0:1400:5465:1987:e6e6:42b7 ', // Matt
+        '2a00:4820:42e0:1400:5465:1987:e6e6:42b7', // Matt
     ];
 
     if (!in_array($user_ip, $allowed_ips, true)) {
