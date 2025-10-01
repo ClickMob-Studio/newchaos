@@ -950,7 +950,8 @@ $(document).ready(function() {
                                         <div class="text-center p-2" style="background-color: #111; color: white;">
                                             Referrer:</div>
                                         <div class="text-center p-2">
-                                            <?php echo isset($refer) ? $refer : "No Referrer"; ?></div>
+                                            <?php echo isset($refer) ? $refer : "No Referrer"; ?>
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="text-center p-2" style="background-color: #111; color: white;">
@@ -1069,8 +1070,10 @@ $(document).ready(function() {
                         <div class="col-6"
                             style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">House:
                         </div>
-                        <div class="col-6"><a
-                                href='house.php'><?php echo str_replace('[x]', $rel_user->formattedname, $profile_class->housename); ?><br><?php echo $houseImage; ?></a>
+                        <div class="col-6">
+                            <a href='house.php'>
+                                <?php echo str_replace('[x]', isset($rel_user) ? $rel_user->formattedname : '', $profile_class->housename); ?><br><?php echo $houseImage; ?>
+                            </a>
                         </div>
                     </div>
 
