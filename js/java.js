@@ -80,15 +80,9 @@ function sendGmail() {
         $.post("ajax_gc.php?ts=" + ts, { 'msg': $('#reply').val() }, function (d) {
             console.log(d);
             if (d) {
-                var myArr = d.split('|-|-|');
-                $('#chat_block').prepend('<div id="t' + ts + '" style="display:none">' + myArr[2] + '</div>');
-                $('#chat_block div#t' + ts).slideDown(500);
                 $('#reply').val('');
                 $('#reply').focus();
-                lastGmailID = myArr[1];
-                if (myArr[0]) {
-                    $('#gccontainer').html(myArr[0]);
-                }
+                lastGmailID = d;
             }
         });
     }
