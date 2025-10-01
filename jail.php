@@ -135,7 +135,11 @@ if ($jailbreak != "") {
                 $_SESSION['message'] = "You can't break people out of jail whilst your in jail.";
                 $error = true;
             }
-            $chance = rand(1, (100 * 1 - ($user_class->speed / 25)));
+
+            $max = 100 - ($user_class->speed / 25);
+            $max = (int) max(1, $max);  // ensures at least 1
+            $chance = mt_rand(1, $max);
+
             $nerve = 10;
             $exp = 2500;
 
