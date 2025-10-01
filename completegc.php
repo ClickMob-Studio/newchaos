@@ -13,10 +13,6 @@ if ($user_class->gang != 0 && $gang->crime != 0) {
         $db->execute([$gang->crime]);
         $worked2 = $db->fetch_row(true);
         if (time() >= $worked['ending']) {
-            $user_rank = new GangRank($user_class->grank);
-            if ($user_rank->crime == 1) {
-                Send_Event($line['id'], "Your gang crime has finished.", $line['id']);
-            }
             $random = rand(1, 4);
             if ($random == 4) {
                 $db->query("SELECT * FROM `gangs` WHERE `id` = ?");
