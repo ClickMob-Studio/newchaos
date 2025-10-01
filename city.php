@@ -381,7 +381,7 @@ if (isset($currentQuestSeason['id'])) {
                     <div class="text-center">
                         <?php
                         $db->query("SELECT userid, kotd FROM ofthes WHERE kotd > 0 AND userid NOT IN (?) ORDER BY kotd DESC LIMIT 1");
-                        $db->execute([$admin_ids]);
+                        $db->execute($admin_ids);
                         $kotd = $db->fetch_row(true);
 
                         $db->query("SELECT * FROM ofthes WHERE userid = ?");
@@ -428,7 +428,7 @@ if (isset($currentQuestSeason['id'])) {
                     <div class="text-center">
                         <?php
                         $db->query("SELECT userid, botd FROM ofthes WHERE botd > 0 AND userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
-                        $db->execute([$admin_ids]);
+                        $db->execute($admin_ids);
                         $botd = $db->fetch_row(true);
 
                         $db->query("SELECT * FROM ofthes WHERE userid = ?");
@@ -543,7 +543,7 @@ if (isset($currentQuestSeason['id'])) {
                     <div class="text-center">
                         <?php
                         $db->query("SELECT userid, motd FROM ofthes WHERE motd > 0 AND userid NOT IN (?) ORDER BY motd DESC LIMIT 1");
-                        $db->execute([$admin_ids]);
+                        $db->execute($admin_ids);
                         $motd = $db->fetch_row(true);
 
                         $db->query("SELECT userid, motd FROM ofthes WHERE userid = ?");
@@ -568,7 +568,7 @@ if (isset($currentQuestSeason['id'])) {
                     <div class="text-center">
                         <?php
                         $db->query("SELECT userid, botd FROM ofthes WHERE botd > 0 AND userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
-                        $db->execute([$admin_ids]);
+                        $db->execute($admin_ids);
                         $botd = $db->fetch_row(true);
 
                         $db->query("SELECT * FROM ofthes WHERE userid = ?");
