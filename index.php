@@ -2,7 +2,7 @@
 
 require_once 'includes/functions.php';
 
-checkMaintenanceIPs();
+// checkMaintenanceIPs();
 
 start_session_guarded();
 
