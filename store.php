@@ -46,7 +46,6 @@ include 'header.php';
         $limitedPack = $db->fetch_row(true);
 
         if (isset($limitedPack)) {
-
             $db->query("SELECT `itemname` FROM `items` WHERE id = " . $limitedPack['item_id']);
             $db->execute();
             $itemName = $db->fetch_single();
@@ -868,7 +867,6 @@ include 'header.php';
                 Give_Item($limitedPack['item_id'], $user_class->id, $limitedPack['item_quantity']);
                 addLimitedStorePackPurchase($user_class, $limitedPack['id']);
                 Send_Event($user_class->id, "You have been credited with your " . $limitedPack['name'] . ". You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-                $db->execute();
 
                 Send_Event(1034, $user_class->formattedname . " bought " . $limitedPack['name']);
                 Send_Event(1059, $user_class->formattedname . " bought " . $limitedPack['name']);
