@@ -2500,7 +2500,7 @@ $" . prettynum($worked2['cost']) . "<br>
                         }
                     }
                     if ($worked2['offense'] == 0 && $worked2['defense'] == 0 && $worked2['speed'] == 0 && $worked2['petupgrades'] == 0 && $worked2['rare'] == 0) {
-                        $misc .= "
+                        $misc = "
 <td width='25%' align='center'>
 <img src='" . $worked2['image'] . "' width='100' height='100' style='border: 1px solid #01a9b8'><br>
 " . item_popup($worked2['itemname'], $worked2['id']) . " [x" . $line['quantity'] . "]<br>
