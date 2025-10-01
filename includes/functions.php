@@ -899,12 +899,11 @@ function formatName($id, $nogang = 0)
             gu.pdimgname,
             gu.gradient,
             gu.gndays,
-            gu.leader,
-            gu.formattedTag,
             gu.prestige,
             gu.uninfo,
             g.tag,
-            -- EXISTS returns 1 or 0 depending on subselect
+            g.leader,
+            g.formattedTag
             EXISTS (
                 SELECT 1 FROM bans b
                 WHERE b.id = gu.id
