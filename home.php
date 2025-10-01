@@ -1,5 +1,8 @@
 <?php
 
+header('Location: maintenance.php');
+exit();
+
 include_once 'dbcon.php';
 include_once 'database/pdo_class.php';
 require_once 'includes/functions.php';
