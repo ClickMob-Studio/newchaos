@@ -2888,7 +2888,7 @@ $" . prettynum($worked2['cost']) . "<br>
                 <?PHP
                 $db->query("SELECT count(blocker) FROM ignorelist WHERE blocker = ? AND blocked = ? LIMIT 1");
                 $db->execute(array(
-                    $id,
+                    $profile_class->id,
                     $user_class->id
                 ));
                 if ($db->num_rows())
