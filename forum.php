@@ -807,7 +807,7 @@ $names = array(
                                         break;
                                 }
                             }
-                            $co = ($co != 2) ? 2 : 1;
+
                             $poster = new User($row['playerid']);
                             $edit = ($row['playerid'] == $user_class->id || $user_class->admin || $user_class->gm || $user_class->cm || $user_class->eo) ? "<div class='edit{$row['postid']}' style='display:none;text-align:center;'><textarea class='form-control' rows='5' id='edittext{$row['postid']}'>{$row['body']}</textarea><button class='btn btn-secondary mt-2' onclick='editReply({$row['postid']});'>Edit Post</button></div>" : "";
                             $edi = ($row['playerid'] == $user_class->id || $user_class->admin || $user_class->gm || $user_class->cm || $user_class->eo) ? 1 : 0;
