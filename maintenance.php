@@ -21,7 +21,7 @@
 
     <div class="container text-center" style="margin-top: 10%; margin-bottom: 10%;">
         <h1 style="font-size: 50px; font-weight: bold; color: #ff0000;">We'll be back soon!</h1>
-        <p style="font-size: 20px; color: #555;">Sorry for the inconvenience but we're performing some maintenance at
+        <p style="font-size: 20px; color: #888;">Sorry for the inconvenience but we're performing some maintenance at
             the moment. If you need to you can always reach out to us on <a
                 href="https://discord.gg/6TzzyD9Q5R">Discord</a>.</p>
     </div>
