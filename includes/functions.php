@@ -4811,7 +4811,7 @@ function checkMaintenanceIPs()
     if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
         $user_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
     } else {
-        $user_ip = $_SERVER['REMOTE_ADDR'] ?? '';
+        $user_ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
     }
 
     $allowed_ips = [
