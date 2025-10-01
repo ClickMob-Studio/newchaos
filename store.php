@@ -1727,7 +1727,6 @@ if (!empty($bpCategory)) {
     }
 
     .new-shop-item {
-        background-color: var(--colorHighlight);
         /* Dark background */
         color: white;
         /* padding: 20px; */
@@ -1790,7 +1789,6 @@ if (!empty($bpCategory)) {
 
     .vip-package {
         text-align: center;
-        background-color: var(--colorHighlight);
         /* Dark background */
         color: white;
         /* padding: 20px; */
