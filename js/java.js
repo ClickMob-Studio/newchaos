@@ -75,19 +75,26 @@ function showemojis() {
     return false;
 }
 function sendGmail() {
-    if ($('#reply').val() != '') {
-        var ts = new Date().getTime();
-        $.post("ajax_gc.php?ts=" + ts, { 'msg': $('#reply').val() }, function (d) {
-            if (d) {
-                var myArr = d.split('|-|-|');
-                $('#chat_block').prepend(myArr[1]);
-                $('#chat_block div#t' + ts).slideDown(500);
-                $('#reply').val('');
-                $('#reply').focus();
-                lastGmailID = myArr[0];
-            }
-        });
-    }
+    var $reply = $('#reply');
+    var val = $.trim($reply.val());
+    if (!val) return false;
+
+    var ts = Date.now();
+    $.post('ajax_gc.php?ts=' + ts, { msg: val }, function (d) {
+        if (!d) return;
+
+        var parts = d.split('|-|-|');
+        var lastId = parts[0];
+        var html = parts[1];
+
+        var $wrap = $('<div/>', { id: 't' + ts, style: 'display:none' }).html(html);
+        $('#chat_block').prepend($wrap);
+        $('#t' + ts).slideDown(500);
+
+        $reply.val('').focus();
+        lastGmailID = lastId;
+    });
+
     return false;
 }
 function syncGmail() {
