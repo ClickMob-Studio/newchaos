@@ -4814,15 +4814,13 @@ function checkMaintenanceIPs()
         $user_ip = $_SERVER['REMOTE_ADDR'] ?? '';
     }
 
-    echo $user_ip;
-
     $allowed_ips = [
         '217.62.148.209', // Luuk
-        '185.109.14.62 ', // Matt
+        '2a00:4820:42e0:1400:5465:1987:e6e6:42b7 ', // Matt
     ];
 
     if (!in_array($user_ip, $allowed_ips, true)) {
-        // header('Location: maintenance.php');
+        header('Location: maintenance.php');
         die();
     }
 }
