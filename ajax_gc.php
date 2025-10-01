@@ -31,7 +31,6 @@ $db->query("DELETE FROM gcusers WHERE lastseen < unix_timestamp()");
 $db->execute();
 
 if (isset($_POST['msg'])) {
-    $avatar = $user_class->avatar;
     $msg = nl2br($_POST['msg']);
     $msg = strip_tags($msg);
     $db->query("UPDATE grpgusers SET globalchat = 1 WHERE id <> ?");

@@ -333,9 +333,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Test log
     console.log("Rating button clicked: Action - " + action + ", Post ID - " + postId);
-
-
-
         // AJAX request to server
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'ajax_gc.php', true);
@@ -393,11 +390,17 @@ TEXT;
             </div>
         </form>
 
+        <script type="text/javascript">
+            function addsmiley(code) {
+                var pretext = document.message.msgtext.value;
+                this.code = code;
+                document.message.msgtext.value = pretext + code;
+                document.message.msgtext.focus;
+                $('#reply').focus();
+            }
+        </script>
+
         <?php
-        // echo '<div id="emojis" style="display:', ($user_class->hideemojis) ? 'none' : 'block', ';">';
-        // emotes();
-        // echo '</div>';
-        
 
         // NEW:
         echo '<details id="emoji-picker" class="emoji-picker"', ($user_class->hideemojis ? '' : ' open'), '>';

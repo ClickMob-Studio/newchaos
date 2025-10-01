@@ -80,10 +80,6 @@ function sendGmail() {
         $.post("ajax_gc.php?ts=" + ts, { 'msg': $('#reply').val() }, function (d) {
             if (d) {
                 var myArr = d.split('|-|-|');
-
-                console.log(myArr[0]);
-                console.log(myArr[1]);
-
                 $('#chat_block').prepend(myArr[1]);
                 $('#chat_block div#t' + ts).slideDown(500);
                 $('#reply').val('');
