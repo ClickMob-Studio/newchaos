@@ -674,7 +674,7 @@ $(document).ready(function() {
             $user_rank = new GangRank($user_class->grank);
             $gang = new Gang($user_class->gang);
 
-            $ganginvite = ($user_rank->invite == 1) ? "<a href='profiles.php?id=$profile_class->id&action=ganginvite'>Invite to $gang->name</a>" : "None";
+            $ganginvite = !empty($user_rank) && ($user_rank->invite == 1) ? "<a href='profiles.php?id=$profile_class->id&action=ganginvite'>Invite to $gang->name</a>" : "None";
             $gangwithrank = ($profile_class->ranktitle != '') ? $profile_class->formattedgang . "<br>" . $profile_class->ranktitle : $profile_class->formattedgang;
             $gang = ($profile_class->gang != 0) ? $gangwithrank : $ganginvite;
             $etprize = ($user_class->admin || $user_class->eo) ? "<a href='subet.php?userid=$profile_class->id'>Send ET Prize</a>" : " ";
