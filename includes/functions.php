@@ -4814,8 +4814,11 @@ function checkMaintenanceIPs()
     ];
 
     $user_ip = $_SERVER['REMOTE_ADDR'] ?? '';
-    if (!in_array($user_ip, $allowed_ips, true)) {
-        header('Location: maintenance.php');
-        die();
-    }
+
+    echo "Your IP: $user_ip<br>";
+
+    // if (!in_array($user_ip, $allowed_ips, true)) {
+    //     header('Location: maintenance.php');
+    //     die();
+    // }
 }
