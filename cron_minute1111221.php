@@ -233,7 +233,7 @@ foreach ($raids as $raid) {
     if ($raid['used_pass']) {
         $raid_successful = 1;
         $boss_hp = 0;
-        $battle_log .= 'A raid pass was used and the raid was successful.\n';
+        $battle_log .= 'A raid pass was used and the raid was successful.<br />;
     }
 
     /// Turn-based battle simulation
