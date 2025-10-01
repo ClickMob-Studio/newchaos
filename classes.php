@@ -1206,6 +1206,10 @@ class GangRank
             $field = $db->fetch_row(true);
         }
 
+        if (empty($field)) {
+            return;
+        }
+
         foreach ($field as $title => $value)
             if ($notmyranks) {
                 $this->$title = $value;
