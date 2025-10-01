@@ -1366,7 +1366,7 @@ $(document).ready(function() {
             $badges = 14;
             for ($i = 0; $i < $badges; $i++) {
                 $name = "badge$i";
-                $badge = $profile_class->{$name};
+                $badge = isset($profile_class->{$name}) ? $profile_class->{$name} : null;
                 if (!isset($badge))
                     continue;
                 echo "<div class='achievement' style='text-align: center;'>" . $badge . "</div>";
