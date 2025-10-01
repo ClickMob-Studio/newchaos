@@ -53,7 +53,7 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 		}
 
 
-		$search = $search ?? [];
+		$search = is_array($search) ? $search : [];
 		$search['id'] = $search['id'] ?? '';
 		$search['name'] = $search['name'] ?? '';
 		$search['level'] = $search['level'] ?? '';
