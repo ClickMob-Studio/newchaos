@@ -41,7 +41,7 @@ include 'header.php';
                     }
                 }
 
-                if ($user_class->game_updates)
+                if ($user_class->new_updates > 0)
                     perform_query("UPDATE grpgusers SET new_updates = 0 WHERE id = ?", [$user_class->id]);
 
                 if ($user_class->admin) {
