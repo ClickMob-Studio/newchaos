@@ -1461,8 +1461,8 @@ $no2 = $db->num_rows();
                             </div>
                         </div>
                         <div class="row heroTop">
-                            <div class="col-5 col-lg-12 row mb-0 mb-lg-3 newTimeHolder">
-                                <div class="col-8 col-lg-7 g-0 row" style="margin-left:4px;">
+                            <div class="col-5 col-md-12 row mb-0 mb-md-3 newTimeHolder">
+                                <div class="col-8 col-md-7 g-0 row" style="margin-left:4px;">
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
                                                 class="mx-auto fas fa-dollar-sign"></i></div>
@@ -1497,7 +1497,7 @@ $no2 = $db->num_rows();
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
+                            <div class="col-7 col-md-12 g-0 row dcStatsPanel">
                                 <div class="row my-0 my-lg-1 dcStatContainer-health">
                                     <div class="col-3 d-flex align-items-center">Health</div>
                                     <div class="col-9 d-flex align-items-center align-items-center2">
