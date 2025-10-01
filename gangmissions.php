@@ -130,7 +130,7 @@ if ($user_class->gang != 0) {
                 die('Failed to retrieve mission details for mission id: ' . $missionId);
             }
 
-            $duration = $mission['time'] * 3600;
+            $duration = $mission * 3600;
             $endTime = time() + $duration;
 
             perform_query("INSERT INTO active_gang_missions (gangid, mission_id, kills, busts, crimes, mugs, completed, time, end_time) VALUES (?, ?, 0, 0, 0, 0, 0, UNIX_TIMESTAMP(), ?)", [$user_class->gang, $missionId, $endTime]);
