@@ -1,9 +1,6 @@
 <?php
-
-// Force redirect to maintenance.php
 header('Location: maintenance.php');
 exit();
-echo "REACHED HERE?";
 
 require_once 'includes/functions.php';
 
