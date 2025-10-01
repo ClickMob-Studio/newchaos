@@ -928,7 +928,7 @@ function formatName($id, $nogang = 0)
         if ((int) $id === 2 && (int) $row['gndays'] > 0) {
             $name = str_replace("<a ", "<a style='font-size:1.5em;' ", $name);
         }
-        $isLeader = ((int) $row['leader'] === $id);
+        $isLeader = ((int) $row['gang_leader'] === $id);
         if ($row['formattedTag'] === "Yes") {
             $name .= $isLeader
                 ? " title='Gang Leader'><font color=grey>[<b>" . gradientTag($row['gang']) . "</b>]</font></a> "
