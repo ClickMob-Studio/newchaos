@@ -2116,9 +2116,9 @@ $(document).ready(function() {
             ?>
             <?php
             if ($user_class->admin == 1 || $user_class->gm == 1 || $user_class->fm == 1) {
-                $db->query("SELECT `notes` FROM grpgusers WHERE id = ?");
+                $db->query("SELECT `notes` FROM grpgusers WHERE id = ? LIMIT 1");
                 $db->execute([$profile_class->id]);
-                $notes = $db->fetch_row(true);
+                $notes = $db->fetch_single();
                 ?>
                 <tr>
                     <td class="contentspacer"></td>
