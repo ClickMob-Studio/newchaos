@@ -1202,7 +1202,6 @@ $no2 = $db->num_rows();
                         aria-valuenow="<?= $user_class->exppercent; ?>" aria-valuemin="0"
                         aria-valuemax="<?= $user_class->exppercent; ?>"></div>
                 </div>
-
             </div>
         </div>
     </div>

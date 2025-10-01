@@ -2706,20 +2706,20 @@ function getBpCategory($overrideId = null)
     if ($overrideId) {
         $db->query("SELECT * FROM bp_category WHERE id = '" . $overrideId . "' LIMIT 1");
         $db->execute();
-        $r = $db->fetch_row();
+        $r = $db->fetch_row(true);
 
-        if (isset($r[0]['id'])) {
-            return $r[0];
+        if (isset($r['id'])) {
+            return $r;
         }
     } else {
         $now = new \DateTime();
 
         $db->query("SELECT * FROM bp_category WHERE month_year = '" . $now->format('m-Y') . "' LIMIT 1");
         $db->execute();
-        $r = $db->fetch_row();
+        $r = $db->fetch_row(true);
 
-        if (isset($r[0]['id'])) {
-            return $r[0];
+        if (isset($r['id'])) {
+            return $r;
         }
     }
 
