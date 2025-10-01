@@ -78,9 +78,12 @@ function sendGmail() {
     if ($('#reply').val() != '') {
         var ts = new Date().getTime();
         $.post("ajax_gc.php?ts=" + ts, { 'msg': $('#reply').val() }, function (d) {
-            console.log(d);
             if (d) {
                 var myArr = d.split('|-|-|');
+
+                console.log(myArr[0]);
+                console.log(myArr[1]);
+
                 $('#chat_block').prepend(myArr[1]);
                 $('#chat_block div#t' + ts).slideDown(500);
                 $('#reply').val('');
