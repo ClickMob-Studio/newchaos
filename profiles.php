@@ -1840,7 +1840,7 @@ $(document).ready(function() {
                                             <td>[Game Ban]&nbsp;</td>
                                             <td>Days:&nbsp;</td>
                                             <td><?php
-                                            if ($worked1['days'] >= 1) {
+                                            if (isset($worked1) && $worked1['days'] >= 1) {
                                                 ?><input type="text" name="days" DISABLED value="<?php
                                                 echo $worked1['days'];
                                                 ?>" /></td><?php
@@ -1852,21 +1852,21 @@ $(document).ready(function() {
                                             echo $profile_class->id;
                                             ?>" /></td>
                                             <td><?php
-                                            if ($worked1['days'] == 0) {
+                                            if (isset($worked1) && $worked1['days'] == 0) {
                                                 ?><input type="submit" name="permban" value="Ban" /><?php
                                             } else {
                                                 ?><input type="submit" name="permban" value="Ban" DISABLED /><?php
                                             }
                                             ?></td>
                                             <td><?php
-                                            if ($worked1['days'] >= 1) {
+                                            if (isset($worked1) && $worked1['days'] >= 1) {
                                                 ?><input type="submit" name="unpermban" value="Un-Ban" /><?php
                                             } else {
                                                 ?><input type="submit" name="unpermban" value="Un-Ban" DISABLED /><?php
                                             }
                                             ?></td>
                                             <td><?php
-                                            if ($worked1['days'] >= 1) {
+                                            if (isset($worked1) && $worked1['days'] >= 1) {
                                                 ?>[Banned - <?php
                                                 echo prettynum($worked1['days']);
                                                 ?> days] <?php
@@ -1886,7 +1886,7 @@ $(document).ready(function() {
                                 <td>[Forum Ban]&nbsp;</td>
                                 <td>Days:&nbsp;</td>
                                 <td><?php
-                                if ($worked2['days'] >= 1) {
+                                if (isset($worked2) && $worked2['days'] >= 1) {
                                     ?><input type="text" name="days" DISABLED value="<?php
                                     echo $worked2['days'];
                                     ?>" /></td><?php
@@ -1898,21 +1898,21 @@ $(document).ready(function() {
                                 echo $profile_class->id;
                                 ?>" /></td>
                                 <td><?php
-                                if ($worked2['days'] == 0) {
+                                if (isset($worked2) && $worked2['days'] == 0) {
                                     ?><input type="submit" name="forumban" value="Ban" /><?php
                                 } else {
                                     ?><input type="submit" name="forumban" value="Ban" DISABLED /><?php
                                 }
                                 ?></td>
                                 <td><?php
-                                if ($worked2['days'] >= 1) {
+                                if (isset($worked2) && $worked2['days'] >= 1) {
                                     ?><input type="submit" name="unforumban" value="Un-Ban" /><?php
                                 } else {
                                     ?><input type="submit" name="unforumban" value="Un-Ban" DISABLED /><?php
                                 }
                                 ?></td>
                                 <td><?php
-                                if ($worked2['days'] >= 1) {
+                                if (isset($worked2) && $worked2['days'] >= 1) {
                                     ?>[Banned - <?php
                                     echo prettynum($worked2['days']);
                                     ?> days] <?php
@@ -1932,7 +1932,7 @@ $(document).ready(function() {
                                 <td>[Mail Ban]&nbsp;</td>
                                 <td>Days:&nbsp;</td>
                                 <td><?php
-                                if ($worked4['days'] >= 1) {
+                                if (isset($worked4) && $worked4['days'] >= 1) {
                                     ?><input type="text" name="days" DISABLED value="<?php
                                     echo $worked4['days'];
                                     ?>" /></td><?php
@@ -1944,21 +1944,21 @@ $(document).ready(function() {
                                 echo $profile_class->id;
                                 ?>" /></td>
                                 <td><?php
-                                if ($worked4['days'] == 0) {
+                                if (isset($worked4) && $worked4['days'] == 0) {
                                     ?><input type="submit" name="mailban" value="Ban" /><?php
                                 } else {
                                     ?><input type="submit" name="mailban" value="Ban" DISABLED /><?php
                                 }
                                 ?></td>
                                 <td><?php
-                                if ($worked4['days'] >= 1) {
+                                if (isset($worked4) && $worked4['days'] >= 1) {
                                     ?><input type="submit" name="unmailban" value="Un-Ban" /><?php
                                 } else {
                                     ?><input type="submit" name="unmailban" value="Un-Ban" DISABLED /><?php
                                 }
                                 ?></td>
                                 <td><?php
-                                if ($worked4['days'] >= 1) {
+                                if (isset($worked4) && $worked4['days'] >= 1) {
                                     ?>[Banned - <?php
                                     echo prettynum($worked4['days']);
                                     ?> days] <?php
@@ -1978,7 +1978,7 @@ $(document).ready(function() {
                                 <td>[Quick Ads Ban]&nbsp;</td>
                                 <td>Days:&nbsp;</td>
                                 <td><?php
-                                if ($worked7['days'] >= 1) {
+                                if (isset($worked7) && $worked7['days'] >= 1) {
                                     ?><input type="text" name="days" DISABLED value="<?php
                                     echo $worked7['days'];
                                     ?>" /></td><?php
@@ -1990,7 +1990,7 @@ $(document).ready(function() {
                                 echo $profile_class->id;
                                 ?>" /></td>
                                 <td><?php
-                                if ($worked7['days'] == 0) {
+                                if (isset($worked7) && $worked7['days'] == 0) {
                                     ?><input type="submit" name="qaban" value="Ban" /><?php
                                 } else {
                                     ?><input type="submit" name="qaban" value="Ban" DISABLED id="qaban" />
@@ -1999,14 +1999,14 @@ $(document).ready(function() {
                                 ?>
                                 </td>
                                 <td><?php
-                                if ($worked7['days'] >= 1) {
+                                if (isset($worked7) && $worked7['days'] >= 1) {
                                     ?><input type="submit" name="unqaban" value="Un-Ban" /><?php
                                 } else {
                                     ?><input type="submit" name="unqaban" value="Un-Ban" DISABLED /><?php
                                 }
                                 ?></td>
                                 <td><?php
-                                if ($worked7['days'] >= 1) {
+                                if (isset($worked7) && $worked7['days'] >= 1) {
                                     ?>[Banned - <?php
                                     echo prettynum($worked7['days']);
                                     ?> days] <?php
@@ -2026,7 +2026,7 @@ $(document).ready(function() {
                                 <td>[Freeze Acct]&nbsp;</td>
                                 <td>Days:&nbsp;</td>
                                 <td><?php
-                                if ($worked3['days'] >= 1) {
+                                if (isset($worked3) && $worked3['days'] >= 1) {
                                     ?><input type="text" name="days" DISABLED value="<?php
                                     echo $worked3['days'];
                                     ?>" /></td><?php
@@ -2038,21 +2038,21 @@ $(document).ready(function() {
                                 echo $profile_class->id;
                                 ?>" /></td>
                                 <td><?php
-                                if ($worked3['days'] == 0) {
+                                if (isset($worked3) && $worked3['days'] == 0) {
                                     ?><input type="submit" name="freeze" value="Ban" /><?php
                                 } else {
                                     ?><input type="submit" name="freeze" value="Ban" DISABLED /><?php
                                 }
                                 ?></td>
                                 <td><?php
-                                if ($worked3['days'] >= 1) {
+                                if (isset($worked3) && $worked3['days'] >= 1) {
                                     ?><input type="submit" name="unfreeze" value="Un-Ban" /><?php
                                 } else {
                                     ?><input type="submit" name="unfreeze" value="Un-Ban" DISABLED /><?php
                                 }
                                 ?></td>
                                 <td><?php
-                                if ($worked3['days'] >= 1) {
+                                if (isset($worked3) && $worked3['days'] >= 1) {
                                     ?>[Banned - <?php
                                     echo prettynum($worked3['days']);
                                     ?> days] <?php
