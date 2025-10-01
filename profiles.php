@@ -843,7 +843,7 @@ $(document).ready(function() {
             
 
             $spouseDeposit = "";
-            if ($rel_user && $rel_user->id == $user_class->id) {
+            if (isset($rel_user) && $rel_user->id == $user_class->id) {
                 $spouseDeposit = "<a href='bank.php?id=" . $profile_class->id . "&action=sdeposit'>[ Deposit ]</a>";
             }
             if ($user_class->nightvision > 1) {
