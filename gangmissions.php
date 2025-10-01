@@ -83,7 +83,7 @@ if ($user_class->gang != 0) {
                 $db->execute();
                 $lastMission = $db->fetch_row(true);
 
-                if ($user_rank->crime > 0 || $user_class->gangleader == $user_class->id) {
+                if (isset($user_rank->crime) && ($user_rank->crime > 0 || $user_class->gangleader == $user_class->id)) {
                     $startBtn = "<a class='btn btn-primary' href='?acceptMission={$mission['id']}'>Accept</a>";
                     if ($lastMission) {
                         $nowTime = time();
