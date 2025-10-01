@@ -4817,6 +4817,6 @@ function checkMaintenanceIPs()
 
     if (!in_array($user_ip, $allowed_ips, true)) {
         header('Location: maintenance.php');
-        exit;
+        die();
     }
 }
