@@ -652,15 +652,16 @@ $(document).ready(function() {
             if ($worked222['referrer'] != 0) {
                 $refer_id = new User($worked222['referrer']);
                 $refer = ($worked222['referrer'] > 0) ? $refer_id->formattedname : "Nobody";
-                if ($profile_class->relationship == 0)
-                    $rel = "Single/None <a href='relationship.php?action=new&player=$profile_class->id'></br>Request Relationship</a>";
-                else if ($profile_class->relationship == 1) {
-                    $rel = "Dating " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
-                } else if ($profile_class->relationship == 2) {
-                    $rel = "Engaged to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
-                } else if ($profile_class->relationship == 3) {
-                    $rel = "Married to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
-                }
+            }
+
+            if ($profile_class->relationship == 0)
+                $rel = "Single/None <a href='relationship.php?action=new&player=$profile_class->id'></br>Request Relationship</a>";
+            else if ($profile_class->relationship == 1) {
+                $rel = "Dating " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
+            } else if ($profile_class->relationship == 2) {
+                $rel = "Engaged to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
+            } else if ($profile_class->relationship == 3) {
+                $rel = "Married to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
             }
 
             $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 1");
