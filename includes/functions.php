@@ -887,34 +887,36 @@ function formatName($id, $nogang = 0)
     }
 
     $sql = "
-        SELECT
-            gu.id,
-            gu.username,
-            gu.gang,
-            gu.admin,
-            gu.rmdays,
-            gu.gm,
-            gu.colours,
-            gu.image_name,
-            gu.pdimgname,
-            gu.gradient,
-            gu.gndays,
-            gu.prestige,
-            gu.uninfo,
-            g.tag,
-            g.leader,
-            g.formattedTag
-            EXISTS (
-                SELECT 1 FROM bans b
-                WHERE b.id = gu.id
-                  AND b.type IN ('perm','freeze')
-                LIMIT 1
-            ) AS is_banned
-        FROM grpgusers gu
-        LEFT JOIN gangs g ON g.id = gu.gang
-        WHERE gu.id = ?
-        LIMIT 1
-    ";
+    SELECT
+        gu.id,
+        gu.username,
+        gu.gang,
+        gu.admin,
+        gu.rmdays,
+        gu.gm,
+        gu.colours,
+        gu.image_name,
+        gu.pdimgname,
+        gu.gradient,
+        gu.gndays,
+        gu.prestige,
+        gu.uninfo,
+
+        g.tag,
+        g.leader        AS gang_leader,
+        g.formattedTag  AS formattedTag,
+
+        EXISTS (
+            SELECT 1 FROM bans b
+            WHERE b.id = gu.id
+              AND b.type IN ('perm','freeze')
+            LIMIT 1
+        ) AS is_banned
+    FROM grpgusers gu
+    LEFT JOIN gangs g ON g.id = gu.gang
+    WHERE gu.id = ?
+    LIMIT 1
+";
     $db->query($sql);
     $db->execute([$id]);
     $row = $db->fetch_row(true);
