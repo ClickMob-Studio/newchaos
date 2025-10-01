@@ -100,6 +100,8 @@ function sendGmail() {
     _lastSendAt = now;
     _lastMsg = val;
 
+    $('#sendBtn').prop('disabled', true);
+
     var ts = now;
 
     $.post('ajax_gc.php?ts=' + ts, { msg: val })
@@ -123,6 +125,7 @@ function sendGmail() {
 
             setTimeout(function () {
                 _sendLocked = false;
+                $('#sendBtn').prop('disabled', false);
             }, remaining);
         });
 

@@ -4861,7 +4861,7 @@ function getChatMessage($chatmessage): string
     $chatMessage .= '</div>';
 
     $parityClass = ($chatmessage['id'] % 2 === 0) ? 'msg-even' : 'msg-odd';
-    $chatMessage .= '<table class="flexcont ' . $parityClass . '" style="width:100%;">';
+    $chatMessage .= '<table class="flexcont ' . $parityClass . '" id="chat-' . $chatmessage['id'] . '" style="width:100%;">';
     $chatMessage .= '<tr>';
 
     $chatMessage .= '<td class="flexele" style="border-right:thin solid #333;text-align:center;width:200px;">';

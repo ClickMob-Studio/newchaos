@@ -402,7 +402,6 @@ TEXT;
 
         <?php
 
-        // NEW:
         echo '<details id="emoji-picker" class="emoji-picker"', ($user_class->hideemojis ? '' : ' open'), '>';
         echo '  <summary class="emoji-summary" aria-controls="emoji-panel" aria-expanded="false">😊 Emojis</summary>';
         echo '  <div id="emoji-panel" class="emoji-panel">';
