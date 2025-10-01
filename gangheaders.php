@@ -60,7 +60,7 @@ if ($user_class->gang != 0) {
 
         <?php
         $user_rank = new GangRank($user_class->grank);
-        if (isset($user_rank) && ($user_rank->members == 1 || $user_rank->crime == 1 || $user_rank->vault == 1 || $user_rank->massmail == 1 || $user_rank->applications == 1 || $user_rank->appearance == 1 || $user_rank->ranks == 1 || $user_rank->invite == 1 || $user_rank->upgrade == 1 || $user_rank->ganggrad == 1 || $user_rank->gangwars == 1 || $gang_class->leader == $user_class->id || $user_class->admin == 1)) {
+        if (isset($user_rank->members) && ($user_rank->members == 1 || $user_rank->crime == 1 || $user_rank->vault == 1 || $user_rank->massmail == 1 || $user_rank->applications == 1 || $user_rank->appearance == 1 || $user_rank->ranks == 1 || $user_rank->invite == 1 || $user_rank->upgrade == 1 || $user_rank->ganggrad == 1 || $user_rank->gangwars == 1 || $gang_class->leader == $user_class->id || $user_class->admin == 1)) {
             ?>
             <h4 class="mt-4">Gang Management</h4>
             <div class="row row-cols-2 row-cols-md-4 g-4">
