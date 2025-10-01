@@ -2445,7 +2445,7 @@ $(document).ready(function() {
                 foreach ($items as $line) {
                     $worked2 = Item_Details($line['itemid']);
                     if ($worked2['offense'] > 0 && $worked2['rare'] == 0) {
-                        $weapons .= "
+                        $weapons = "
 <td width='25%' align='center'>
 <img src='" . $worked2['image'] . "' width='100' height='100' style='border: 1px solid #01a9b8'><br>
 " . item_popup($worked2['itemname'], $worked2['id']) . " [x" . $line['quantity'] . "]<br>
@@ -2459,7 +2459,7 @@ $" . prettynum($worked2['cost']) . "<br>
                         }
                     }
                     if ($worked2['defense'] > 0 && $worked2['rare'] == 0) {
-                        $armor .= "
+                        $armor = "
 <td width='25%' align='center'>
 <img src='" . $worked2['image'] . "' width='100' height='100' style='border: 1px solid #01a9b8'><br>
 " . item_popup($worked2['itemname'], $worked2['id']) . " [x" . $line['quantity'] . "]<br>
@@ -2473,7 +2473,7 @@ $" . prettynum($worked2['cost']) . "<br>
                         }
                     }
                     if ($worked2['speed'] > 0 && $worked2['rare'] == 0) {
-                        $shoes .= "
+                        $shoes = "
 <td width='25%' align='center'>
 <img src='" . $worked2['image'] . "' width='100' height='100' style='border: 1px solid #01a9b8'><br>
 " . item_popup($worked2['itemname'], $worked2['id']) . " [x" . $line['quantity'] . "]<br>
@@ -2487,7 +2487,7 @@ $" . prettynum($worked2['cost']) . "<br>
                         }
                     }
                     if ($worked2['rare'] == 1) {
-                        $rares .= "
+                        $rares = "
 <td width='25%' align='center'>
 <img src='" . $worked2['image'] . "' width='100' height='100' style='border: 1px solid #01a9b8'><br>
 " . item_popup($worked2['itemname'], $worked2['id']) . " [x" . $line['quantity'] . "]<br>
@@ -2495,7 +2495,7 @@ $" . prettynum($worked2['cost']) . "<br>
 ";
                         $howmanyitems6 = ($howmanyitems6 ?? 0) + 1;
                         if ($howmanyitems6 == 4) {
-                            $rares .= "</tr><tr height='15'></tr><tr>";
+                            $rares = "</tr><tr height='15'></tr><tr>";
                             $howmanyitems6 = 0;
                         }
                     }
@@ -2508,7 +2508,7 @@ $" . prettynum($worked2['cost']) . "<br>
 ";
                         $howmanyitems7 = ($howmanyitems7 ?? 0) + 1;
                         if ($howmanyitems7 == 4) {
-                            $misc .= "</tr><tr height='15'></tr><tr>";
+                            $misc = "</tr><tr height='15'></tr><tr>";
                             $howmanyitems7 = 0;
                         }
                     }
@@ -2520,7 +2520,7 @@ $" . prettynum($worked2['cost']) . "<br>
                 foreach ($result as $line) {
                     $worked2 = Item_Details($line['itemid']);
                     if ($worked2['offense'] > 0 || $worked2['defense'] > 0 || $worked2['speed'] > 0) {
-                        $loaned .= "
+                        $loaned = "
 <td width='25%' align='center'>
 <img src='" . $worked2['image'] . "' width='100' height='100' style='border: 1px solid #01a9b8'><br>
 " . item_popup($worked2['itemname'], $worked2['id']) . " [x" . $line['quantity'] . "]<br>
