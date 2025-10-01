@@ -1868,14 +1868,7 @@ $no2 = $db->num_rows();
                                 $messages[] = "<a href='gang_territories.php'><span style='color:red;'>[ Protection Racket Defense! ]</span></a>";
                             }
                         }
-
-                        //if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'store.php') {    // The original echo statement for the claim message should be commented out or removed
-                        // echo '<div style="font-family:Creepster;font-size: 2.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href="rmstore.php?buy=freebie">...</div>';
-                        
-                        // Insert the modal code here
                         ?>
-
-
 
                         <?php if (!empty($messages)): ?>
                             <script type="text/javascript">
@@ -1885,6 +1878,7 @@ $no2 = $db->num_rows();
                                     ul.innerHTML = messagesHTML;
                                 });
                             </script>
+
                         <?php else: ?>
                             <script type="text/javascript">
                                 document.addEventListener("DOMContentLoaded", function () {
@@ -1894,57 +1888,6 @@ $no2 = $db->num_rows();
                             </script>
                         <?php endif; ?>
 
-                        <!-- The Modal -->
-                        <!-- <div id="myModal" class="modal"> -->
-                        <!-- Modal content -->
-                        <!-- <div class="modal-content"> -->
-                        <!-- <span class="close">&times;</span> -->
-                        <!-- <h4><font color=red>A Free Gift</font></h4><br> -->
-
-                        <!-- <p><font color=white>Here is a free gift on us enjoy the competition</font></p> -->
-                        <!-- <ul class="gift-list"> -->
-                        <!-- <h4>+50 Raid Tokens</h4> -->
-                        <!-- <h4>25,000 Points</h4> -->
-
-
-
-
-                        <!-- </ul> -->
-                        <!-- <button onclick="window.location.href='store.php?buy=freebie'" class="claim-button">Claim Gift</button> -->
-                        <!-- </div> -->
-
-                        <!-- </div> -->
-                        <!-- <style> -->
-
-
-                        <!-- .gradient-background {
-    background: linear-gradient(to right, #484848, #303030, #181818);
-    color: white; /* Ensures text is readable on dark background */
-    padding: 20px;
-    text-align: center;
-}
-
-
-    @keyframes pulseGlow {
-        0% {
-            box-shadow: 0 0 5px red;
-        }
-        50% {
-            box-shadow: 0 0 20px red;
-        }
-        100% {
-            box-shadow: 0 0 5px red;
-        }
-    }
-    .glow-pulse {
-        animation: pulseGlow 2s infinite;
-        color: red !important;
-    }
-</style> -->
-
-                        <?php
-                        //}
-                        ?>
                         <style>
                             .floaty12 {
                                 margin: 0 auto;
@@ -1975,8 +1918,6 @@ $no2 = $db->num_rows();
                                 style="list-style-type: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0; margin: 0;">
                             </ul>
                         </div>
-
-
 
                         <script type="text/javascript"
                             src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>

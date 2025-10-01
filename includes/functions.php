@@ -863,6 +863,7 @@ function getBrowser()
         'pattern' => $pattern
     );
 }
+
 function formatName($id, $nogang = 0)
 {
     global $db;
@@ -872,7 +873,7 @@ function formatName($id, $nogang = 0)
     $db->execute(array($id));
     $row = $db->fetch_row(true);
 
-    if (isset($row['gang']) && $row['gang'] != 0 && $nogang != 1) {
+    if ($row['gang'] != 0 and $nogang != 1) {
         if ($id == 2) {
             if ($row['gndays'] > 0) {
                 $name .= "<a style='font-size:1.5em;' href='viewgang.php?id={$row['gang']}'";
@@ -891,16 +892,17 @@ function formatName($id, $nogang = 0)
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array($id));
     $bdays = $db->fetch_single();
+
     if ($bdays) {
         $title = "Banned";
         $whichfont = "#FFFFFF";
-    } else if (isset($row['admin']) && $row['admin'] == 1) {
+    } else if ($row['admin'] == 1) {
         $title = "Admin";
         $whichfont = "#FF1111";
-    } else if (isset($row['gm']) && $row['gm'] == 1) {
+    } else if ($row['gm'] == 1) {
         $title = "Chat Moderator";
         $whichfont = "#FFFFFF";
-    } else if (isset($row['rmdays']) && $row['rmdays'] >= 1) {
+    } else if ($row['rmdays'] >= 1) {
         $title = "VIP ({$row['rmdays']} VIP Days Left)";
         $whichfont = "#00BF03";
     } else {
@@ -914,7 +916,17 @@ function formatName($id, $nogang = 0)
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>" : "<a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
         $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a>" : "</a>";
-    } elseif (isset($row['gndays'])) {
+    } else if (false) { //$id >= 334 AND $id <= 353) {
+        $username = $row['username'];
+        $half = (int) ((strlen($username) / 2));
+        $left = substr($username, 0, $half);
+        $right = substr($username, $half);
+        $gradient = text_gradient('008800', '00CC00', 1, $left);
+        $gradient .= text_gradient('00CC00', '008800', 1, $right);
+        $name .= "<b><a title='BOT' href='profiles.php?id=" . $id . "'>";
+        $name .= $gradient;
+        $name .= "</b></a>";
+    } elseif ($row['gndays']) {
         // Check if gradient is generated
         $gradientText = generateGradientName($id);
         if (empty($gradientText)) {
@@ -947,17 +959,15 @@ function formatName($id, $nogang = 0)
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a></i></b>" : "</a></b>";
     } else if ($id == 146) {
         $name .= "<a title='$title' href='profiles.php?id=$id'>{$row['username']}</a>";
-    } else if ((isset($row['admin']) && $row['admin'] == 1) || (isset($row['gm']) && $row['gm'] == 1)) {
+    } else if ($row['admin'] == 1 || $row['gm'] == 1) {
         $name .= "<i><b><a title='$title' href='profiles.php?id=$id'><font color = '$whichfont'>{$row['username']}</a></font></b></i>";
-    } else if (isset($row['rmdays']) && $row['rmdays'] > 0) {
+    } else if ($row['rmdays'] > 0) {
         $name .= "<b><a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font></b>";
-    } else if (isset($row['username'])) {
-        $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font>";
     } else {
-        $name .= "<a title='$title' href='profiles.php?id=$id'>Unknown User</a>";
+        $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font>";
     }
 
-    if (isset($row['prestige']) && $row['prestige'] > 0) {
+    if ($row['prestige'] > 0) {
         if ($row['prestige'] >= 10) {
             $db->query("SELECT skull FROM prestige_skull WHERE `user_id` = ?");
             $db->execute(array($id));
