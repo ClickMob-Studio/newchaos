@@ -4873,7 +4873,8 @@ function getChatMessage($chatmessage): string
     $chatMessage .= '</td>';
 
     // Right cell for the body content
-    $chatMessage .= '<td class="flexele" style="padding:10px;">';
+    $parityClass = ($chatmessage['id'] % 2 === 0) ? 'msg-even' : 'msg-odd';
+    $chatMessage .= '<td class="flexele ' . $parityClass . '" style="padding:10px;" id="chat-' . $chatmessage['id'] . '">';
     $chatMessage .= BBCodeParse(stripslashes($chatmessage['body']));
     $chatMessage .= '<br><br>';
     $chatMessage .= howlongago($chatmessage['timesent']) . ' ago <br><br>';

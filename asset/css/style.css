@@ -260,11 +260,11 @@ hr.orange-line {
   border-radius: 5px;
 }
 
-.flexcont:nth-of-type(even) {
+.flexcont.msg-even {
   background: #222020;
 }
 
-.flexcont:nth-of-type(odd) {
+.flexcont.msg-odd {
   background: #262626;
 }
 
