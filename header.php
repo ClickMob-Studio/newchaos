@@ -1421,10 +1421,10 @@ $no2 = $db->num_rows();
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-4">
+                <div class="col-12 col-md-4">
                     <div class="p-3 dcPanel dcAvatarPanel d-none d-md-block">
                         <div class="row mb-3">
-                            <div class="d-none d-lg-block col-3">
+                            <div class="d-none d-md-block col-3">
                                 <img style="width: 55px;" src="<?= $user_class->avatar; ?>" alt="">
                             </div>
                             <div class="col-9 dcUserName">
@@ -1439,11 +1439,11 @@ $no2 = $db->num_rows();
                             <div style="margin-top: 4px;">
                                 Level <span class="level"><?= $user_class->level; ?></span>
                             </div>
-                            <div class='time d-none d-lg-block mt-2' style='text-align: left' ;>
+                            <div class='time d-none d-md-block mt-2' style='text-align: left' ;>
                                 <span style="font-size: 12px;"><?php echo date('m/d h:i a', $now); ?></span>
                             </div>
                             <div class="col-7 text-center d-flex d-lg-none row g-0">
-                                <div class="row my-0 my-lg-1">
+                                <div class="row my-0 my-md-1">
                                     <div class="col-3 d-flex align-items-center">
                                         <div class="d-flex">Level <div class="level" style="margin-left: 4px;">
                                                 <?= $user_class->level; ?>
