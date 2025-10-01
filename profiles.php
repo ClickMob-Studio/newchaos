@@ -949,7 +949,8 @@ $(document).ready(function() {
                                     <div class="col-6">
                                         <div class="text-center p-2" style="background-color: #111; color: white;">
                                             Referrer:</div>
-                                        <div class="text-center p-2"><?php echo $refer; ?></div>
+                                        <div class="text-center p-2">
+                                            <?php echo isset($refer) ? $refer : "No Referrer"; ?></div>
                                     </div>
                                     <div class="col-6">
                                         <div class="text-center p-2" style="background-color: #111; color: white;">
