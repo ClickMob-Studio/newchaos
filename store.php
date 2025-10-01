@@ -1233,7 +1233,7 @@ include 'header.php';
                     <td style="text-align: center;">
                         <a href="store.php?buy=lep"
                             style="display: inline-block; padding: 10px 20px; background-color: var(--colorHighlight); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY
-                            NOW</a><br />
+                            NOW</a><br /><br />
                         This pack is limited to <?php echo $limitedPack['per_person_limit'] ?> purchases per player.
 
                     </td>
