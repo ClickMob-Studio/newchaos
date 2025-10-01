@@ -27,7 +27,7 @@
     </div>
 
     <footer class="text-center">
-        © ChaosCity | &nbsp;&nbsp; <a href="gamerules.php">Game Rules</a>
+        © ChaosCity
     </footer>
 </body>
 
