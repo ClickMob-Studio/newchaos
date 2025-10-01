@@ -137,7 +137,7 @@ if ($jailbreak != "") {
             }
 
             $max = 100 - ($user_class->speed / 25);
-            $max = (int) max(1, $max);  // ensures at least 1
+            $max = (int) max(1, $max);
             $chance = mt_rand(1, $max);
 
             $nerve = 10;

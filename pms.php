@@ -247,7 +247,12 @@ include 'header.php';
                         $bold = "";
                         $bold2 = "";
                     }
-                    $namee = ($row['from'] == 0000) ? "<b><i>Auto Mail</i></b>" : $from_user_class->formattedname;
+
+                    if ($from_user_class) {
+                        $namee = ($row['from'] == 0000) ? "<b><i>Auto Mail</i></b>" : $from_user_class->formattedname;
+                    } else {
+                        $namee = "<i>Unknown User</i>";
+                    }
                     $fill = ($row['starred'] == 1) ? "fill" : "";
                     $antifill = ($row['starred'] == 0) ? "fill" : "";
                     echo "
