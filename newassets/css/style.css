@@ -306,12 +306,17 @@ td {
   border-collapse: collapse;
 }
 
+.flexcont {
+  background-color: #292929;
+
+}
+
 .flexcont.msg-even {
-  background: #222020;
+  background: #222020 !important;
 }
 
 .flexcont.msg-odd {
-  background: #262626;
+  background: #262626 !important;
 }
 
 hr.orange-line {
