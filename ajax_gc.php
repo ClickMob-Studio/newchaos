@@ -56,7 +56,7 @@ if (isset($_POST['msg'])) {
     $db->execute(array($newid));
     $chatMessage = $db->fetch_row(true);
 
-    echo "|-|-|" . $newid . "|-|-|" . renderChatMessage($chatMessage);
+    echo "|-|-|" . $newid . "|-|-|" . getChatMessage($chatMessage);
 } elseif (isset($_GET['lastID'])) {
     $db->query("UPDATE grpgusers SET globalchat = 0 WHERE id = ?");
     $db->execute(array(
@@ -79,7 +79,7 @@ if (isset($_POST['msg'])) {
     }
 
     foreach ($rows as $row) {
-        echo renderChatMessage($row);
+        echo getChatMessage($row);
     }
 }
 ?>

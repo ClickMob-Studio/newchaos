@@ -4840,9 +4840,11 @@ function checkAJAXCaptchaRequired($uid): bool
     return false;
 }
 
-function renderChatMessage($chatmessage)
+function getChatMessage($chatmessage): string
 {
     global $user_class;
+
+    $chatMessage = "";
 
     $reply_class = new User($chatmessage['playerid']);
     $array = array(
@@ -4855,35 +4857,37 @@ function renderChatMessage($chatmessage)
     $avatar = ($array['avatar'] != "") ? $array['avatar'] : "/images/no-avatar.png";
     $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $chatmessage['body']);
 
-    echo '<div class="floaty">';
-    echo '</div>';
-    echo '<table class="flexcont" style="width:100%;">';
-    echo '<tr>';
+    $chatMessage .= '<div class="floaty">';
+    $chatMessage .= '</div>';
+    $chatMessage .= '<table class="flexcont" style="width:100%;">';
+    $chatMessage .= '<tr>';
 
-    echo '<td class="flexele" style="border-right:thin solid #333;text-align:center;width:200px;">';
-    echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666;margin-bottom: 6px;" />';
-    echo '<br />';
+    $chatMessage .= '<td class="flexele" style="border-right:thin solid #333;text-align:center;width:200px;">';
+    $chatMessage .= '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666;margin-bottom: 6px;" />';
+    $chatMessage .= '<br />';
     if ($chatmessage['playerid'] > 0) {
-        echo $array['name'];
+        $chatMessage .= $array['name'];
     } else {
-        echo '<span style="color:red">System</span>';
+        $chatMessage .= '<span style="color:red">System</span>';
     }
-    echo '</td>';
+    $chatMessage .= '</td>';
 
     // Right cell for the body content
-    echo '<td class="flexele" style="padding:10px;">';
-    echo BBCodeParse(stripslashes($chatmessage['body']));
-    echo '<br><br>';
-    echo howlongago($chatmessage['timesent']) . ' ago <br><br>';
-    echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])) ? '<a href="?gcban=' . $chatmessage['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
-    echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $chatmessage['id'] . '">Delete Post</a>' : '';
-    echo '<br><div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $chatmessage['playerid'] . ']' . str_replace(array("\n", "\r"), array('', '\n'), $quotetext) . '[/quote]\\n\\n\');">';
-    echo 'Quote';
-    echo '</div>';
-    echo '</td>';
+    $chatMessage .= '<td class="flexele" style="padding:10px;">';
+    $chatMessage .= BBCodeParse(stripslashes($chatmessage['body']));
+    $chatMessage .= '<br><br>';
+    $chatMessage .= howlongago($chatmessage['timesent']) . ' ago <br><br>';
+    $chatMessage .= (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])) ? '<a href="?gcban=' . $chatmessage['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
+    $chatMessage .= ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $chatmessage['id'] . '">Delete Post</a>' : '';
+    $chatMessage .= '<br><div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $chatmessage['playerid'] . ']' . str_replace(array("\n", "\r"), array('', '\n'), $quotetext) . '[/quote]\\n\\n\');">';
+    $chatMessage .= 'Quote';
+    $chatMessage .= '</div>';
+    $chatMessage .= '</td>';
 
-    echo '</tr>';
-    echo '</table>';
+    $chatMessage .= '</tr>';
+    $chatMessage .= '</table>';
+
+    return $chatMessage;
 }
 
 function checkMaintenanceIPs()

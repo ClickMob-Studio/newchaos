@@ -473,42 +473,7 @@ TEXT;
 
         $rows = $db->fetch_row();
         foreach ($rows as $row) {
-            // $db->query("
-            //     SELECT 
-            //         SUM(CASE WHEN rating_action = 'like' THEN 1 ELSE 0 END) AS likes,
-            //         SUM(CASE WHEN rating_action = 'dislike' THEN 1 ELSE 0 END) AS dislikes
-            //     FROM chat_rating
-            //     WHERE post_id = ?
-            // ");
-            // $db->execute([$row['id']]);
-            // $result = $db->fetch_row(true);
-        
-            // $likes = $result['likes'] ?? 0;
-            // $dislikes = $result['dislikes'] ?? 0;
-        
-            // $db->query("
-            //     SELECT rating_action 
-            //     FROM chat_rating 
-            //     WHERE user_id = ? 
-            //     AND post_id = ? 
-            //     AND rating_action IN ('like', 'dislike')
-            // ");
-            // $db->execute([$user_class->id, $row['id']]);
-        
-            // $ratings = $db->fetch_row();
-        
-            // $userLiked = false;
-            // $userDisliked = false;
-        
-            // foreach ($ratings as $r) {
-            //     if ($r['rating_action'] === 'like') {
-            //         $userLiked = true;
-            //     } elseif ($r['rating_action'] === 'dislike') {
-            //         $userDisliked = true;
-            //     }
-            // }
-        
-            renderChatMessage($row);
+            echo getChatMessage($row);
         }
 
         print "</div>";
