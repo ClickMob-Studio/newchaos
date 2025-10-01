@@ -1213,7 +1213,7 @@ include 'header.php';
                             </ul>
                         <?php endif; ?>
 
-                        <?php if ($limitedPack['id'] == 9): ?>
+                        <?php if ($limitedPack['id'] == 17): ?>
                             <p>Pack Contains:</p>
                             <ul>
                                 <li>500,000 Points</li>
