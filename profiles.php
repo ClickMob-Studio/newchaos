@@ -643,6 +643,16 @@ $(document).ready(function() {
 
             if (!empty($profile_class->relplayer)) {
                 $rel_user = new User($profile_class->relplayer);
+
+                if ($profile_class->relationship == 0)
+                    $rel = "Single/None <a href='relationship.php?action=new&player=$profile_class->id'></br>Request Relationship</a>";
+                else if ($profile_class->relationship == 1) {
+                    $rel = "Dating " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
+                } else if ($profile_class->relationship == 2) {
+                    $rel = "Engaged to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
+                } else if ($profile_class->relationship == 3) {
+                    $rel = "Married to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
+                }
             }
 
             $db->query("SELECT * FROM referrals WHERE referred = ?");
@@ -654,15 +664,6 @@ $(document).ready(function() {
                 $refer = ($worked222['referrer'] > 0) ? $refer_id->formattedname : "Nobody";
             }
 
-            if ($profile_class->relationship == 0)
-                $rel = "Single/None <a href='relationship.php?action=new&player=$profile_class->id'></br>Request Relationship</a>";
-            else if ($profile_class->relationship == 1) {
-                $rel = "Dating " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
-            } else if ($profile_class->relationship == 2) {
-                $rel = "Engaged to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
-            } else if ($profile_class->relationship == 3) {
-                $rel = "Married to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
-            }
 
             $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 1");
             $friends = $db->fetch_single();
@@ -772,21 +773,6 @@ $(document).ready(function() {
                 }
             }
 
-            //   if ($profile_class->hospital > 0 || $profile_class->jail > 0) {
-//         echo "<div class='status'>";
-            
-            //         $hminutes = ceil($profile_class->hospital / 60);
-//         $jminutes = ceil($profile_class->hospital / 60);
-            
-            //         if ($profile_class->hospital > 0) {
-//             echo "<div class='status_item'>
-//                     <i class='fas fa-notes-medical fa-2x' style='color:red;margin:10px'></i>
-//                     <span>$how ($hminutes minutes)</span>
-//                 </div>";
-//         }
-            
-            // }
-            
             if ($profile_class->jail > 0) {
                 echo "<div class='status_item'>
                     <svg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px'
@@ -857,7 +843,7 @@ $(document).ready(function() {
             
 
             $spouseDeposit = "";
-            if ($rel_user->id == $user_class->id) {
+            if ($rel_user && $rel_user->id == $user_class->id) {
                 $spouseDeposit = "<a href='bank.php?id=" . $profile_class->id . "&action=sdeposit'>[ Deposit ]</a>";
             }
             if ($user_class->nightvision > 1) {
@@ -924,7 +910,7 @@ $(document).ready(function() {
                                         <div class="text-center p-2" style="background-color: #111; color: white;">
                                             Relationship:</div>
                                         <div class="text-center p-2"> <?php echo $rel; ?>
-                                            <?php if (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) { ?>
+                                            <?php if (!empty($profile_class->relplayer) && !empty($rel_user) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) { ?>
                                                 <a
                                                     href='relationship.php?action=end&player=<?php echo $user_class->relplayer; ?>'><button
                                                         type='button' class='btn btn-danger btn-sm'>Divorce</button></a>
