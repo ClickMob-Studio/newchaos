@@ -4808,6 +4808,12 @@ function renderChatMessage($chatmessage)
 
 function checkMaintenanceIPs()
 {
+    if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+        $user_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+    } else {
+        $user_ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    }
+
     $allowed_ips = [
         '217.62.148.209', // Luuk
         '185.109.14.62 ', // Matt
