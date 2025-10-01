@@ -126,7 +126,7 @@ if ($user_class->gang != 0) {
             $db->query("SELECT time FROM gang_missions WHERE id = ? LIMIT 1");
             $db->execute([$missionId]);
             $mission = $db->fetch_single();
-            if (!isset($result)) {
+            if (!isset($mission)) {
                 die('Failed to retrieve mission details for mission id: ' . $missionId);
             }
 
