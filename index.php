@@ -1,7 +1,6 @@
 <?php
 
-header('Location: maintenance.php');
-exit();
+checkMaintenanceIPs();
 
 require_once 'includes/functions.php';
 

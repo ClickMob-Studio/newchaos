@@ -1,7 +1,6 @@
 <?php
 
-header('Location: maintenance.php');
-exit();
+checkMaintenanceIPs();
 
 include_once 'dbcon.php';
 include_once 'database/pdo_class.php';
