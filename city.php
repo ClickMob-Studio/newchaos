@@ -116,6 +116,7 @@ $queen_result = $db->fetch_row(true);
 $admin_ids = array_map(function ($a) {
     return $a['id'];
 }, $rows);
+$id_list = implode(',', $admin_ids);
 
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
 if (isset($currentQuestSeason['id'])) {
@@ -380,8 +381,8 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center text-danger">Killer of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT userid, kotd FROM ofthes WHERE kotd > 0 AND userid NOT IN (?) ORDER BY kotd DESC LIMIT 1");
-                        $db->execute($admin_ids);
+                        $db->query("SELECT userid, kotd FROM ofthes WHERE kotd > 0 AND userid NOT IN ($id_list) ORDER BY kotd DESC LIMIT 1");
+                        $db->execute();
                         $kotd = $db->fetch_row(true);
 
                         $db->query("SELECT * FROM ofthes WHERE userid = ?");
@@ -427,8 +428,8 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center text-danger">Buster of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT userid, botd FROM ofthes WHERE botd > 0 AND userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
-                        $db->execute($admin_ids);
+                        $db->query("SELECT userid, botd FROM ofthes WHERE botd > 0 AND userid NOT IN ($id_list) ORDER BY botd DESC LIMIT 1");
+                        $db->execute();
                         $botd = $db->fetch_row(true);
 
                         $db->query("SELECT * FROM ofthes WHERE userid = ?");
@@ -542,8 +543,8 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center" style="color: orange;">Mugger of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT userid, motd FROM ofthes WHERE motd > 0 AND userid NOT IN (?) ORDER BY motd DESC LIMIT 1");
-                        $db->execute($admin_ids);
+                        $db->query("SELECT userid, motd FROM ofthes WHERE motd > 0 AND userid NOT IN ($id_list) ORDER BY motd DESC LIMIT 1");
+                        $db->execute();
                         $motd = $db->fetch_row(true);
 
                         $db->query("SELECT userid, motd FROM ofthes WHERE userid = ?");
@@ -567,8 +568,8 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center" style="color: orange;">Buster of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT userid, botd FROM ofthes WHERE botd > 0 AND userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
-                        $db->execute($admin_ids);
+                        $db->query("SELECT userid, botd FROM ofthes WHERE botd > 0 AND userid NOT IN ($id_list) ORDER BY botd DESC LIMIT 1");
+                        $db->execute();
                         $botd = $db->fetch_row(true);
 
                         $db->query("SELECT * FROM ofthes WHERE userid = ?");
