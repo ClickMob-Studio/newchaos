@@ -319,9 +319,9 @@ if (isset($_GET['ner'])) {
             $(".response-text").html(res.text);
             $("#missiontext").html(res.stats.mission);
 
-            $('.after_title').eq(0).text(res.bars.energy.title);
-            $('.after_title').eq(1).text(res.bars.nerve.title);
-            $('.after_title').eq(2).text(res.bars.awake.title + '%');
+            $('.after_title').eq(1).text(res.bars.energy.title);
+            $('.after_title').eq(2).text(res.bars.nerve.title);
+            $('.after_title').eq(3).text(res.bars.awake.title + '%');
             $('.after_title').eq(4).text(res.bars.exp.title + '%');
 
             $('.stat-bar .progress-bar').eq(1).width(res.bars.energy.percent + '%');
