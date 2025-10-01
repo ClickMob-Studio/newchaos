@@ -22,6 +22,10 @@ include 'header.php';
         'func' => "<span style='color:#436EEE;font-weight:700;'>[FUNCTIONALITY]</span>",
         'other' => "<span style='color:#898;font-weight:700;'>[OTHER]</span>"
     ];
+
+    if ($user_class->game_updates > 0)
+        perform_query("UPDATE grpgusers SET new_updates = 0 WHERE id = ?", [$user_class->id]);
+
     if ($user_class->admin) {
         ?>
         <div class="card">
@@ -40,13 +44,6 @@ include 'header.php';
                         set_last_active($user_class->id);
                     }
                 }
-
-                if ($user_class->id == 1239) {
-                    echo "Updates: " . $user_class->game_updates;
-                }
-
-                if ($user_class->game_updates > 0)
-                    perform_query("UPDATE grpgusers SET new_updates = 0 WHERE id = ?", [$user_class->id]);
 
                 if ($user_class->admin) {
                     ?>
