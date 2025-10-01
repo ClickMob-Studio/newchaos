@@ -80,6 +80,10 @@ genHead("<h4><center>Vote Shop - You currently have <span style='color:#3ab997;f
 		if ($user_class->votetokens < $votetokens)
 			echo Message("You do not have enough Vote Tokens to buy this package.");
 		else {
+			if ($user_class->rmdays < 1) {
+				invalidateFormattedName($user_class->id);
+			}
+
 			$user_class->rmdays += $days;
 			$user_class->votetokens -= $votetokens;
 			perform_query("UPDATE grpgusers SET rmdays = ?, votetokens = ? WHERE id = ?", [$user_class->rmdays, $user_class->votetokens, $user_class->id]);

@@ -141,6 +141,10 @@ foreach ($allusers as $line) {
     $newmoney = round($line['bank'] + $interest);
     perform_query("UPDATE grpgusers SET bank = ?, points = points + ? WHERE id = ?", [$newmoney, $ptsadd, $line['id']]);
     Send_Event($line['id'], "You have earned " . prettynum($interest, 1) . " for your bank", $line['id']);
+
+    if ($line['rmdays'] < 1) {
+        invalidateFormattedName($line['id']);
+    }
 }
 
 perform_query("DELETE FROM rating");

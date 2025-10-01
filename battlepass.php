@@ -124,6 +124,10 @@ if (isset($_GET['claim_prize']) && (int) $_GET['claim_prize']) {
             $db->query("UPDATE grpgusers SET rmdays = rmdays + " . $prize['amount'] . " WHERE id = " . $bpCategoryUser['user_id']);
             $db->execute();
 
+            if ($user_class->rmdays < 1) {
+                invalidateFormattedName($user_class->id);
+            }
+
             $resMes = 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' VIP Days.';
         }
     }

@@ -238,7 +238,6 @@ class User
             LEFT JOIN ranks r ON r.id = grpg.grank
             LEFT JOIN ghouses gh ON gh.id = g.ghouse
             LEFT JOIN bans b ON b.id = grpg.id
-            LEFT JOIN pets p ON p.userid = grpg.id
             WHERE grpg.id = ?");
         $db->execute([$id]);
         $worked = $db->fetch_row(true);

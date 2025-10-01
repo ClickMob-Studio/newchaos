@@ -12,6 +12,10 @@ function add_rm_days($days, $money, $points)
         $days,
         $user_class->id
     ));
+
+    if ($user_class->rmdays < 1) {
+        invalidateFormattedName($user_class->id);
+    }
 }
 function druggie($num)
 {

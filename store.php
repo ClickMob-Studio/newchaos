@@ -327,6 +327,10 @@ include 'header.php';
                         $user_class->id
                     ));
 
+                    if ($user_class->rmdays < 1) {
+                        invalidateFormattedName($user_class->id);
+                    }
+
                     Send_Event(1, $user_class->formattedname . " bought 7 Day VIP");
                     Send_Event(2, $user_class->formattedname . " bought 7 Day VIP");
 
@@ -346,6 +350,10 @@ include 'header.php';
                         $user_class->id
                     ));
 
+                    if ($user_class->rmdays < 1) {
+                        invalidateFormattedName($user_class->id);
+                    }
+
                     Send_Event(1, $user_class->formattedname . " bought 15 Day VIP");
                     Send_Event(2, $user_class->formattedname . " bought 15 Day VIP");
 
@@ -364,6 +372,10 @@ include 'header.php';
                     $db->execute(array(
                         $user_class->id
                     ));
+
+                    if ($user_class->rmdays < 1) {
+                        invalidateFormattedName($user_class->id);
+                    }
 
                     Send_Event(1, $user_class->formattedname . " bought 30 Day VIP");
                     Send_Event(2, $user_class->formattedname . " bought 30 Day VIP");
