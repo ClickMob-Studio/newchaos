@@ -389,9 +389,9 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $ofthes = $db->fetch_row(true);
 
-                        $kotd['kotd'] = isset($kotd['kotd']) ? prettynum($kotd['kotd']) : 0;
+                        $kills = isset($kotd['kotd']) ? prettynum((int) $kotd['kotd']) : 0;
                         $name = empty($kotd['userid']) ? 'Nobody' : formatName($kotd['userid']);
-                        echo "<br />" . $name . "<br /><br />Killed: " . $kotd . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
+                        echo "<br />" . $name . "<br /><br />Killed: " . $kills . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
                         ?>
                         <h3>Reward: 10,000 Points</h3>
                     </div>
