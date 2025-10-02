@@ -14,7 +14,7 @@ $error = ($mypet->jail > 0) ? "Your pet can't attack if they are in prison." : $
 $error = ($mypet->hospital > 0) ? "Your pet can't attack someone if they are in the hospital." : $error;
 $error = ($_GET['attack'] == "") ? "You didn't choose a pet to attack." : $error;
 $error = ($_GET['attack'] == $user_class->id) ? "You can't attack your own pet." : $error;
-if (isset($error))
+if (!empty($error))
     diefun($error . "<br /><br /><a href='index.php'>Home</a>");
 
 $attack_person = new User($_GET['attack']);
