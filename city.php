@@ -436,10 +436,10 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $ofthes = $db->fetch_row(true);
 
-                        $botd = empty($botd) ? 0 : prettynum($botd['botd']);
+                        $busts = isset($botd['botd']) ? prettynum((int) $botd['botd']) : 0;
                         $name = empty($botd['userid']) ? 'Nobody' : formatName($botd['userid']);
                         $ownBotd = empty($ofthes['botd']) ? 0 : prettynum($ofthes['botd']);
-                        echo "<br />" . $name . "<br /><br />Busted: " . $botd . " Mobsters.<br /><br />You busted: " . $ownBotd . " Mobsters<br /><br />";
+                        echo "<br />" . $name . "<br /><br />Busted: " . $busts . " Mobsters.<br /><br />You busted: " . $ownBotd . " Mobsters<br /><br />";
                         ?>
                         <h3>Reward: 10,000 Points</h3>
                     </div>
