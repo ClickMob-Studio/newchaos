@@ -25,7 +25,7 @@ $error = ($theirpet->hospital > 0) ? "You can't attack a pet thats is in hospita
 $error = ($theirpet->jail > 0) ? "You can't attack a pet that is in the pound." : $error;
 $error = ($theirpet->hppercent < 25) ? "They Need Over 25% HP to be attacked." : $error;
 $error = ($attack_person->admin == 1) ? "You can't attack an admin" : $error;
-if (isset($error))
+if (!empty($error))
     diefun($error . "<br /><br /><a href='index.php'>Home</a>");
 
 $yourhp = $mypet->hp;
