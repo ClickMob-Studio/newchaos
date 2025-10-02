@@ -923,3 +923,5 @@ perform_query("DELETE a FROM `attackladder` a
         HAVING COUNT(*) > 1
     ) as b ON a.user = b.user AND a.spot = b.spot
     WHERE a.id != b.id");
+
+Send_Event(1059, "Minute CRON completed successfully.");
