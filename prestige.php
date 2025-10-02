@@ -210,6 +210,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
     $db->query('UPDATE user_prestige_skills SET ' . $unlockType . ' = 1, unlock_points_spent = unlock_points_spent + 1 WHERE user_id = ' . $user_class->id);
     $db->execute();
 
+    $cache->setEx("userPrestigeSkills:{$user_class->id}", 300, json_encode($userPrestigeSkills));
+
     echo Message("You have successfully unlocked " . $prestigeUnlocks[$unlockType]['name']);
 }
 
@@ -230,6 +232,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['bo
 
     $db->query('UPDATE user_prestige_skills SET ' . $boostType . ' = ' . $boostType . ' + 1, boosts_spent = boosts_spent + 1 WHERE user_id = ' . $user_class->id);
     $db->execute();
+
+    $cache->setEx("userPrestigeSkills:{$user_class->id}", 300, json_encode($userPrestigeSkills));
 
     echo Message("You have successfully increased the level of " . $prestigeBoosts[$boostType]);
 }
