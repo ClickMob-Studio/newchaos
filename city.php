@@ -389,7 +389,7 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $ofthes = $db->fetch_row(true);
 
-                        $kotd = empty($kotd) ? 0 : prettynum($kotd['kotd']);
+                        $kotd['kotd'] = isset($kotd['kotd']) ? prettynum($kotd['kotd']) : 0;
                         $name = empty($kotd['userid']) ? 'Nobody' : formatName($kotd['userid']);
                         echo "<br />" . $name . "<br /><br />Killed: " . $kotd . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
                         ?>
