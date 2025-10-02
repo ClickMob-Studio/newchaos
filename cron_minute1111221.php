@@ -5,8 +5,15 @@ if ($_GET['key'] != 'cron94') {
     die();
 }
 
+define('LOG_FILE', '/home/flipverse/logs/minute_cron.log');
+define('VERBOSE', true);
+
+chdir(__DIR__);
+
 ini_set('display_errors', 1);
+ini_set('log_errors', 1);
 ini_set('display_startup_errors', 1);
+ini_set('error_log', LOG_FILE);
 error_reporting(E_ALL);
 
 include_once 'dbcon.php';
@@ -14,8 +21,35 @@ include_once 'classes.php';
 include_once 'database/pdo_class.php';
 include_once 'includes/functions.php';
 
-print "working";
+// Convert warnings/notices to exceptions (so try/catch can see them)
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity))
+        return false;
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
 
+// Catch fatals
+register_shutdown_function(function () {
+    $e = error_get_last();
+    if ($e && in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        $msg = sprintf("FATAL: %s in %s:%d", $e['message'], $e['file'], $e['line']);
+        error_log("[" . date('c') . "] " . $msg . PHP_EOL, 3, LOG_FILE);
+    }
+});
+
+function logf(string $msg, array $ctx = []): void
+{
+    $line = '[' . date('c') . '] ' . $msg;
+    if ($ctx)
+        $line .= ' ' . json_encode($ctx, JSON_UNESCAPED_SLASHES);
+    error_log($line . PHP_EOL, 3, LOG_FILE);     // to custom log
+    if (VERBOSE)
+        echo $line . PHP_EOL;           // to stdout (visible if you tail or redirect)
+}
+
+logf('Minute cron started', ['pid' => getmypid()]);
+
+logf('Before active_missions fetch');
 $db->query("SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs, agm.backalleys FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.completed = 0");
 $db->execute();
 $activeMissions = $db->fetch_row();
@@ -77,8 +111,12 @@ if (!empty($activeMissions)) {
             // Mark the mission as completed
             perform_query("UPDATE active_gang_missions SET completed = 1 WHERE id = ?", [$missionId]);
         }
+
+        logf('Processed mission', ['mission_id' => $missionId]);
     }
 }
+
+logf('Before grpgusers update');
 
 perform_query("UPDATE `grpgusers` SET `jail` = 120 WHERE `is_jail_bot` = 1");
 
@@ -185,12 +223,15 @@ if (isset($lastGiveawayRow)) {
     }
 }
 
+logf('Before raid processing');
+
 $db->query("SELECT ar.*, b.name AS boss_name, b.stat_limit, b.hp AS boss_hp FROM active_raids ar JOIN bosses b ON ar.boss_id = b.id WHERE ar.summoned_at <= NOW() - INTERVAL 15 MINUTE AND ar.completed = 0");
 $db->execute();
 $raids = $db->fetch_row();
 
 $found_items_log = []; // Initialize this array only once at the top level.
 foreach ($raids as $raid) {
+    logf('Processing raid', ['raid_id' => $raid['id']]);
     echo "Processing raid ID: " . $raid['id'] . "\n";
 
     // Calculate the total stats of all participants
@@ -499,7 +540,11 @@ foreach ($raids as $raid) {
     perform_query("INSERT INTO raid_battle_logs (raid_id, battle_log) VALUES (?, ?)", [$raid['id'], $battle_log]);
 
     $found_items_log = [];
+
+    logf('Completed raid processing', ['raid_id' => $raid['id']]);
 }
+
+logf('After raid processing');
 
 // RM Cities
 $default_city = 1;
@@ -557,7 +602,6 @@ $db->execute();
 $db->query("UPDATE grpgusers SET nightvision = nightvision - 1 WHERE nightvision > 0");
 $db->execute();
 
-
 // Update pack1 to 0 for users whose pack1timetill is in the past
 $db->query("UPDATE grpgusers SET pack1 = 0 WHERE pack1time <= UNIX_TIMESTAMP()");
 $db->execute();
@@ -565,50 +609,7 @@ $db->execute();
 $db->query("UPDATE gamebonus SET Time = Time - 1 WHERE Time > 0");
 $db->execute();
 
-if (time() <= 1703577599) {
-
-    $_add = 5;
-    if (time() <= 1676466000) {
-        $_add = 10;
-    }
-    $db->query("UPDATE grpgusers SET epoints = epoints + $_add WHERE lastactive > unix_timestamp() - 61 AND apban = 0 AND relationship = 0");
-    $db->execute();
-
-    $_add = $_add + 5;
-
-    $db->query("UPDATE grpgusers SET epoints = epoints + $_add WHERE lastactive > unix_timestamp() - 61 AND apban = 0 AND relationship > 0");
-    $db->execute();
-
-
-    $db->query("SELECT id FROM grpgusers WHERE epoints >= 1000");
-    $db->execute();
-    $_rows = $db->fetch_row();
-    foreach ($_rows as $_row) {
-        Give_Item(198, $_row['id'], 1);
-
-        Send_Event($_row['id'], "You have been awarded a Snowball! Throw these at other players!");
-        $db->query("UPDATE grpgusers SET epoints = 0 WHERE id = ?");
-        $db->execute(array(
-            $_row['id']
-        ));
-
-    }
-}
-
-if ($user_class->id >= 999) {
-
-    $db->query("SELECT id FROM grpgusers WHERE epoints >= 1000");
-    $db->execute();
-    $_rows = $db->fetch_row();
-    foreach ($_rows as $_row) {
-        Give_Item(198, $_row['id'], 1);
-        Send_Event($_row['id'], "You have been awarded a Snowball! Throw these at other players!");
-        $db->query("UPDATE grpgusers SET epoints = 0 WHERE id = ?");
-        $db->execute(array(
-            $_row['id']
-        ));
-    }
-}
+logf("Before auction processing");
 
 // Check expired auctions
 $db->query("SELECT * FROM auction_house WHERE end_time <= UNIX_TIMESTAMP(NOW()) AND status = 'active'");
@@ -643,6 +644,8 @@ foreach ($expiredAuctions as $auction) {
     // Update the status column in the auction_house table to 'finished'
     perform_query("UPDATE auction_house SET status = 'finished' WHERE auction_id = ?", [$auction['auction_id']]);
 }
+
+logf("After auction processing");
 
 $db->query("UPDATE pets
 SET
@@ -684,6 +687,10 @@ $db->query("UPDATE grpgusers SET ngyref = 0, ngyreftime = 0 WHERE ngyreftime < u
 $db->execute();
 $db->query("SELECT userid, mid FROM missions m JOIN mission h ON mid = h.id WHERE completed = 'no' AND timestamp + time < unix_timestamp()");
 $db->execute();
+
+
+logf("Before mission failure processing");
+
 $rows = $db->fetch_row();
 $db->query("UPDATE missions INNER JOIN mission h ON mid = h.id SET completed = 'failed' WHERE completed = 'no' AND timestamp + time < unix_timestamp()");
 $db->execute();
@@ -713,10 +720,15 @@ foreach ($rows as $row) {
         "[x] failed their $mname,{$row['userid']}"
     ));
 }
+
+logf("After mission failure processing");
+
 // srand(time()); // Not necessary for modern PHP versions as the random number generator is automatically seeded.
 $rand = rand(1, 16); // Randomly select how many users to affect, between 1 to 3.
 $db->query("UPDATE grpgusers SET jail = 120 WHERE lastactive < unix_timestamp() - 86400 AND id >= 321 AND id <= 338 ORDER BY RAND() LIMIT $rand");
 $db->execute();
+
+logf("After jail update");
 
 $db->query("SELECT * FROM bloodbath WHERE endtime < unix_timestamp() AND winners = ''");
 $db->execute();
@@ -738,6 +750,9 @@ if (!empty($bbinfo)) {
     $db->query("TRUNCATE TABLE bbusers");
     $db->execute();
 }
+
+logf("After bloodbath processing");
+
 $db->query("SELECT * FROM gangwars WHERE timeending < unix_timestamp() AND accepted = 1");
 $db->execute();
 $rows = $db->fetch_row();
@@ -760,11 +775,6 @@ foreach ($rows as $r) {
         $losinggang,
         $msglose
     ));
-    //	$db->query("INSERT INTO gangevents VALUES ('', ?, unix_timestamp(), ?, 0)");
-    //	$db->execute(array(
-    //		$winninggang,
-    //		$msg
-    //	));
     $db->execute(array(
         $losinggang,
         $msglose
@@ -784,6 +794,8 @@ foreach ($rows as $r) {
         $r['warid']
     ));
 }
+
+logf("After gang war processing");
 
 $addCredits = 50;
 $addPoints = 100;
@@ -816,6 +828,8 @@ foreach ($referrals as $line) {
     Send_Event(1059, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
     Send_Event(1034, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
 }
+
+logf("After referral processing");
 
 // Fetch the latest Bloodbath results where rewards haven't been distributed yet and winners column has data
 $db->query("SELECT * FROM bloodbath WHERE is_paid = 0 AND winners != '' AND endtime < unix_timestamp() ORDER BY endtime DESC LIMIT 1");
@@ -912,6 +926,8 @@ if ($latest_bloodbath) {
     }
 }
 
+logf("After bloodbath reward distribution");
+
 $csrf = md5(uniqid(rand(), true));
 $_SESSION['csrf'] = $csrf;
 
@@ -925,3 +941,5 @@ perform_query("DELETE a FROM `attackladder` a
     WHERE a.id != b.id");
 
 Send_Event(1059, "Minute CRON completed successfully.");
+
+logf("CRON job completed successfully.");
