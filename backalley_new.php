@@ -109,7 +109,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
                         <div class="progress" role="progressbar"
-                            aria-valuenow="<?php echo (number_format($userBaStats['exp']) / $userBaStats['maxexp'] * 100); ?>"
+                            aria-valuenow="<?php echo number_format(($userBaStats['exp'] / $userBaStats['maxexp']) * 100, 2); ?>"
                             aria-valuemin="0" aria-valuemax="100"
                             title="<?php echo number_format($userBaStats['exp']) . '/' . number_format($userBaStats['maxexp'], 0); ?>">
                             <div class="progress-bar bg-success ba-level-progress-bar"

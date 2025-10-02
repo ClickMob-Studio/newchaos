@@ -90,6 +90,8 @@ class pagination
     }
     function bypass($lo, $mi, $hi)
     {
+        $rtn = '';
+
         foreach ($lo as $page) {
             $dis = ($page == $this->current_page) ? " disabled" : "";
             $rtn .= ' <a class="button blue' . $dis . '" style="width:20px !important;" href="?page=' . $page . $this->query_string . '">' . $page . '</a>';
@@ -104,6 +106,7 @@ class pagination
             $dis = ($page == $this->current_page) ? " disabled" : "";
             $rtn .= ' <a class="button blue' . $dis . '" style="width:20px !important;" href="?page=' . $page . $this->query_string . '">' . $page . '</a>';
         }
+
         return $rtn;
     }
 }

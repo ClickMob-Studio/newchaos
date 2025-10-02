@@ -67,4 +67,5 @@ perform_query("DELETE FROM `active_raids` WHERE `summoned_at` < (NOW() - INTERVA
 perform_query("DELETE FROM `raid_participants` WHERE `joined_at` < (NOW() - INTERVAL 14 DAY)");
 perform_query("DELETE FROM `raid_battle_logs` WHERE `timestamp` < (NOW() - INTERVAL 14 DAY)");
 
+Send_Event(1059, "Cron 5min ran successfully.");
 ?>

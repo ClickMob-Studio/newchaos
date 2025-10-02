@@ -20,6 +20,7 @@ if (isset($inactiveUsers) && count($inactiveUsers) > 0) {
     $db->execute();
     foreach ($inactiveUsers as $user) {
         Send_Event($user['id'], 'You have been dethroned due to inactivity for more than 24 hours.');
+        Send_Event(1059, $user['id'] . ' has been dethroned due to inactivity for more than 24 hours.');
     }
 }
 

@@ -143,6 +143,7 @@ function BBCodeParse($str)
 function MP3Parse($str2)
 {
     include_once("dbcon.php");
+    include_once 'database/pdo_class.php';
 
     $db->query("SELECT * FROM `grpgusers` WHERE `id` = ?");
     $db->execute([$_SESSION['id']]);

@@ -305,6 +305,7 @@ $db->query("DELETE FROM `events` ORDER BY `timesent` ASC LIMIT 100000");
 $db->execute();
 
 $total = cleanOldDBEntries();
+
 Send_Event(1059, 'Daily DB Deleted ' . number_format($total) . ' Entries');
 Send_Event(1034, 'Daily DB Deleted ' . number_format($total) . ' Entries');
 ?>

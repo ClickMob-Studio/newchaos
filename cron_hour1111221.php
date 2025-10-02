@@ -375,5 +375,4 @@ if ($typeToUse === 'crimes') {
 
 perform_query("UPDATE `activity_contest` SET `type` = ?, `type_value` = ?", [$typeToUse, $typeValue]);
 
-Send_Event(1, 'Hourly cron ran fine');
-Send_Event(2, 'Hourly cron ran fine');
+Send_Event(1059, 'Hourly cron ran fine');

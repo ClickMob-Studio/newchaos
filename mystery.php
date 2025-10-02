@@ -41,7 +41,7 @@ include "header.php";
 
 <?php
 if ($user_class->jail > 0) {
-    echo Message("You cant do the doors  while in prison.");
+    echo Message("You cant do the doors while in prison.");
     include 'footer.php';
     die();
 }

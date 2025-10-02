@@ -109,7 +109,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'avatar') {
         echo json_encode(array(
             "text" => "You have updated your avatar",
         ));
-
     } else {
         echo json_encode(array(
             'text' => 'You did not provide an avatar',

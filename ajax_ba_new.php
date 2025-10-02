@@ -299,7 +299,6 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $expWon = round($expWon / mt_rand(2, 4));
         $expWon = $expWon + (($expWon / 100) * (6 * $userBaStats['level']));
 
-        //$expWon = $expWon / 2;
         $baExpWon = mt_rand(5, 25);
 
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");

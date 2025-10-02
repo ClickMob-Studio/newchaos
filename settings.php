@@ -485,25 +485,12 @@ include 'header.php';
                 </form>
             </div>
         <?php endif; ?>
-
-        <?php
-        $colors = explode('~', $user_class->colours);
-        if (count($colors) == 2) {
-            $st = $colors[0];
-            $ed = $colors[1];
-        } else {
-            $st = $colors[0];
-            $mid = $colors[1];
-            $ed = $colors[2];
-        }
-        ?>
         <div class="col-md-4 col-6">
             <h1>Gradient Name</h1>
             <p>You have <?= $user_class->gndays; ?> gradient name days left.</p>
             <form action="colors.php" method="get">
                 <button type="submit">Gradient Name</button>
             </form>
-
         </div>
 
         <div class="col-md-4 col-6">

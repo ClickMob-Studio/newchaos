@@ -5,6 +5,10 @@ if ($_GET['key'] != 'cron94') {
     die();
 }
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 chdir("/var/www/html");
 
 (PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('');
@@ -313,5 +317,6 @@ foreach ($dailyRows as $row) {
 
 $db->query("UPDATE `gang_comp_leaderboard` SET `daily_missions_complete` = 0");
 $db->execute();
-Send_Event(1, "daycron211111.php");
+
+Send_Event(1059, "daycron211111.php ran successfully.");
 ?>

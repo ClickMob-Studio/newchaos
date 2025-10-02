@@ -56,7 +56,7 @@ include 'header.php';
                     perform_query("UPDATE pets SET exp = exp + ?, nerve = nerve - ? WHERE userid = ?", [$exp, $row['nerve'], $user_class->id]);
                     perform_query("UPDATE grpgusers SET money = money + ? WHERE id = ?", [$money, $user_class->id]);
                     addToPetladder($pet_class->id, 'exp', $exp);
-                    echo Message("Your pet successfully managed to {$row['name']}<br />Your pet received $exp exp & you gained ${$money}.<br /><br /><a href='petcrime.php?id={$_GET['id']}'>Retry</a> | <a href='petcrime.php'>Back</a>");
+                    echo Message("Your pet successfully managed to {$row['name']}<br />Your pet received $exp exp & you gained $$money.<br /><br /><a href='petcrime.php?id={$_GET['id']}'>Retry</a> | <a href='petcrime.php'>Back</a>");
                 } else {
                     perform_query("UPDATE pets SET exp = exp + ?, nerve = nerve - ? WHERE userid = ?", [$exp, $row['nerve'], $user_class->id]);
                     addToPetladder($pet_class->id, 'exp', $exp);
