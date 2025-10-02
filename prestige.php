@@ -233,6 +233,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['bo
     $db->query('UPDATE user_prestige_skills SET ' . $boostType . ' = ' . $boostType . ' + 1, boosts_spent = boosts_spent + 1 WHERE user_id = ' . $user_class->id);
     $db->execute();
 
+    $userPrestigeSkills['prestige_boosts_available'] - 1;
+
     $cache->setEx("userPrestigeSkills:{$user_class->id}", 300, json_encode($userPrestigeSkills));
 
     echo Message("You have successfully increased the level of " . $prestigeBoosts[$boostType]);
