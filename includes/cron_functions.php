@@ -10,11 +10,11 @@ function getCronErrors(?string $script = null, int $limit = 50): array
     global $db;
 
     if ($script) {
-        $db->query("SELECT * FROM cron_logs WHERE script = ? ORDER BY id DESC LIMIT ?");
-        $rows = $db->fetch_row(false, [$script, $limit]);
+        $db->query("SELECT * FROM cron_logs WHERE script = ? ORDER BY id DESC LIMIT $limit");
+        $rows = $db->fetch_row(false, [$script]);
     } else {
-        $db->query("SELECT * FROM cron_logs ORDER BY id DESC LIMIT ?");
-        $rows = $db->fetch_row(false, [$limit]);
+        $db->query("SELECT * FROM cron_logs ORDER BY id DESC LIMIT $limit");
+        $rows = $db->fetch_row();
     }
 
     foreach ($rows as &$row) {

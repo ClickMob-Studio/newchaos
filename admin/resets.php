@@ -1,8 +1,8 @@
 <?php
 
-include '../header.php';
-require_once '../includes/functions.php';
-require_once '../includes/cron_functions.php';
+include_once dirname(__DIR__) . '/header.php';
+require_once dirname(__DIR__) . '/includes/functions.php';
+require_once dirname(__DIR__) . '/includes/cron_functions.php';
 
 if ($user_class->admin < 1) {
     echo 'You should not be here';
