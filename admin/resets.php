@@ -1,6 +1,6 @@
 <?php
 
-include 'header.php';
+include '../header.php';
 require_once '../includes/functions.php';
 require_once '../includes/cron_functions.php';
 
