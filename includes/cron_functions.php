@@ -1,9 +1,10 @@
 <?php
 
-require_once dirname(__DIR__) . '/dbcon.php';
-require_once dirname(__DIR__) . '/classes.php';
-require_once dirname(__DIR__) . '/database/pdo_class.php';
-require_once dirname(__DIR__) . '/includes/functions.php';
+require_once __DIR__ . '/../dbcon.php';
+require_once __DIR__ . '/../classes.php';
+require_once __DIR__ . '/../database/pdo_class.php';
+require_once __DIR__ . '/../includes/functions.php';
+
 
 function getCronErrors(?string $script = null, int $limit = 50): array
 {
