@@ -211,7 +211,7 @@ function step_bank_interest(): array
     global $db;
     $paid = 0;
 
-    $db->query("SELECT id, bank, bankboost, rmdays, donations, gndays FROM grpgusers");
+    $db->query("SELECT id, bank, bankboost, rmdays, gndays FROM grpgusers");
     $users = $db->fetch_row();
 
     foreach ($users as $u) {
