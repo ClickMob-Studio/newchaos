@@ -59,6 +59,7 @@ $smiarr = array(
 function BBCodeParse($str)
 {
     global $user_class, $smiarr;
+
     $str = str_replace("[url]http://www.", "[url]http://", $str);
     $str = str_replace("[url]http://www2.", "[url]http://", $str);
     $str = str_replace("[url]www.", "[url]http://", $str);
@@ -142,8 +143,7 @@ function BBCodeParse($str)
 }
 function MP3Parse($str2)
 {
-    include_once("dbcon.php");
-    include_once 'database/pdo_class.php';
+    global $db;
 
     $db->query("SELECT * FROM `grpgusers` WHERE `id` = ?");
     $db->execute([$_SESSION['id']]);

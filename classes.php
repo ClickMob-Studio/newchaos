@@ -367,9 +367,7 @@ class User
         ));
         $donations = $db->fetch_single();
 
-
         $this->formattedname = formatName($this->id);
-
 
         $this->shared_bank = $worked["shared_bank"];
 
