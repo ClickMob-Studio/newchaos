@@ -190,9 +190,9 @@ function step_user_daily_resets(): array
 
 function step_jobinfo_resets(): array
 {
-    perform_query("UPDATE jobInfo SET addedPercent = 0 WHERE dailyClockins < 5");
-    perform_query("UPDATE jobInfo SET addedPercent = LEAST(addedPercent + 5, 50) WHERE dailyClockins >= 5");
-    perform_query("UPDATE jobInfo SET dailyClockins = 0");
+    perform_query("UPDATE jobinfo SET addedPercent = 0 WHERE dailyClockins < 5");
+    perform_query("UPDATE jobinfo SET addedPercent = LEAST(addedPercent + 5, 50) WHERE dailyClockins >= 5");
+    perform_query("UPDATE jobinfo SET dailyClockins = 0");
     return ['ok' => true];
 }
 
