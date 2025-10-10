@@ -45,6 +45,7 @@ if (isset($_POST['flush_db'])) {
     <li><a href="admin_attack_logs.php">Attack Logs</a></li>
     <li><a href="admin_item_check.php">Item Check</a></li>
     <li><a href="admin_mass_pm.php">Mass PM Users</a></li>
+    <li><a href="admin/resets.php">Daily Reset Management</a></li>
 </ul>
 
 <br />

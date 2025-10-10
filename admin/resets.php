@@ -1,8 +1,8 @@
 <?php
 
 include 'header.php';
-require_once 'includes/functions.php';
-require_once 'includes/cron_functions.php';
+require_once '../includes/functions.php';
+require_once '../includes/cron_functions.php';
 
 if ($user_class->admin < 1) {
     echo 'You should not be here';
