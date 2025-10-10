@@ -526,7 +526,7 @@ if (isset($currentQuestSeason['id'])) {
                         $db->query("SELECT id, moth FROM grpgusers WHERE `moth` > 0 AND `admin` != 1 ORDER BY moth DESC LIMIT 1");
                         $db->execute();
                         $moth = $db->fetch_row(true);
-                        if (!$moth || $moth['moth'] == 0) {
+                        if (!$moth) {
                             echo "Nobody<br/><br/>";
                         } else {
                             echo "<br />" . formatName($moth['id']) . "<br /><br />Mugs: " . prettynum($moth['moth']) . "<br /><br />You: " . prettynum($user_class->moth) . " Mugs<br /><br />";

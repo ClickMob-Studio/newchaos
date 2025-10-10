@@ -22,8 +22,7 @@ $rows = $db->fetch_row();
             <?php foreach ($rows as $res): ?>
                 <?php
                 $db->query("SELECT * FROM raid_participants WHERE raid_id = ?");
-                $db->execute([$res['raid_id']]);
-                $participants = $db->fetch_row();
+                $participants = $db->fetch_row(false, [$res['raid_id']]);
                 ?>
 
                 <tr>

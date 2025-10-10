@@ -27,8 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 
     $db->query("SELECT id FROM grpgusers WHERE id != ?");
-    $db->execute([$user_class->id]);
-    $users = $db->fetch_row();
+    $users = $db->fetch_row(false, [$user_class->id]);
 
     foreach ($users as $user) {
         $db->query("INSERT INTO pms (`parent`, `to`, `from`, `timesent`, `subject`, `msgtext`, `bomb`) VALUES (?, ?, ?, ?, ?, ?, ?)");

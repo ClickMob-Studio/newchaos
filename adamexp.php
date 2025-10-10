@@ -13,8 +13,7 @@ require "header.php";
         $monthEndDate = new \DateTime('last day of this month');
 
         $db->query("SELECT SUM(paymentamount) AS totalSpent FROM ipn WHERE date >= ? AND date <= ?");
-        $db->execute([$monthStartDate->getTimestamp(), $monthEndDate->getTimestamp()]);
-        $rowMonthDonations = $db->fetch_row(true);
+        $rowMonthDonations = $db->fetch_row(true, [$monthStartDate->getTimestamp(), $monthEndDate->getTimestamp()]);
         $monthDonations = $rowMonthDonations["totalSpent"];
 
         // Fetch month by month total income
@@ -22,7 +21,6 @@ require "header.php";
                     FROM ipn 
                     GROUP BY month 
                     ORDER BY month DESC");
-        $db->execute();
         $rows = $db->fetch_row();
 
         // Check if there are any rows
@@ -48,7 +46,6 @@ require "header.php";
         <?php
 
         $db->query("SELECT user_id, SUM(paymentamount) AS totalSpent FROM ipn GROUP BY user_id ORDER BY totalSpent DESC LIMIT 1");
-        $db->execute();
         $rowBiggestDonor = $db->fetch_row(true);
         // Check if there are any rows
         if (!empty($rowBiggestDonor)) {
@@ -61,7 +58,6 @@ require "header.php";
 
         // Fetch data from the database
         $db->query("SELECT * FROM ipn ORDER BY `id` ASC");
-        $db->execute();
         $rows = $db->fetch_row();
 
         // Check if there are any rows

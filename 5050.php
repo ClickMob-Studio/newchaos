@@ -14,7 +14,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'ban') {
 }
 
 $db->query("SELECT * FROM fiftyfifty");
-$db->execute();
 $all = $db->fetch_row();
 
 $cash = [];
@@ -146,10 +145,9 @@ foreach ($all as $bet) {
     <?php
 
     $db->query("SELECT
-        (SELECT COUNT(*) FROM `5050log` WHERE `better` = :userid OR `userid` = :userid) AS total_games,
-        (SELECT COUNT(*) FROM `5050log` WHERE `winner` = :userid) AS games_won");
-    $db->execute(['userid' => $user_class->id]);
-    $res = $db->fetch_row();
+        (SELECT COUNT(*) FROM `5050log` WHERE `better` = ? OR `userid` = ?) AS total_games,
+        (SELECT COUNT(*) FROM `5050log` WHERE `winner` = ?) AS games_won");
+    $res = $db->fetch_row(false, [$user_class->id, $user_class->id, $user_class->id]);
 
     $totalGames = $res['total_games'] ?? 0;
     $gamesWon = $res['games_won'] ?? 0;

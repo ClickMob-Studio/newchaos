@@ -2,16 +2,17 @@
 exit;
 include 'header.php';
 
-function hasOpenedToday($userId) {
+function hasOpenedToday($userId)
+{
     global $db;
     $today = date('Y-m-d');
     $db->query("SELECT COUNT(id) as account FROM `advent_calendar` WHERE `user_id` = ? AND `date_opened` = ?");
-    $db->execute([$userId, $today]);
 
-    return (int)$db->fetch_row()[0]['account'] > 0;
+    return (int) $db->fetch_row(false, [$userId, $today])[0]['account'] > 0;
 }
 
-function awardItem($userId) {
+function awardItem($userId)
+{
     global $db;
 
     $prizesIndexedOnDate = array(
@@ -56,7 +57,8 @@ function awardItem($userId) {
     return $itemId;
 }
 
-function displayCalendar($userId) {
+function displayCalendar($userId)
+{
     $today = date('j');
     echo '<div class="row">';
     for ($day = 1; $day <= 25; $day++) {
@@ -90,7 +92,9 @@ $today = date('j');
 ?>
 
 
-<div class='box_top'><h1>Advent Calendar</h1></div>
+<div class='box_top'>
+    <h1>Advent Calendar</h1>
+</div>
 <div class='box_middle'>
     <div class='pad'>
         <div class="row">
@@ -121,13 +125,14 @@ $today = date('j');
                                     }
                                     ?>
                                 </center>
-                            </p>
-                    </div>
+                                </p>
+                        </div>
                     </div>
                 </div>
 
                 <?php if ($day % 3 == 1): ?>
-                    </div><div class="row">
+                </div>
+                <div class="row">
                 <?php endif; ?>
             <?php endfor; ?>
         </div>

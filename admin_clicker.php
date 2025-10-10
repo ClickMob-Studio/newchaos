@@ -4,11 +4,13 @@ if ($user_class->admin < 1) {
     exit();
 }
 
-if (isset($_POST['userid']))
+if (isset($_POST['userid'])) {
     $db->query("SELECT a.timestamp AS attack_time, u.timestamp AS user_log_time FROM user_logs u JOIN attacklog a ON u.timestamp = a.timestamp AND a.attacker = ? WHERE u.user_id = ?");
-$db->execute([$_POST['userid'], $_POST['userid']]);
+    $rows = $db->fetch_row(false, [$_POST['userid'], $_POST['userid']]);
+} else {
+    $rows = [];
+}
 
-$rows = $db->fetch_row();
 $count = 1;
 
 foreach ($rows as $row) {

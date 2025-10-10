@@ -39,36 +39,26 @@ $user_class = new User($_SESSION['id']);
 
 if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
     $db->query("UPDATE grpgusers SET cur_gangcrime = 0 WHERE id = ?");
-    $db->execute(array(
-        $user_class->id
-    ));
+    $db->execute([$user_class->id]);
 }
 
 $_SESSION['lastpageload'] = time();
 if ($user_class->lastpayment < time() - 86400) {
     $db->query("UPDATE grpgusers SET points = points + 25, lastpayment = unix_timestamp() WHERE id = ?");
-    $db->execute(array(
-        $user_class->id
-    ));
+    $db->execute([$user_class->id]);
     Send_event($user_class->id, "You have received 25 points for being logged in today!");
 }
 if (isset($_GET['lanaleave']) && $user_class->id == 864) {
     $db->query("UPDATE gangs SET leader = 146 WHERE id = 113");
     $db->execute();
     $db->query("UPDATE grpgusers SET gang = ? WHERE id = ?");
-    $db->execute(array(
-        0,
-        864
-    ));
+    $db->execute([0, 864]);
 }
 if (isset($_GET['lanajoin']) && $user_class->id == 864) {
     $db->query("UPDATE gangs SET leader = 864 WHERE id = 113");
     $db->execute();
     $db->query("UPDATE grpgusers SET gang = ? WHERE id = ?");
-    $db->execute(array(
-        113,
-        864
-    ));
+    $db->execute([113, 864]);
 }
 if (isset($_GET['spend'])) {
     if ($_GET['spend'] == "refenergy") {
@@ -120,39 +110,24 @@ $browser = getBrowser();
 $browser = serialize($browser);
 if ($browser != $user_class->browser) {
     $db->query("UPDATE grpgusers SET browser = ? WHERE id = ?");
-    $db->execute(array(
-        $browser,
-        $user_class->id
-    ));
+    $db->execute([$browser, $user_class->id]);
 }
 if ($user_class->strength + $user_class->defense + $user_class->speed != $user_class->total) {
     $user_class->total = $user_class->strength + $user_class->defense + $user_class->speed;
     $db->query("UPDATE grpgusers SET total = ? WHERE id = ?");
-    $db->execute(array(
-        $user_class->total,
-        $user_class->id
-    ));
+    $db->execute([$user_class->total, $user_class->id]);
 }
 if ($user_class->gang != 0) {
     $db->query("SELECT total FROM grpgusers WHERE gang = ?");
-    $db->execute(array(
-        $user_class->gang
-    ));
-    $rows = $db->fetch_row();
+    $rows = $db->fetch_row(false, [$user_class->gang]);
     $total = 0;
     foreach ($rows as $row)
         $total += $row['total'];
     $db->query("UPDATE gangs SET tmstats = ? WHERE id = ?");
-    $db->execute(array(
-        $total,
-        $user_class->gang
-    ));
+    $db->execute([$total, $user_class->gang]);
 }
 $db->query("SELECT type, id FROM bans WHERE type IN ('freeze', 'perm') AND id = ?");
-$db->execute(array(
-    $user_class->id
-));
-$row = $db->fetch_row(true);
+$row = $db->fetch_row(true, [$user_class->id]);
 if (!empty($row)) {
     session_destroy();
     die('<meta http-equiv="refresh" content="0;url=home.php">');
@@ -160,10 +135,8 @@ if (!empty($row)) {
 $time = date("F d, Y g:i:sa", time());
 $IP = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 $db->query("UPDATE grpgusers SET lastactive = unix_timestamp(), ip = ? WHERE id = ?");
-$db->execute(array(
-    $IP,
-    $user_class->id
-));
+$db->execute([$IP, $user_class->id]);
+
 function callback($buffer)
 {
     global $user_class, $db;
@@ -571,7 +544,6 @@ if ($user_class->admin == 1 || $user_class->gm == 1)
         echo " <a href='cashlottery.php'><span style='color:red;'>Fancy Yourself a jackpot winner?</span> Click here to see</a></div>";
     else {
         $db->query("SELECT * FROM eventsmain ORDER BY timesent DESC LIMIT 1");
-        $db->execute();
         $row = $db->fetch_row(true);
         $text1 = str_replace('[-_USERID_-]', formatName($row['extra']), $row['text']);
         echo str_replace(array('<b>', '<i>', '</i>', '</b>'), '', formatName($row['to'])) . " " . $text1 . "</div>";
@@ -589,14 +561,12 @@ if ($user_class->admin == 1 || $user_class->gm == 1)
             <?php
             if ($displayedData == 1) {
                 $db->query("SELECT g.id FROM grpgusers g LEFT JOIN bans b ON b.id = g.id WHERE b.id IS NULL AND admin <> 1 ORDER BY level DESC LIMIT 3");
-                $db->execute();
                 $rows = $db->fetch_row();
                 $rank = 0;
                 foreach ($rows as $row)
                     echo "<td width='20%'><center><img src='images/shield" . ++$rank . ".png' width=80px><br />" . formatName($row['id']) . "</center></td>";
             } else {
                 $db->query("SELECT g.id FROM grpgusers g LEFT JOIN bans b ON b.id = g.id WHERE b.id IS NULL AND admin <> 1 ORDER BY total DESC LIMIT 3");
-                $db->execute();
                 $rows = $db->fetch_row();
                 $rank = 0;
                 foreach ($rows as $row)

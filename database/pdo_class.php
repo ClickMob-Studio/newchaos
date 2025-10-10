@@ -8,9 +8,12 @@ class database
     protected $conn;
     private $db;
     private $stmt;
+    private bool $stmtExecuted = false;
+
     var $num_queries = 0;
     var $queries = "";
     static $inst = null;
+
     static function getInstance()
     {
         if (self::$inst == null)
@@ -44,6 +47,7 @@ class database
             return;
         $this->db = null;
     }
+
     public function query($query)
     {
         $this->last_query = $query;
@@ -56,6 +60,7 @@ class database
             exit;
         }
     }
+
     public function prepare($query)
     {
         try {
@@ -66,6 +71,7 @@ class database
             exit;
         }
     }
+
     public function bind($param, $value, $type = null)
     {
         if (is_null($type))
@@ -89,6 +95,7 @@ class database
             exit('<p><strong>BIND ERROR</strong></p>' . $e->getMessage());
         }
     }
+
     public function execute(array $binds = null)
     {
         if (!isset($this->stmt))
@@ -104,42 +111,68 @@ class database
             exit;
         }
     }
-    public function fetch_row($shifted = false)
+
+    public function fetch_row($shifted = false, array $binds = null)
     {
         if (!isset($this->stmt))
             return null;
         try {
-            $this->execute();
+            if (!$this->stmtExecuted) {
+                if ($binds !== null) {
+                    $this->stmt->execute($binds);
+                    $this->stmtExecuted = true;
+                } else {
+                    $this->execute(); // sets flag
+                }
+            }
             $ret = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
-            if ($shifted === true)
-                $ret = array_shift($ret);
+            if ($shifted === true) {
+                $ret = array_shift($ret) ?: null; // ensure null on empty
+            }
             return $ret;
         } catch (PDOException $e) {
             exit('<p><strong>FETCH ROW ERROR</strong></p>' . $e->getMessage());
         }
     }
-    public function fetch_single()
+
+    public function fetch_single(array $binds = null)
     {
         if (!isset($this->stmt))
             return null;
         try {
-            $this->execute();
+            if (!$this->stmtExecuted) {
+                if ($binds !== null) {
+                    $this->stmt->execute($binds);
+                    $this->stmtExecuted = true;
+                } else {
+                    $this->execute();
+                }
+            }
             return $this->stmt->fetchColumn(0);
         } catch (PDOException $e) {
             exit('<p><strong>FETCH SINGLE ERROR</strong></p>' . $e->getMessage());
         }
     }
-    public function fetch_object()
+
+    public function fetch_object(array $binds = null)
     {
         if (!isset($this->stmt))
             return null;
         try {
-            $this->execute();
-            return $this->stmt->fetch(PDO::FETCH_OBJ);
+            if (!$this->stmtExecuted) {
+                if ($binds !== null) {
+                    $this->stmt->execute($binds);
+                    $this->stmtExecuted = true;
+                } else {
+                    $this->execute();
+                }
+            }
+            return $this->stmt->fetch(PDO::FETCH_OBJ) ?: null;
         } catch (PDOException $e) {
             exit('<p><strong>FETCH OBJECT ERROR</strong></p>' . $e->getMessage());
         }
     }
+
     public function affected_rows()
     {
         try {
