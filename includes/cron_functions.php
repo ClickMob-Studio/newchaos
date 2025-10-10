@@ -219,8 +219,11 @@ function step_bank_interest(): array
         $bank = (float) $u['bank'];
         $bankboost = (float) $u['bankboost'];
         $rmdays = (int) $u['rmdays'];
-        $donations = (int) $u['donations'];
         $gndays = (int) $u['gndays'];
+
+        $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
+        $db->execute([$id]);
+        $donations = $db->fetch_single();
 
         $rate = ($rmdays >= 1) ? 0.04 : 0.02;
         $addmul = 0.0;
