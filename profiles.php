@@ -655,15 +655,11 @@ $(document).ready(function() {
                 }
             }
 
-            $db->query("SELECT * FROM referrals WHERE referred = ?");
-            $db->execute([$profile_class->id]);
-            $worked222 = $db->fetch_row(true);
-
-            if ($worked222 && $worked222['referrer'] != 0) {
-                $refer_id = new User($worked222['referrer']);
-                $refer = ($worked222['referrer'] > 0) ? $refer_id->formattedname : "Nobody";
+            $db->query("SELECT * FROM referrals WHERE referred = ? LIMIT 1");
+            $worked222 = $db->fetch_row(true, [$profile_class->id]);
+            if ($worked222 && (int) $worked222['referrer'] > 0) {
+                $refer = formatName((int) $worked222['referrer']);
             }
-
 
             $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 1");
             $friends = $db->fetch_single();

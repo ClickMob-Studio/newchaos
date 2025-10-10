@@ -367,6 +367,10 @@ class User
         ));
         $donations = $db->fetch_single();
 
+
+        $this->formattedname = formatName($this->id);
+
+
         $this->shared_bank = $worked["shared_bank"];
 
         $this->donations = $donations;
@@ -1137,7 +1141,6 @@ class User
         $this->completeUserResearchTypes = $completeUserResearchTypes;
         $this->completeUserResearchTypesIndexedOnId = $completeUserResearchTypesIndexedOnId;
 
-        $this->formattedname = formatName($this->id);
         $this->invent = ($this->rmdays > 0) ? 5000 : 2500;
         while ($this->exp >= $this->maxexp && $this->exp != 0) {
             $this->level += 1;
