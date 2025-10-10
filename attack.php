@@ -291,7 +291,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
                     perform_query("UPDATE `grpgusers` SET `king` = 0, `queen` = 0 WHERE `id` = ?", [$attack_person->id]);
 
                     // Crown the new king
-                    perform_query("UPDATE `grpgusers` SET `king` = ?, `queen` = 0 WHERE `id` = ?", [$user_class->city, $winner->id]);
+                    perform_query("UPDATE `grpgusers` SET `king` = ?, `queen` = 0 WHERE `id` = ?", [$user_class->city, $winner]);
 
                     // Send event notifications
                     Send_Event($attack_person->id, "You have been defeated and lost your status as Boss of " . $cityname . ".");
@@ -304,7 +304,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
                     perform_query("UPDATE `grpgusers` SET `queen` = 0, `king` = 0 WHERE `id` = ?", [$attack_person->id]);
 
                     // Crown the new queen
-                    perform_query("UPDATE `grpgusers` SET `queen` = ?, `king` = 0 WHERE `id` = ?", [$user_class->city, $winner->id]);
+                    perform_query("UPDATE `grpgusers` SET `queen` = ?, `king` = 0 WHERE `id` = ?", [$user_class->city, $winner]);
 
                     // Send event notifications
                     Send_Event($attack_person->id, "You have been defeated and lost your status as Under Boss of " . $cityname . ".");
@@ -432,7 +432,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
                     echo $text;
                 }
             }
-            echo Message("You attacked " . $attack_person->formattedname . " and won! You gain " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . "." . $wartext);
+            echo Message("You attacked " . $attack_person->formattedname . " and won! You gain " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon));
             if ($user_class->gang != 0) {
                 $db->query("UPDATE gangs SET exp = exp + ?, bbattackwon = bbattackwon + 1, dailyKills = dailyKills + 1 WHERE id = ?");
                 $db->execute(array(
