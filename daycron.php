@@ -16,42 +16,6 @@ require_once __DIR__ . '/database/pdo_class.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/cron_functions.php';
 
-function logCronError(string $script, Throwable $e): void
-{
-    global $db;
-    $msg = sprintf(
-        '[%s] %s @ %s:%d',
-        get_class($e),
-        $e->getMessage(),
-        $e->getFile(),
-        $e->getLine()
-    );
-    $db->query("INSERT INTO cron_logs (`script`, `error`, `timestamp`) VALUES (?, ?, ?)");
-    $db->execute([$script, $msg, time()]);
-}
-
-function runStep(string $label, callable $fn): array
-{
-    $started = microtime(true);
-    try {
-        $result = $fn(); // your step_* returns array or bool
-        return [
-            'name' => $label,
-            'ok' => true,
-            'ms' => (int) ((microtime(true) - $started) * 1000),
-            'result' => $result
-        ];
-    } catch (Throwable $e) {
-        logCronError($label, $e);
-        return [
-            'name' => $label,
-            'ok' => false,
-            'ms' => (int) ((microtime(true) - $started) * 1000),
-            'error' => $e->getMessage()
-        ];
-    }
-}
-
 $steps = [
     ['A: OTD awards', 'step_otd_awards'],
     ['B: User daily resets', 'step_user_daily_resets'],

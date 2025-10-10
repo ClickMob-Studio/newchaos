@@ -29,23 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['do_reset'])) {
     echo '<div style="margin:10px 0; padding:10px; border:1px solid #ccc; background:#f9f9f9;">';
 
     if (function_exists($fn)) {
-        try {
-            // Use your runStep() if available, or just call directly
-            if (function_exists('runStep')) {
-                $result = runStep($fn, $fn);
-            } else {
-                $result = $fn();
-            }
+        $res = runStep("[MANUAL ADMIN] {$fn}", $fn);
 
+        if ($res['ok']) {
             echo "<strong>✅ Step executed successfully:</strong> {$fn}<br>";
-            if (is_array($result)) {
+            if (isset($res['result']) && is_array($res['result'])) {
                 echo "<pre style='background:#eee;padding:5px;border-radius:3px;max-width:600px;white-space:pre-wrap;'>";
-                print_r($result);
+                print_r($res['result']);
                 echo "</pre>";
             }
-        } catch (Throwable $e) {
+        } else {
             echo "<strong style='color:red;'>❌ Error executing:</strong> {$fn}<br>";
-            echo htmlspecialchars($e->getMessage());
+            echo htmlspecialchars($res['error'] ?? 'Unknown error');
+            // Already logged to cron_logs by runStep()
         }
     } else {
         echo "<strong style='color:red;'>Unknown step:</strong> " . htmlspecialchars($fn);
