@@ -402,6 +402,31 @@ function step_gang_competition(): array
     return ['ok' => true];
 }
 
+function step_ban_expiry(): array
+{
+    global $db;
+
+    $expired = 0;
+
+    $db->query("SELECT banid, id, days FROM bans");
+    $rows = $db->fetch_row();
+    foreach ($rows as $line) {
+        $days = (int) $line['days'];
+        $banid = (int) $line['banid'];
+        $uid = (int) $line['id'];
+
+        if ($days > 1) {
+            perform_query("UPDATE bans SET days = ? WHERE banid = ?", [$days - 1, $banid]);
+        } elseif ($days === 1) {
+            perform_query("UPDATE grpgusers SET `ban/freeze` = 0 WHERE id = ?", [$uid]);
+            perform_query("DELETE FROM bans WHERE banid = ?", [$banid]);
+            $expired++;
+        }
+    }
+
+    return ['expired_bans' => $expired];
+}
+
 function step_cleanup(): array
 {
     $cutoff = cutoffTs(14);

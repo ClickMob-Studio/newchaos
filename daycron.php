@@ -27,6 +27,7 @@ $steps = [
     ['H: Gangs OTD', 'step_gangs_otd'],
     ['I: Gang competition', 'step_gang_competition'],
     ['J: Cleanup', 'step_cleanup'],
+    ['K: Decrement ban days', 'step_ban_expiry'],
 ];
 
 global $db;
