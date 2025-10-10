@@ -26,7 +26,7 @@ $steps = [
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['do_reset'])) {
     $fn = trim($_POST['do_reset']);
 
-    echo '<div style="margin:10px 0; padding:10px; border:1px solid #ccc; background:#f9f9f9;">';
+    echo '<div style="margin:10px 0; padding:10px; border:1px solid #000000; background:#2f2f2f;">';
 
     if (function_exists($fn)) {
         $res = runStep("[MANUAL ADMIN] {$fn}", $fn);
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['do_reset'])) {
         if ($res['ok']) {
             echo "<strong>✅ Step executed successfully:</strong> {$fn}<br>";
             if (isset($res['result']) && is_array($res['result'])) {
-                echo "<pre style='background:#eee;padding:5px;border-radius:3px;max-width:600px;white-space:pre-wrap;'>";
+                echo "<pre style='background:#3f3f3f;padding:5px;border-radius:3px;max-width:600px;white-space:pre-wrap;'>";
                 print_r($res['result']);
                 echo "</pre>";
             }
