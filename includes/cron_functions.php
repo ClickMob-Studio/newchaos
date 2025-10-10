@@ -258,13 +258,6 @@ function step_bank_interest(): array
         }
     }
 
-    // rmupgrade decrement
-    $db->query("SELECT id, rmupgrade FROM grpgusers WHERE rmupgrade >= 1");
-    foreach ($db->fetch_row() as $line) {
-        $newrm = max(0, (int) $line['rmupgrade'] - 1);
-        perform_query("UPDATE grpgusers SET rmupgrade = ? WHERE id = ?", [$newrm, (int) $line['id']]);
-    }
-
     return ['paid_interest_to' => $paid];
 }
 
