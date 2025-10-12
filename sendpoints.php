@@ -31,7 +31,7 @@ include 'header.php';
                 if ($user_class->id != $money_person->id) {
                     if ($check > 0) {
                         if ($_POST['amount'] <= 500000) {
-                            perform_query("INSERT INTO send_logs(fromid, toid, what, qty) VALUES (?, ?, 'points', ?)", [$user_class->id, $_POST['theirid'], $_POST['amount']]);
+                            perform_query("INSERT INTO send_logs(fromid, toid, what, quantity) VALUES (?, ?, 'points', ?)", [$user_class->id, $_POST['theirid'], $_POST['amount']]);
                             perform_query("UPDATE `grpgusers` SET `points` = `points` - ? WHERE `id` = ?", [$_POST['amount'], $_SESSION['id']]);
                             perform_query("UPDATE `grpgusers` SET `points` = `points` + ? WHERE `id` = ?", [$_POST['amount'], $_POST['theirid']]);
                             perform_query("INSERT INTO `transferlog` (`toip`, `fromip`, `timestamp`, `to`, `from`, `points`)" . "VALUES (?, ?, ?, ?, ?, ?)", [$money_person->ip, $user_class->ip, time(), $money_person->id, $user_class->id, $_POST['amount']]);

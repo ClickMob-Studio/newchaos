@@ -27,7 +27,7 @@ include 'header.php';
                 error("You can't send GOLD to someone that doesn't exist.");
             if ($_POST['amount'] > 10000)
                 error("You can only send a maximum of 10000 GOLD.");
-            perform_query("INSERT INTO send_logs(fromid, toid, what, qty) VALUES (?, ?, 'gold', ?)", array($user_class->id, $_POST['theirid'], $_POST['amount']));
+            perform_query("INSERT INTO send_logs(fromid, toid, what, quantity) VALUES (?, ?, 'gold', ?)", array($user_class->id, $_POST['theirid'], $_POST['amount']));
             perform_query("UPDATE grpgusers SET credits = credits - ? WHERE id = ?", array($_POST['amount'], $user_class->id));
             perform_query("UPDATE grpgusers SET credits = credits + ? WHERE id = ?", array($_POST['amount'], $_POST['theirid']));
             perform_query("INSERT INTO `transferlog` (`toip`, `fromip`, `timestamp`, `to`, `from`, `credits`) VALUES (?, ?, ?, ?, ?, ?)", array($money_person->ip, $user_class->ip, time(), $money_person->id, $user_class->id, $_POST['amount']));
