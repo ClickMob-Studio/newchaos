@@ -25,7 +25,7 @@ include 'header.php';
 <a href='gang.php'>No thanks!</a>
 </td>
 </tr>";
-        if ($_GET['x'] == "leave") {
+        if (isset($_GET['x']) && $_GET['x'] == "leave") {
             if ($user_class->weploaned == 1) {
                 AddToArmory($user_class->eqweapon, $user_class->gang);
                 perform_query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?", [$user_class->id]);

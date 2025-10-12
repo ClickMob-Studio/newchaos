@@ -19,6 +19,8 @@ if (isset($_GET['accept'])) {
         Gang_Event($gang_class->id, "[-_USERID_-] has joined the gang.", $user_class->id);
         perform_query("DELETE FROM gangcontest WHERE userid = ?", [$user_class->id]);
         perform_query("INSERT INTO gangcontest (userid,gangid) VALUES (?,?)", [$user_class->id, $gang_class->id]);
+
+        invalidateFormattedName($user_class->id);
     }
 }
 if (isset($_GET['decline'])) {
