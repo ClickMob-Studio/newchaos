@@ -47,7 +47,7 @@ include 'header.php';
                 perform_query("UPDATE grpgusers SET eqoffhand = 0, offhandloaned = 0 WHERE id = ?", [$user_class->id]);
             }
 
-            $db->query("SELECT * FROM gang_loans WHERE to = ?");
+            $db->query("SELECT * FROM gang_loans WHERE `to` = ?");
             $db->execute([$user_class->id]);
             $rows = $db->fetch_row();
             foreach ($rows as $line) {
