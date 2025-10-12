@@ -12,12 +12,12 @@ if (isset($_GET['accept'])) {
     $db->execute([$user_class->id, $_GET['accept']]);
     $checkuser = $db->fetch_single();
     if ($checkuser != 0) {
-        perform_query("DELETE FROM ganginvites WHERE playerid = ?", $user_class->id);
-        perform_query("DELETE FROM gangapps WHERE applicant = ?", $user_class->id);
+        perform_query("DELETE FROM ganginvites WHERE playerid = ?", [$user_class->id]);
+        perform_query("DELETE FROM gangapps WHERE applicant = ?", [$user_class->id]);
         perform_query("UPDATE grpgusers SET gang = ? WHERE id = ?", [$gang_class->id, $user_class->id]);
         echo Message("You have joined $gang_class->formattedname.");
         Gang_Event($gang_class->id, "[-_USERID_-] has joined the gang.", $user_class->id);
-        perform_query("DELETE FROM gangcontest WHERE userid = ?", $user_class->id);
+        perform_query("DELETE FROM gangcontest WHERE userid = ?", [$user_class->id]);
         perform_query("INSERT INTO gangcontest (userid,gangid) VALUES (?,?)", [$user_class->id, $gang_class->id]);
     }
 }
