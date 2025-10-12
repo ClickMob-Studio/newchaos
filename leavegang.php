@@ -34,7 +34,7 @@ include 'header.php';
                 AddToArmory($user_class->eqarmor, $user_class->gang);
                 perform_query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?", [$user_class->id]);
             }
-            if ($user_class->shoesloaned == 1) {
+            if ($user_class->shoeloaned == 1) {
                 AddToArmory($user_class->eqshoes, $user_class->gang);
                 perform_query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?", [$user_class->id]);
             }
