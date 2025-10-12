@@ -6,7 +6,7 @@ include 'header.php';
     <div class='pad'>
         <?php
         $gang_class = new Gang($user_class->gang);
-        if ($gang_class->leader == $user_class->id) {
+        if (isset($gang_class->leader) && $gang_class->leader == $user_class->id) {
             echo Message("Leaders can't leave their own gang.");
             include("gangheaders.php");
             include 'footer.php';
