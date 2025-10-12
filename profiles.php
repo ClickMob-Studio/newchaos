@@ -2769,7 +2769,7 @@ $" . prettynum($worked2['cost']) . "<br>
                                     <td><b>Quote:</b></td>
                                     <td>
                                         <input type='text' name='quote' size="85" maxlength="300" value="<?php
-                                        echo strip_tags($profile_class->quote);
+                                        echo !empty($profile_class->quote) ? strip_tags($profile_class->quote) : '';
                                         ?>">
                                     </td>
                                 </tr>
