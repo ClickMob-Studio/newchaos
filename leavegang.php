@@ -57,6 +57,8 @@ include 'header.php';
             Gang_Event($gang_class->id, "[-_USERID_-] has left the gang.", $user_class->id);
             perform_query("UPDATE grpgusers SET gang = 0, gangwait = 1240, grank = 0, gangmail = 0 WHERE id= ?", [$user_class->id]);
             echo Message("You have left your gang.");
+
+            invalidateFormattedName($user_class->id);
         }
         include("gangheaders.php");
         include "footer.php";
