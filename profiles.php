@@ -2696,7 +2696,7 @@ $" . prettynum($worked2['cost']) . "<br>
                     if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[_a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email)) {
                         $message .= "<td>Your new email address is invalid.</td>";
                     }
-                    if ($message != "") {
+                    if (isset($message) && $message != "") {
                         echo Message($message);
                     } else {
                         perform_query("UPDATE grpgusers SET avatar = ?, quote = ?, gender = ?, username = ?, signature = ?, music = ?, volume = ?, email = ? WHERE id = ?", [$avatar, $quote, $gender, $username, $signature, $music, $volume, $email, $profile_class->id]);
