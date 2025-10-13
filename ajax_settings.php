@@ -118,7 +118,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'avatar') {
 }
 
 if (isset($_POST['action']) && $_POST['action'] == 'quote') {
-    $data = htmlspecialchars($_POST['quote'] ?? '', ENT_QUOTES, 'UTF-8');
+    $quote = htmlspecialchars($_POST['quote'] ?? '', ENT_QUOTES, 'UTF-8');
     $db->query("UPDATE grpgusers SET quote = ? WHERE id = " . $user_class->id);
     $db->execute(array($quote));
     echo json_encode(array(

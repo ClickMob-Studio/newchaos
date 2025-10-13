@@ -70,7 +70,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id'])
         diefun('Gangs are limited to owning 4 territories. You must loose a territory before you can claim another.');
     }
 
-    $gang = $user_class->gang;
+    $gang = new Gang($user_class->gang);
 
     if ($user_rank->gangwars != 1) {
         diefun('You don\'t have permission to do this');

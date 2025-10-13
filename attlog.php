@@ -60,10 +60,10 @@ include 'header.php';
                     for ($i = 1; $i <= $count; $i++) {
                         if ($i == 1)
                             print "Pages: ";
-                        if ($i == $_GET['page'])
+                        if (isset($_GET['page']) && $i == $_GET['page'])
                             print "<b>";
                         print " <a href='?page=$i'>[$i]</a> ";
-                        if ($i == $_GET['page'])
+                        if (isset($_GET['page']) && $i == $_GET['page'])
                             print "</b>";
                     }
                     print "</td></tr>";

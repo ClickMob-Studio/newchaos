@@ -6,6 +6,11 @@ include 'header.php';
     <div class='pad'>
         <?php
         if ($user_class->gang != 0) {
+            $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+            if ($id === null || $id === false) {
+                $id = (int) $user_class->gang;
+            }
+
             $gang_class = new Gang($user_class->gang);
             $db->query("SELECT COUNT(*) FROM vlog WHERE gangid = ?");
             $db->execute([$user_class->gang]);
@@ -49,12 +54,12 @@ include 'header.php';
                 <?php
                 $range = 2;
                 if ($currentpage > 1)
-                    echo " <a href='?id={$_GET['id']}&page=1'><<</a> ";
+                    echo " <a href='?id={$id}&page=1'><<</a> ";
                 for ($x = ($currentpage - $range); $x < (($currentpage + $range) + 1); $x++)
                     if (($x > 0) && ($x <= $totalpages))
-                        echo ($x == $currentpage) ? " [<b>$x</b>] " : " <a href='?id={$_GET['id']}&page=$x'>$x</a> ";
+                        echo ($x == $currentpage) ? " [<b>$x</b>] " : " <a href='?id={$id}&page=$x'>$x</a> ";
                 if ($currentpage < $totalpages)
-                    echo " <a href='?id={$_GET['id']}&page=$totalpages'>>></a> ";
+                    echo " <a href='?id={$id}&page=$totalpages'>>></a> ";
                 print "</td></tr>";
             } else {
                 echo 'No logs found';

@@ -16,24 +16,24 @@ if (
         'spe'
     ))
 ) {
-    $stat = $_POST['stat'];
+    $stat = isset($_POST['stat']) ? $_POST['stat'] : null;
 } else {
     die("Invalid stat.");
 }
-if ($pet_class->awake >= 2000) {
+if (isset($_POST['amnt']) && $pet_class->awake >= 2000) {
     $pet_class->awake -= (round(.75 * $_POST['amnt']));
     $modifier = .46;
 } else
-    $pet_class->awake -= (round(2.5 * $_POST['amnt']));
+    $pet_class->awake -= isset($_POST['amnt']) ? (round(2.5 * $_POST['amnt'])) : 0;
 $modifier *= 1.5;
 $pet_class->awake = ($pet_class->awake < 0) ? 0 : $pet_class->awake;
-if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
+if (isset($_POST['what']) && $_POST['what'] == 'trainrefill') {
     $ptsforawake = 100 - (($pet_class->awake / $pet_class->maxawake) * 100);
     $ptsreq = 10 + ceil($ptsforawake);
     if ($ptsreq > $user_class->points)
         die("You do not have enough points to train.");
 
-    if ($_POST['amnt'] <= $pet_class->energy && $_POST['amnt'] > 0) {
+    if (isset($_POST['amnt']) && $_POST['amnt'] <= $pet_class->energy && $_POST['amnt'] > 0) {
         $add = round($egy * ($pet_class->awake / 100 * 3.14 / 2) * 1.25 * $modifier);
 
         if (isset($user_class->completeUserResearchTypesIndexedOnId[11])) {
@@ -69,8 +69,8 @@ if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
     } else
         die("You don't have enough energy.");
 }
-if (isset($_POST['what']) and $_POST['what'] == 'train') {
-    if ($_POST['amnt'] <= $pet_class->energy && $_POST['amnt'] > 0) {
+if (isset($_POST['what']) && $_POST['what'] == 'train') {
+    if (isset($_POST['amnt']) && $_POST['amnt'] <= $pet_class->energy && $_POST['amnt'] > 0) {
         $add = round($egy * ($pet_class->awake / 100 * 3.14 / 2) * 1.25 * $modifier);
         if (isset($user_class->completeUserResearchTypesIndexedOnId[11])) {
             $resAddInc = $add / 100 * 5;
@@ -90,7 +90,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'train') {
     } else
         die("You don't have enough energy.");
 }
-if (isset($_POST['what']) and $_POST['what'] == 'refill') {
+if (isset($_POST['what']) && $_POST['what'] == 'refill') {
     if (
         in_array($_POST['att'], array(
             'energy',
@@ -98,7 +98,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'refill') {
             'both'
         ))
     ) {
-        $att = $_POST['att'];
+        $att = isset($_POST['att']) ? $_POST['att'] : null;
     } else {
         die("Invalid stat.");
     }

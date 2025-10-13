@@ -12,7 +12,6 @@ if (isset($currentQuestSeason['id'])) {
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 }
-
 ?>
 
 <script>
@@ -54,7 +53,7 @@ if ($jailbreak != "") {
     if (empty($_GET['token'])) {
         echo Message("There has been a issue");
     }
-    if ($_GET['token'] != $_SESSION['tokens']) {
+    if (isset($_GET['token']) && $_GET['token'] != $_SESSION['tokens']) {
         $mes = "Something has gone wrong";
         $error = true;
     } else {

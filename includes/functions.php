@@ -846,7 +846,7 @@ function getBrowser()
     if ($i != 1) {
         if (strripos($u_agent, "Version") < strripos($u_agent, $ub)) {
             $version = $matches['version'][0];
-        } else {
+        } else if (count($matches['version']) > 1) {
             $version = $matches['version'][1];
         }
     } else {
@@ -2886,8 +2886,8 @@ function getAttackDamage($attacker, $defender)
         );
     }
 
-    $lowMaxDamage = $maxDamage / 100 * $damMinPerc;
-    $highMaxDamage = $maxDamage / 100 * $damMaxPerc;
+    $lowMaxDamage = (int) round($maxDamage / 100 * $damMinPerc);
+    $highMaxDamage = (int) round($maxDamage / 100 * $damMaxPerc);
 
     return array(
         'damage' => mt_rand($lowMaxDamage, $highMaxDamage),

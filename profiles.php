@@ -253,7 +253,7 @@ $(document).ready(function() {
                     $rating = $worked2['rating'] - 1;
                     perform_query("UPDATE grpgusers SET rating = ? WHERE id = ?", [$rating, $profile_class->id]);
                     perform_query("INSERT INTO rating (user, rater) VALUES (?, ?)", [$profile_class->id, $user_class->id]);
-                    Send_Event($profile_class->id, "You have been Rated <font color=red><b>Down</b></font> By " . $user_class->formattedname . ". Rate them back now! <a href='profiles.php?id=$user_class->id&rate=up'><img src='images/up.png'></img></a> : <a href='profiles.php?id=$user_class->id&rate=down'><img src='images/down.png'></img></a> ", $point_user->id);
+                    Send_Event($profile_class->id, "You have been Rated <font color=red><b>Down</b></font> By " . $user_class->formattedname . ". Rate them back now! <a href='profiles.php?id=$user_class->id&rate=up'><img src='images/up.png'></img></a> : <a href='profiles.php?id=$user_class->id&rate=down'><img src='images/down.png'></img></a> ", $profile_class->id);
                     echo Message("You have rated " . $profile_class->formattedname . " <font color=red>Down</font>");
                     $profile_class->rating = $profile_class->rating - 1;
                 } else
@@ -291,14 +291,14 @@ $(document).ready(function() {
             if ($profile_class->id == $worked['contactid']) {
                 perform_query("DELETE FROM contactlist WHERE playerid = ? AND contactid = ?", [$user_class->id, $profile_class->id]);
                 echo Message("You have removed $profile_class->formattedname from your friends list.");
-                Send_Event($profile_class->id, formatName($user_class->id) . " has removed you from their friends list!", $point_user->id);
+                Send_Event($profile_class->id, formatName($user_class->id) . " has removed you from their friends list!", $profile_class->id);
             } else {
                 if ($worked['type'] == 2)
                     echo Message("" . $profile_class->formattedname . " is already your enemy!");
                 else {
                     perform_query("INSERT INTO contactlist (playerid, contactid, type) VALUES (?, ?, ?)", [$user_class->id, $profile_class->id, 1]);
                     echo Message("You have added $profile_class->formattedname to your friends list.");
-                    Send_Event($profile_class->id, formatName($user_class->id) . " has added you to their friends list!", $point_user->id);
+                    Send_Event($profile_class->id, formatName($user_class->id) . " has added you to their friends list!", $profile_class->id);
                 }
             }
         }
@@ -321,51 +321,51 @@ $(document).ready(function() {
         }
         if ($user_class->admin == 1 || $user_class->gm == 1 || $user_class->fm == 1) {
             if (isset($_POST['addcpoints'])) {
-                $point_user = new User($_POST['id']);
-                $newpoints = $point_user->points + $_POST['points'];
+                $profile_class = new User($_POST['id']);
+                $newpoints = $profile_class->points + $_POST['points'];
                 perform_query("UPDATE grpgusers SET points = ? WHERE id = ?", [$newpoints, $_POST['id']]);
-                echo Message("You have added a " . prettynum($_POST['points']) . " points pack to " . $point_user->formattedname . ".");
-                Send_Event($point_user->id, "You have been credited a " . prettynum($_POST['points']) . " points pack.", $point_user->id);
+                echo Message("You have added a " . prettynum($_POST['points']) . " points pack to " . $profile_class->formattedname . ".");
+                Send_Event($profile_class->id, "You have been credited a " . prettynum($_POST['points']) . " points pack.", $profile_class->id);
             }
             if (isset($_POST['cbank'])) {
-                $point_user = new User($_POST['id']);
-                $newpoints = $point_user->bank + $_POST['bank'];
+                $profile_class = new User($_POST['id']);
+                $newpoints = $profile_class->bank + $_POST['bank'];
                 perform_query("UPDATE grpgusers SET bank = ? WHERE id = ?", [$newpoints, $_POST['id']]);
                 echo Message("You have successfully added $" . prettynum($_POST['bank']) . " to this persons bank.");
-                Send_Event($point_user->id, "$" . prettynum($_POST['bank']) . " has been added to your bank.", $point_user->id);
+                Send_Event($profile_class->id, "$" . prettynum($_POST['bank']) . " has been added to your bank.", $profile_class->id);
             }
             if (isset($_POST['cmoney'])) {
-                $point_user = new User($_POST['id']);
-                $newpoints = $point_user->money + $_POST['money'];
+                $profile_class = new User($_POST['id']);
+                $newpoints = $profile_class->money + $_POST['money'];
                 perform_query("UPDATE grpgusers SET money = ? WHERE id = ?", [$newpoints, $_POST['id']]);
                 echo Message("You have successfully added $" . prettynum($_POST['money']) . " to this persons hand.");
-                Send_Event($point_user->id, "$" . prettynum($_POST['money']) . " has been added to Hand.", $point_user->id);
+                Send_Event($profile_class->id, "$" . prettynum($_POST['money']) . " has been added to Hand.", $profile_class->id);
             }
             if (isset($_POST['cgang'])) {
-                $point_user = new User($_POST['id']);
+                $profile_class = new User($_POST['id']);
                 $newgang = $_POST['gang'];
                 perform_query("UPDATE grpgusers SET gang = ? WHERE id = ?", [$newgang, $_POST['id']]);
                 echo Message("You have successfully Changed this persons gang.");
             }
             if (isset($_POST['addcredits'])) {
-                $point_user = new User($_POST['id']);
-                $newcredits = $point_user->credits + $_POST['credits'];
+                $profile_class = new User($_POST['id']);
+                $newcredits = $profile_class->credits + $_POST['credits'];
                 perform_query("UPDATE grpgusers SET credits = ? WHERE id = ?", [$newcredits, $_POST['id']]);
-                echo Message("You have added " . prettynum($_POST['credits']) . " credits to $point_user->formattedname.");
-                Send_Event($point_user->id, "You have been credited " . prettynum($_POST['credits']) . " credits.", $point_user->id);
+                echo Message("You have added " . prettynum($_POST['credits']) . " credits to $profile_class->formattedname.");
+                Send_Event($profile_class->id, "You have been credited " . prettynum($_POST['credits']) . " credits.", $profile_class->id);
             }
 
             if (isset($_POST['senditems'])) {
-                $point_user = new User($_POST['id']);
+                $profile_class = new User($_POST['id']);
 
                 $itemId = (int) $_POST['admin_item_id'];
                 $quantity = (int) $_POST['quantity'];
                 $itemName = Item_Name($itemId);
 
-                Give_Item($itemId, $point_user->id, $quantity);
+                Give_Item($itemId, $profile_class->id, $quantity);
 
-                echo Message("You have added " . prettynum($quantity) . " x " . $itemName . " to $point_user->formattedname.");
-                Send_Event($point_user->id, "You have been credited " . prettynum($quantity) . " x." . $itemName, $point_user->id);
+                echo Message("You have added " . prettynum($quantity) . " x " . $itemName . " to $profile_class->formattedname.");
+                Send_Event($profile_class->id, "You have been credited " . prettynum($quantity) . " x." . $itemName, $profile_class->id);
             }
             if (isset($_POST['addnotes'])) {
                 perform_query("UPDATE `grpgusers` SET `notes` = ? WHERE id = ?", [$_POST['notes'], $_POST['id']]);
@@ -2852,7 +2852,7 @@ $" . prettynum($worked2['cost']) . "<br>
                                     <td><b>Signature:</b></td>
                                     <td>
                                         <textarea type='text' name='signature' cols='64' rows='6'><?php
-                                        echo strip_tags($profile_class->sig);
+                                        echo isset($profile_class->sig) ? strip_tags($profile_class->sig) : '';
                                         ?></textarea>
                                     </td>
                                 </tr>
