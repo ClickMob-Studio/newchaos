@@ -2693,7 +2693,7 @@ $" . prettynum($worked2['cost']) . "<br>
                     if (url_exists(strip_tags($_POST['avatar'])) == 0 && strip_tags($_POST['avatar']) != "") {
                         $message .= "<td>Your avatar link appears to be broken. Please check it in your browser.</td>";
                     }
-                    if (!eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $email)) {
+                    if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[_a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email)) {
                         $message .= "<td>Your new email address is invalid.</td>";
                     }
                     if ($message != "") {
