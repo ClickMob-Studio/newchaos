@@ -18,7 +18,11 @@ include 'header.php';
             if ($rows) {
                 foreach ($rows as $row) {
                     $extra_user = new User($row['extra']);
-                    $text = str_replace('[-_USERID_-]', $extra_user->formattedname, $row['text']);
+                    if (isset($extra_user->formattedname)) {
+                        $text = str_replace('[-_USERID_-]', $extra_user->formattedname, $row['text']);
+                    } else {
+                        $text = str_replace('[-_USERID_-]', 'Unknown User', $row['text']);
+                    }
                     echo '<tr>';
                     echo '<td width="70%">' . $text . '</td>';
                     echo '<td width="30%">' . date("d M Y, g:ia", $row['timesent']) . '</td>';

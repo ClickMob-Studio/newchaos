@@ -7,7 +7,7 @@ $worked = Get_Item(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
 
 <head>
 
-    <title><?php echo $worked['itemname'] ?></title>
+    <title><?php echo isset($worked['itemname']) ? $worked['itemname'] : 'Item not found'; ?></title>
 
     <style>
         * {
@@ -162,7 +162,9 @@ $worked = Get_Item(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
                     <tr>
                         <td>
                             <p style='color:white;font-size:16px;font-weight:bold;'>
-                                <center><?php echo $worked['itemname'] ?></center>
+                                <center>
+                                    <?php echo isset($worked['itemname']) ? $worked['itemname'] : 'Item not found'; ?>
+                                </center>
                             </p>
                         </td>
                     </tr>
@@ -176,9 +178,11 @@ $worked = Get_Item(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
                         <td colspan='2' class='style1'>Description</td>
                     </tr>
                     <tr>
-                        <td class='textl' align='center'><img src='<?php echo $worked['image'] ?>' width='100'
+                        <td class='textl' align='center'><img
+                                src='<?php echo isset($worked['image']) ? $worked['image'] : ''; ?>' width='100'
                                 height='100' style='border: 1px solid #000000'></td>
-                        <td class='textm2'><?php echo $worked['description'] ?></td>
+                        <td class='textm2'><?php echo isset($worked['description']) ? $worked['description'] : '???'; ?>
+                        </td>
                     </tr>
                 </table>
 
@@ -191,37 +195,39 @@ $worked = Get_Item(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
                     </tr>
                     <tr>
                         <td class='textm'>Name: </td>
-                        <td class='textr'><?php echo $worked['itemname'] ?></td>
+                        <td class='textr'>
+                            <?php echo isset($worked['itemname']) ? $worked['itemname'] : 'Item not found'; ?></td>
 
                     </tr>
                     <tr>
                         <td class='textm'>Sell Value: </td>
-                        <td class='textr'>$<?php echo prettynum($worked['cost'] * .6) ?></td>
+                        <td class='textr'>$<?php echo prettynum(isset($worked['cost']) ? $worked['cost'] * .6 : 0); ?>
+                        </td>
                     </tr>
                     <tr>
                         <td class='textm'>Shop Cost: </td>
 
-                        <td class='textr'>$<?php echo prettynum($worked['cost']) ?></td>
+                        <td class='textr'>$<?php echo prettynum(isset($worked['cost']) ? $worked['cost'] : 0); ?></td>
                     </tr>
                     <tr>
                         <td class='textm' valign='top'>Attack Bonus: </td>
                         <td class='textr'>
-                            <?php echo $worked['offense'] ?>%<br>
+                            <?php echo isset($worked['offense']) ? $worked['offense'] : 0; ?>%<br>
                         </td>
                     </tr>
                     <tr>
                         <td class='textm' valign='top'>Defense Bonus: </td>
                         <td class='textr'>
-                            <?php echo $worked['defense'] ?>%<br>
+                            <?php echo isset($worked['defense']) ? $worked['defense'] : 0; ?>%<br>
                         </td>
                     </tr>
                     <tr>
                         <td class='textm' valign='top'>Speed Bonus: </td>
-                        <td class='textr'><?php echo $worked['speed'] ?>%</td>
+                        <td class='textr'><?php echo isset($worked['speed']) ? $worked['speed'] : 0; ?>%</td>
                     </tr>
                     <tr>
                         <td class='textm' valign='top'>Required Level: </td>
-                        <td class='textr'><?php echo $worked['level'] ?></td>
+                        <td class='textr'><?php echo isset($worked['level']) ? $worked['level'] : 0; ?></td>
                     </tr>
                 </table>
 
@@ -233,7 +239,8 @@ $worked = Get_Item(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
                     </tr>
                     <tr>
                         <td class='textm' valign='top'>Gang vault: </td>
-                        <td class='textr'><?php echo ($worked['shareable'] ? 'Yes' : 'No') ?></td>
+                        <td class='textr'>
+                            <?php echo (isset($worked['shareable']) && $worked['shareable'] ? 'Yes' : 'No') ?></td>
                     </tr>
                     <tr>
                         <td class='textm' valign='top'>Tradeable on Market: </td>

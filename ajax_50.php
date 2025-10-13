@@ -336,7 +336,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'takepointbet') {
     if ($rand == 1) {
         $amnt = $fet['amnt'] * 2;
         $user_class->points -= $fet['amnt'];
-        $text = "You have lost the bet for " . number_format($fet['amnt'] . " points");
+        $text = "You have lost the bet for " . number_format($fet['amnt']) . " points";
         echo json_encode(array(
             'text' => $text,
             'points' => number_format($user_class->points)

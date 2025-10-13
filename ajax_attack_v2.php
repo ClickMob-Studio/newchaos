@@ -421,7 +421,7 @@ if ($theirhp <= 0) {
 
             // Crown the new king
             $db->query("UPDATE `grpgusers` SET `king` = ?, `queen` = 0 WHERE `id` = ?");
-            $db->execute([$user_class->city, $winner->id]);
+            $db->execute([$user_class->city, $winner]);
 
             // Send event notifications
             Send_Event($attack_person->id, "You have been defeated and lost your status as Boss of " . $cityname . ".");
@@ -436,7 +436,7 @@ if ($theirhp <= 0) {
 
             // Crown the new queen
             $db->query("UPDATE `grpgusers` SET `queen` = ?, `king` = 0 WHERE `id` = ?");
-            $db->execute([$user_class->city, $winner->id]);
+            $db->execute([$user_class->city, $winner]);
 
             // Send event notifications
             Send_Event($attack_person->id, "You have been defeated and lost your status as Under Boss of " . $cityname . ".");

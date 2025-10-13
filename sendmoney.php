@@ -5,7 +5,7 @@ include 'header.php';
 <div class='box_middle'>
     <div class='pad'>
         <?php
-        if ($_POST['sendmoney'] != "" && $user_class->level > 24) {
+        if (isset($_POST['sendmoney']) && $_POST['sendmoney'] != "" && $user_class->level > 24) {
             // Verify integers
             $_POST['amount'] = (isset($_POST['amount']) && is_numeric($_POST['amount'])) ? intval($_POST['amount']) : 0;
             $_POST['theirid'] = (isset($_POST['theirid']) && is_numeric($_POST['theirid'])) ? intval($_POST['theirid']) : 0;
@@ -14,7 +14,7 @@ include 'header.php';
             include("footer.php");
             die();
         }
-        if ($_POST['sendmoney2'] != "" && $user_class->level > 24) {
+        if (isset($_POST['sendmoney2']) && $_POST['sendmoney2'] != "" && $user_class->level > 24) {
             $money_person = new User($_POST['theirid']);
             //Validate money
             $notallowed = array('$', '-', '_', '+', '=', '<', '>');
