@@ -31,13 +31,10 @@ $event = getScheduledEvent();
                         clearInterval(intervalId);
                         intervalId = null;
                     }
-                }, 30);
+                }, 100);
             }
 
             function finish() {
-                if (doingtrain) {
-                    location.reload();
-                }
                 what = "";
                 doingtrain = false;
             }
@@ -78,24 +75,24 @@ $event = getScheduledEvent();
             </div>
         </div>
 
-            <? if (!empty($event)): ?>
-                <div class='dcPanel p-3 mb-4 event-countdown' data-end="<?= $event['end'] ?>"
-                    style="text-align:center;background-color:#3d00008a">
-                    <span>Event is on-going, all types of training is
-                        multiplied by <?= $event['multiplier'] ?>!</span>
-                    <br />
-                    <div style="margin-top:6px;color: #c8c8c8; font-weight: bold;">Event ends in
-                        <span class='countdown-text'><?= secondsToTime($event['end'] - time()) ?></span>.
-                    </div>
+        <? if (!empty($event)): ?>
+            <div class='dcPanel p-3 mb-4 event-countdown' data-end="<?= $event['end'] ?>"
+                style="text-align:center;background-color:#3d00008a">
+                <span>Event is on-going, all types of training is
+                    multiplied by <?= $event['multiplier'] ?>!</span>
+                <br />
+                <div style="margin-top:6px;color: #c8c8c8; font-weight: bold;">Event ends in
+                    <span class='countdown-text'><?= secondsToTime($event['end'] - time()) ?></span>.
                 </div>
             </div>
-        <? endif; ?>
+        </div>
+    <? endif; ?>
 
-        <?php
+    <?php
 
-        $tempItemUse = getItemTempUse($user_class->id);
-        if ($tempItemUse['gym_10_multiplier_time'] > time()) {
-            $tenXSection = "
+    $tempItemUse = getItemTempUse($user_class->id);
+    if ($tempItemUse['gym_10_multiplier_time'] > time()) {
+        $tenXSection = "
                 <tr>
                     <td><button onmousedown='start(\"strength\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"strength\", 10);'>10x Strength + Refills</button></td>
                     <td><button onmousedown='start(\"defense\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"defense\", 10);'>10x Defense + Refills</button></td>
@@ -103,11 +100,11 @@ $event = getScheduledEvent();
                     <td><button onmousedown='start(\"agility\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"agility\", 10);'>10x Agility + Refills</button></td>
                 </tr>
             ";
-        } else {
-            $tenXSection = "";
-        }
+    } else {
+        $tenXSection = "";
+    }
 
-        echo "<br />
+    echo "<br />
 <div class='contenthead floaty'>
 <span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'>
     <table id='newtables' class='altcolors' style='width:100%;'>
@@ -135,87 +132,87 @@ $event = getScheduledEvent();
         </tr>
     </table></div>";
 
-        ?>
-        <h1>Daily Stats</h1>
-        <p>Here you will find your historical gym stats, these update at rollover</p>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    ?>
+    <h1>Daily Stats</h1>
+    <p>Here you will find your historical gym stats, these update at rollover</p>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        <canvas id="statsChart" width="100" height="100"></canvas>
-        <script>
-            fetch('ajax_gym_stats.php')
-                .then(response => response.json())
-                .then(data => {
-                    const dates = data.map(item => item.record_date);
-                    const strengths = data.map(item => item.strength);
-                    const defenses = data.map(item => item.defense);
-                    const speeds = data.map(item => item.speed);
-                    const agilitys = data.map(item => item.agility);
+    <canvas id="statsChart" width="100" height="100"></canvas>
+    <script>
+        fetch('ajax_gym_stats.php')
+            .then(response => response.json())
+            .then(data => {
+                const dates = data.map(item => item.record_date);
+                const strengths = data.map(item => item.strength);
+                const defenses = data.map(item => item.defense);
+                const speeds = data.map(item => item.speed);
+                const agilitys = data.map(item => item.agility);
 
-                    const ctx = document.getElementById('statsChart').getContext('2d');
-                    const statsChart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: dates,
-                            datasets: [
-                                {
-                                    label: 'Strength',
-                                    data: strengths,
-                                    borderColor: 'red',
-                                    backgroundColor: 'rgba(255, 0, 0, 0.1)',
-                                },
-                                {
-                                    label: 'Defense',
-                                    data: defenses,
-                                    borderColor: 'green',
-                                    backgroundColor: 'rgba(0, 255, 0, 0.1)',
-                                },
-                                {
-                                    label: 'Speed',
-                                    data: speeds,
-                                    borderColor: 'blue',
-                                    backgroundColor: 'rgba(0, 0, 255, 0.1)',
-                                },
-                                {
-                                    label: 'Agility',
-                                    data: agilitys,
-                                    borderColor: 'yellow',
-                                    backgroundColor: 'rgba(0, 0, 255, 0.1)',
-                                }
-                            ]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        color: 'white' // Set Y-axis tick labels to white
-                                    }
-                                },
-                                x: {
-                                    ticks: {
-                                        color: 'white' // Set X-axis tick labels to white
-                                    }
+                const ctx = document.getElementById('statsChart').getContext('2d');
+                const statsChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [
+                            {
+                                label: 'Strength',
+                                data: strengths,
+                                borderColor: 'red',
+                                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                            },
+                            {
+                                label: 'Defense',
+                                data: defenses,
+                                borderColor: 'green',
+                                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                            },
+                            {
+                                label: 'Speed',
+                                data: speeds,
+                                borderColor: 'blue',
+                                backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                            },
+                            {
+                                label: 'Agility',
+                                data: agilitys,
+                                borderColor: 'yellow',
+                                backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: 'white' // Set Y-axis tick labels to white
                                 }
                             },
+                            x: {
+                                ticks: {
+                                    color: 'white' // Set X-axis tick labels to white
+                                }
+                            }
+                        },
+                        legend: {
+                            labels: {
+                                color: 'white' // Set legend labels to white
+                            }
+                        },
+                        plugins: {
                             legend: {
                                 labels: {
-                                    color: 'white' // Set legend labels to white
-                                }
-                            },
-                            plugins: {
-                                legend: {
-                                    labels: {
-                                        color: 'white' // Ensures text color is white
-                                    }
+                                    color: 'white' // Ensures text color is white
                                 }
                             }
                         }
-                    });
-                })
-                .catch(error => console.error('Error loading the data: ', error));
-        </script>
-        <?php
-        include 'footer.php';
-        ?>
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading the data: ', error));
+    </script>
+    <?php
+    include 'footer.php';
+    ?>

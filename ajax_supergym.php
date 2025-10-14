@@ -35,16 +35,11 @@ if (isset($_POST['multiplier']) && (int) $_POST['multiplier'] && (int) $_POST['m
 }
 
 // Additional Code for Mega Train Feature
-
 $mega_train_multiplier = (isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes') ? 10 : 1;
-
 
 $gymBonus = 0.0;
 
-$now = time();
-$db->query("SELECT * FROM scheduledevents WHERE type = 'gym' AND `start` <= ? AND `end` >= ? LIMIT 1");
-$db->execute([$now, $now]);
-$scheduledevent = $db->fetch_row(true);
+$scheduledevent = getScheduledEvent();
 if ($scheduledevent) {
     $gymBonus = (float) $scheduledevent['multiplier'];
 }

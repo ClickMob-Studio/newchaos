@@ -4130,7 +4130,7 @@ function getScheduledEvent($type = 'gym')
             return $event;
         }
 
-        $cache->delete("scheduled_event_" . $type);
+        $cache->del("scheduled_event_" . $type);
     }
 
     $db->query("SELECT * FROM scheduledevents WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
@@ -4910,3 +4910,4 @@ function checkMaintenanceIPs()
         die();
     }
 }
+
