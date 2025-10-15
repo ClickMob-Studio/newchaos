@@ -8,22 +8,32 @@ if (!isset($_SESSION['id'])) {
 
 class User_Stats
 {
-    function User_Stats($wutever)
+    public int $playersloggedin = 0;
+    public int $playersonlineinlastday = 0;
+    public int $playerstotal = 0;
+
+    public function __construct($wutever)
     {
         global $db;
 
-        $this->playersloggedin = 0;
-        $this->playersonlineinlastday = 0;
-        $this->playerstotal = 0;
         $db->query("SELECT lastactive FROM grpgusers");
         $db->execute();
         $rows = $db->fetch_row();
+        
+        if (!$rows) {
+            return;
+        }
+        
         foreach ($rows as $row) {
-            $secondsago = time() - $row['lastactive'];
-            if ($secondsago <= 3600)
+            $lastactive = $row['lastactive'] ?? 0;
+            $secondsago = time() - $lastactive;
+            
+            if ($secondsago <= 3600) {
                 $this->playersloggedin++;
-            if ($secondsago <= 86400)
+            }
+            if ($secondsago <= 86400) {
                 $this->playersonlineinlastday++;
+            }
             $this->playerstotal++;
         }
     }
@@ -143,33 +153,36 @@ class Gang
 
 class OwnedBusiness
 {
-    public $ownership_id;
-    public $user_id;
-    public $name;
-    public $rating;
-    public $employees;
-    public $vault;
-    public $earnedtoday;
-    public $business_id;
+    public int $ownership_id = 0;
+    public int $user_id = 0;
+    public string $name = '';
+    public int $rating = 0;
+    public int $employees = 0;
+    public float $vault = 0;
+    public float $earnedtoday = 0;
+    public int $business_id = 0;
 
-    function OwnedBusiness($ownership_id)
+    public function __construct(int $ownership_id)
     {
         global $db;
+        
         $db->query("SELECT * FROM OwnedBusinesses WHERE ownership_id = ?");
-        $db->execute(array($ownership_id));
+        $db->execute([$ownership_id]);
         $row = $db->fetch_row(true);
-        if (empty($row))
+        
+        if (empty($row)) {
             return;
+        }
 
         // Assign values to the properties
-        $this->ownership_id = $row['ownership_id'];
-        $this->user_id = $row['user_id'];
-        $this->name = $row['name'];
-        $this->rating = $row['rating'];
-        $this->employees = $row['employees'];
-        $this->business_id = $row['business_id'];
-        $this->vault = $row['vault'];
-        $this->earnedtoday = $row['earnedtoday'];
+        $this->ownership_id = $row['ownership_id'] ?? 0;
+        $this->user_id = $row['user_id'] ?? 0;
+        $this->name = $row['name'] ?? '';
+        $this->rating = $row['rating'] ?? 0;
+        $this->employees = $row['employees'] ?? 0;
+        $this->business_id = $row['business_id'] ?? 0;
+        $this->vault = $row['vault'] ?? 0;
+        $this->earnedtoday = $row['earnedtoday'] ?? 0;
     }
 
     public function deposit($amount)
@@ -1193,14 +1206,33 @@ class User
 }
 class GangRank
 {
-    public function __construct($rank, $notmyranks = 0)
+    public int $id = 0;
+    public string $title = '';
+    public string $color = '';
+    public int $recruit = 0;
+    public int $promote = 0;
+    public int $demote = 0;
+    public int $kick = 0;
+    public int $post = 0;
+    public int $delete = 0;
+    public int $sticky = 0;
+    public int $vault = 0;
+    public int $editgang = 0;
+    public int $sendmail = 0;
+    public int $editranks = 0;
+    public int $crime = 0;
+    public int $war = 0;
+
+    public function __construct(int $rank, int $notmyranks = 0)
     {
         global $user_class, $db;
+        
         $gang_class = (isset($GLOBALS['gang_class'])) ? $GLOBALS['gang_class'] : new Gang($user_class->gang);
 
         $db->query("SELECT * FROM ranks WHERE id = ?");
         $db->execute([$rank]);
         $field = $db->fetch_row(true);
+        
         if (empty($field)) {
             $db->query("SELECT * FROM ranks WHERE id = 1");
             $db->execute();
@@ -1211,19 +1243,38 @@ class GangRank
             return;
         }
 
-        foreach ($field as $title => $value)
+        foreach ($field as $title => $value) {
             if ($notmyranks) {
                 $this->$title = $value;
             } else {
                 $this->$title = ($user_class->leader == $user_class->id) ? 1 : $value;
             }
+        }
     }
 }
 class crewRank
 {
-    function crewRank($rank, $notmyranks = 0)
+    public int $id = 0;
+    public string $title = '';
+    public string $color = '';
+    public int $recruit = 0;
+    public int $promote = 0;
+    public int $demote = 0;
+    public int $kick = 0;
+    public int $post = 0;
+    public int $delete = 0;
+    public int $sticky = 0;
+    public int $vault = 0;
+    public int $editcrew = 0;
+    public int $sendmail = 0;
+    public int $editranks = 0;
+    public int $crime = 0;
+    public int $war = 0;
+
+    public function __construct(int $rank, int $notmyranks = 0)
     {
         global $user_class, $db;
+        
         $crew_class = (isset($GLOBALS['crew_class'])) ? $GLOBALS['crew_class'] : new crew($user_class->crew);
 
         $db->query("SELECT * FROM crewranks WHERE id = ?");
@@ -1234,6 +1285,10 @@ class crewRank
             $db->query("SELECT * FROM crewranks WHERE id = 6");
             $db->execute();
             $field = $db->fetch_row(true);
+        }
+
+        if (empty($field)) {
+            return;
         }
 
         foreach ($field as $title => $value) {
@@ -1247,7 +1302,42 @@ class crewRank
 }
 class Pet
 {
-    function __construct($userid)
+    public int $userid = 0;
+    public string $pname = '';
+    public int $level = 1;
+    public int $exp = 0;
+    public int $maxexp = 0;
+    public int $exppercent = 0;
+    public string $formattedexp = '';
+    public int $hp = 0;
+    public int $maxhp = 0;
+    public int $hppercent = 0;
+    public string $formattedhp = '';
+    public int $energy = 0;
+    public int $maxenergy = 0;
+    public int $energypercent = 0;
+    public string $formattedenergy = '';
+    public int $nerve = 0;
+    public int $maxnerve = 0;
+    public int $nervepercent = 0;
+    public string $formattednerve = '';
+    public int $awake = 0;
+    public int $maxawake = 0;
+    public int $awakepercent = 0;
+    public string $formattedawake = '';
+    public int $str = 0;
+    public int $def = 0;
+    public int $spe = 0;
+    public int $strength = 0;
+    public int $defense = 0;
+    public int $speed = 0;
+    public int $totalatri = 0;
+    public int $house = 0;
+    public string $housename = 'Homeless';
+    public int $houseawake = 100;
+    public string $coloredname = '';
+
+    public function __construct(int $userid)
     {
         global $db;
 
@@ -1260,13 +1350,15 @@ class Pet
         }
 
         foreach ($row as $key => $value) {
-            $this->$key = $value;
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
         }
 
-        $this->strength = $row['str'];
-        $this->defense = $row['def'];
-        $this->speed = $row['spe'];
-        $this->totalatri = $row['spe'] + $row['def'] + $row['str'];
+        $this->strength = $row['str'] ?? 0;
+        $this->defense = $row['def'] ?? 0;
+        $this->speed = $row['spe'] ?? 0;
+        $this->totalatri = ($row['spe'] ?? 0) + ($row['def'] ?? 0) + ($row['str'] ?? 0);
         $this->maxhp = $this->level * 50;
         $this->maxexp = experience($this->level + 1);
         $this->hppercent = floor($this->hp / $this->maxhp * 100);
@@ -1281,22 +1373,26 @@ class Pet
         $db->query("SELECT name, awake FROM pethouses WHERE id = ?");
         $db->execute([$this->house]);
         $house = $db->fetch_row(true);
-        $this->housename = $house['name'] ?? 'Homeless';
-        $this->houseawake = $house['awake'] ?? 100;
+        
+        if (!empty($house)) {
+            $this->housename = $house['name'] ?? 'Homeless';
+            $this->houseawake = $house['awake'] ?? 100;
+        }
 
         $this->maxawake = $this->houseawake;
         $this->awakepercent = floor(($this->awake / $this->maxawake) * 100);
         $this->formattedawake = prettynum($this->awake) . " / " . prettynum($this->maxawake) . " [" . $this->awakepercent . "%]";
         $this->exppercent = ($this->exp == 0) ? 0 : floor(($this->exp / $this->maxexp) * 100);
         $this->formattedexp = prettynum($this->exp) . " / " . prettynum($this->maxexp) . " [" . $this->exppercent . "%]";
-        while ($this->exp >= $this->maxexp and $this->exp > 0) {
+        
+        while ($this->exp >= $this->maxexp && $this->exp > 0) {
             $this->exp -= $this->maxexp;
             $this->level++;
             $this->maxexp = experience($this->level + 1);
             $newhp = ($this->level + 1) * 50;
             Send_Event($userid, "Your pet has just gained a level.");
 
-            $db->query("UPDATE pets SET level = level +1, hp = ?, energy = ? + 1, nerve = ? + 1, exp = ? WHERE userid = ?");
+            $db->query("UPDATE pets SET level = level + 1, hp = ?, energy = ? + 1, nerve = ? + 1, exp = ? WHERE userid = ?");
             $db->execute([
                 $newhp,
                 $this->maxenergy,
@@ -1307,41 +1403,59 @@ class Pet
         }
     }
 
-    function formatName()
+    public function formatName(): string
     {
         $colors = explode("|", $this->coloredname);
-        if ($this->coloredname != "FFFFFF|FFFFFF")
+        if ($this->coloredname != "FFFFFF|FFFFFF") {
             return "<a href='petprofile.php?id=$this->userid'><b>" . text_gradient($colors[0], $colors[1], 1, $this->pname) . "</b></a>";
-        else
+        } else {
             return "<a href='petprofile.php?id=$this->userid'>" . $this->pname . "</a>";
+        }
     }
 
-    static function petName($userid, $coloredname, $pname)
+    public static function petName(int $userid, string $coloredname, string $pname): string
     {
         $colors = explode("|", $coloredname);
-        if ($coloredname != "FFFFFF|FFFFFF")
+        if ($coloredname != "FFFFFF|FFFFFF") {
             return "<a href='petprofile.php?id=$userid'><b>" . text_gradient($colors[0], $colors[1], 1, $pname) . "</b></a>";
-        else
+        } else {
             return "<a href='petprofile.php?id=$userid'>" . $pname . "</a>";
+        }
     }
 }
 
 class formatGang
 {
-    function __construct($id)
+    public string $tag = '';
+    public string $name = '';
+    public string $formattedTag = '';
+    public int $id = 0;
+    public array $colors = [];
+
+    public function __construct(int $id)
     {
         global $db;
-        $db->query("SELECT tag, name, tColor1, tColor2, tColor3, formattedTag FROM gangs WHERE id = $id");
-        $db->execute();
+        
+        $db->query("SELECT tag, name, tColor1, tColor2, tColor3, formattedTag FROM gangs WHERE id = ?");
+        $db->execute([$id]);
         $r = $db->fetch_row(true);
 
-        $this->tag = $r['tag'];
-        $this->name = $r['name'];
-        $this->formattedTag = $r['formattedTag'];
+        if (empty($r)) {
+            return;
+        }
+
+        $this->tag = $r['tag'] ?? '';
+        $this->name = $r['name'] ?? '';
+        $this->formattedTag = $r['formattedTag'] ?? '';
         $this->id = $id;
-        $this->colors = array($r['tColor1'], $r['tColor2'], $r['tColor3']);
+        $this->colors = [
+            $r['tColor1'] ?? '',
+            $r['tColor2'] ?? '',
+            $r['tColor3'] ?? ''
+        ];
     }
-    function formatName()
+
+    public function formatName(): string
     {
         $name = $this->name;
         if ($this->formattedTag == 'Yes') {
@@ -1353,14 +1467,16 @@ class formatGang
         }
         return "<a href='viewgang.php?id=$this->id'>" . $name . "</a>";
     }
-    function formatTag()
+
+    public function formatTag(): string
     {
         if ($this->formattedTag == 'Yes') {
             $tag = str_split($this->tag);
             $this->tag = "";
             $c = 0;
-            foreach ($tag as $letter)
+            foreach ($tag as $letter) {
                 $this->tag .= "<span style='color: #{$this->colors[$c++]}'>$letter</span>";
+            }
         }
         return "<a href='viewgang.php?id=$this->id'>[" . $this->tag . "]</a>";
     }
