@@ -12,7 +12,7 @@ class User_Stats
     public int $playersonlineinlastday = 0;
     public int $playerstotal = 0;
 
-    public function __construct($wutever)
+    public function __construct(mixed $param = null)
     {
         global $db;
 
