@@ -40,26 +40,6 @@ function formatNameFast(int $id, array $usersMap, bool $viewerIsAdmin, int $view
     return htmlspecialchars((string) $u['username'], ENT_QUOTES, 'UTF-8');
 }
 
-// ordinal (1st, 2nd, 3rd, 4th...)
-function ordinal(int $n): string
-{
-    $suffix = 'th';
-    if ($n % 100 < 11 || $n % 100 > 13) {
-        switch ($n % 10) {
-            case 1:
-                $suffix = 'st';
-                break;
-            case 2:
-                $suffix = 'nd';
-                break;
-            case 3:
-                $suffix = 'rd';
-                break;
-        }
-    }
-    return $n . $suffix;
-}
-
 /**
  * DATA FETCH
  */
