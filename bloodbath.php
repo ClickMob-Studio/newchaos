@@ -67,18 +67,19 @@ foreach ($donators as $r)
 foreach ($categories as $label => $prizes) {
     $col = str_replace(' ', '', $label);
 
+    $lim = (int) $nor;
     $sql = "
-      SELECT b.userid, b.`$col` AS metric
-      FROM bbusers b
-      JOIN grpgusers g ON g.id = b.userid
-      WHERE b.`$col` <> 0
-        AND g.lastactive > UNIX_TIMESTAMP() - (86400 * 7)
-        AND g.admin = 0
-      ORDER BY b.`$col` DESC
-      LIMIT ?
-    ";
+  SELECT b.userid, b.`$col` AS metric
+  FROM bbusers b
+  JOIN grpgusers g ON g.id = b.userid
+  WHERE b.`$col` <> 0
+    AND g.lastactive > UNIX_TIMESTAMP() - (86400 * 7)
+    AND g.admin = 0
+  ORDER BY b.`$col` DESC
+  LIMIT $lim
+";
     $db->query($sql);
-    $db->execute([$nor]);
+    $db->execute();
     $rows = $db->fetch_row() ?: [];
     $topsByCategory[$label] = $rows;
 
