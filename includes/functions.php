@@ -2697,7 +2697,7 @@ function resetUserPrestigeSkills($id)
     $cache->del("userPrestigeSkills:{$id}");
 }
 
-function getBpCategory($overrideId = null)
+function getBpCategory($overrideId = null): array
 {
     global $db;
 
@@ -2721,7 +2721,7 @@ function getBpCategory($overrideId = null)
         }
     }
 
-    return null;
+    return [];
 }
 
 function getBpCategoryChallenges($bpCategory)
@@ -2781,6 +2781,10 @@ function displayBpCategoryPrize($bpCategoryPrize)
 function getBpCategoryUser($bpCategory, $user_class)
 {
     global $db;
+
+    if (!is_array($bpCategory)) {
+        $bpCategory = getBpCategory($bpCategory);
+    }
 
     if (isset($bpCategory['id'])) {
         $db->query("SELECT * FROM bp_category_user WHERE user_id = ? AND bp_category_id = ? LIMIT 1");
