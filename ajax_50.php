@@ -400,7 +400,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'takecreditbet') {
     if ($rand == 1) {
         $amnt = $fet['amnt'] * 2;
         $user_class->credits -= $fet['amnt'];
-        $text = "You have lost the bet for " . number_format($fet['amnt'] . " credits");
+        $text = "You have lost the bet for " . number_format($fet['amnt']) . " credits";
         echo json_encode(array(
             'text' => $text,
             'credits' => number_format($user_class->credits)
