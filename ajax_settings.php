@@ -192,6 +192,20 @@ if (isset($_POST["action"]) && $_POST["action"] == "cdisplay") {
         "text" => "You have updated your mobile display settings"
     ));
 }
+if (isset($_POST["action"]) && $_POST["action"] == "update_stats_abbreviation") {
+    $isStatsAbbreviated = intval($_POST['is_stats_abbreviated']);
+    if ($isStatsAbbreviated != 1 && $isStatsAbbreviated != 0) {
+        echo json_encode(array(
+            'text' => 'You did not select a correct value'
+        ));
+        exit;
+    }
+    $db->query("UPDATE grpgusers SET is_stats_abbreviated = ? WHERE id = " . $user_class->id);
+    $db->execute(array($isStatsAbbreviated));
+    echo json_encode(array(
+        "text" => "You have updated your statistics display settings"
+    ));
+}
 if (isset($_POST["action"]) && $_POST["action"] == "privacy") {
     $privacy = intval($_POST['privacy']);
     if ($privacy != 1 && $privacy != 0) {

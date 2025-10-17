@@ -1470,32 +1470,31 @@ $no2 = $db->num_rows();
                                         <div class="col-2 d-flex align-items-center"><i
                                                 class="mx-auto fas fa-dollar-sign"></i></div>
                                         <div class="col-10 d-flex align-items-center">$<div class="money">
-                                                <?= shorthandNumber($user_class->money); ?>
+                                                <?= $user_class->is_stats_abbreviated ? shorthandNumber($user_class->money) : prettynum($user_class->money); ?>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row my-1 g-0">
-
                                         <div class="col-2 d-flex align-items-center"><i
                                                 class="mx-auto fas fa-piggy-bank"></i></div>
                                         <div class="col-10 d-flex align-items-center"><a href="bank.php?h_deposit=cash"
-                                                style="text-decoration: none;">$<?= shorthandNumber($user_class->bank); ?>
-                                        </div>
-                                        </a>
+                                                style="text-decoration: none;">$
+                                                <?= $user_class->is_stats_abbreviated ? shorthandNumber($user_class->bank) : prettynum($user_class->bank); ?>
+                                            </a></div>
                                     </div>
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i class="mx-auto far fa-gem"></i>
                                         </div>
                                         <div class="col-10 d-flex align-items-center points">
-                                            <?= shorthandNumber($user_class->points); ?>
+                                            <?= $user_class->is_stats_abbreviated ? shorthandNumber($user_class->points) : prettynum($user_class->points); ?>
                                         </div>
                                     </div>
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
-                                                class="mx-auto fab fa-medium-m"></i>
-                                        </div>
+                                                class="mx-auto fab fa-medium-m"></i></div>
                                         <div class="col-10 d-flex align-items-center credits"><a href="store.php"
-                                                style="text-decoration: none;"><?= shorthandNumber($user_class->credits); ?>
+                                                style="text-decoration: none;">
+                                                <?= $user_class->is_stats_abbreviated ? shorthandNumber($user_class->credits) : prettynum($user_class->credits); ?>
                                             </a></div>
                                     </div>
                                 </div>
