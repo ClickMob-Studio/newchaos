@@ -1,20 +1,20 @@
 <?php
+if ($user_class->admin != 1) {
+    exit;
+}
+
 require "header.php";
 ?>
 <div class='box_top'>Upgrade Store Sale</div>
 <div class='box_middle'>
     <div class='pad'>
         <?php
-        if ($user_class->admin != 1) {
-            exit;
-        }
-
         $monthStartDate = new \DateTime('first day of this month');
         $monthEndDate = new \DateTime('last day of this month');
 
         $db->query("SELECT SUM(paymentamount) AS totalSpent FROM ipn WHERE date >= ? AND date <= ?");
-        $db->execute();
-        $rowMonthDonations = $db->fetch_row(true, [$monthStartDate->getTimestamp(), $monthEndDate->getTimestamp()]);
+        $db->execute([$monthStartDate->getTimestamp(), $monthEndDate->getTimestamp()]);
+        $rowMonthDonations = $db->fetch_row(true, );
         $monthDonations = $rowMonthDonations["totalSpent"];
 
         // Fetch month by month total income
