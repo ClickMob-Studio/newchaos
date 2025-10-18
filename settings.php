@@ -246,6 +246,27 @@ include 'header.php';
             });
         });
     });
+    $(document).ready(function () {
+        $("#updateStatsDisplayBtn").click(function () {
+            var isStatsAbbreviated = $("#isStatsAbbreviatedSelect").val();
+            $.ajax({
+                url: '/ajax_settings.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    action: 'update_stats_abbreviation',
+                    is_stats_abbreviated: isStatsAbbreviated
+                },
+                success: function (response) {
+                    $('.info-alert').html(response.text).show();
+                    window.location.reload();
+                },
+                error: function () {
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
+    });
     document.addEventListener('DOMContentLoaded', function () {
         const refillButton = document.querySelector('.nerve-action');
         refillButton.addEventListener('click', function (event) {
@@ -522,6 +543,17 @@ include 'header.php';
             </select>
             <button id="updateChatDisplayBtn" type="button">Update Mobile Display</button>
         </div>
+
+        <div class="col-md-4 col-6">
+            <h1>Abbreviate Statistics?</h1>
+            <p>Use abbreviated statistics in header space.</p>
+            <select id="isStatsAbbreviatedSelect">
+                <option value="1" <?php echo $user_class->is_stats_abbreviated == 1 ? 'selected' : ''; ?>>Yes</option>
+                <option value="0" <?php echo $user_class->is_stats_abbreviated == 0 ? 'selected' : ''; ?>>No</option>
+            </select>
+            <button id="updateStatsDisplayBtn" type="button">Update Statistics Display</button>
+        </div>
+
         <?php if ($user_class->aprotection > time()): ?>
             <div class="col-md-4 col-6">
                 <h1>Remove Attack Protection</h1>
