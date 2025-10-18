@@ -87,6 +87,7 @@ function step_otd_awards(): array
 
     foreach ($otds as [$col, $type, $pts]) {
         $db->query("SELECT userid, $col AS score FROM ofthes WHERE $col > 0 ORDER BY $col DESC LIMIT 1");
+        $db->execute();
         $row = $db->fetch_row(true);
         if ($row && !empty($row['userid'])) {
             $db->query($checkAwardSql);
@@ -107,6 +108,7 @@ function step_otd_awards(): array
 
     // Leveller OTD
     $db->query("SELECT id, todaysexp FROM grpgusers WHERE todaysexp > 0 ORDER BY todaysexp DESC LIMIT 1");
+    $db->execute();
     if ($row = $db->fetch_row(true)) {
         $db->query($checkAwardSql);
         $already = $db->fetch_row(true, ['Leveller OTD', $today]);
@@ -125,6 +127,7 @@ function step_otd_awards(): array
 
     // Most Money Mugged Today
     $db->query("SELECT id, tamt FROM grpgusers WHERE tamt > 0 ORDER BY tamt DESC LIMIT 1");
+    $db->execute();
     if ($row = $db->fetch_row(true)) {
         $db->query($checkAwardSql);
         $already = $db->fetch_row(true, ['Most Mugged Today', $today]);
@@ -141,7 +144,6 @@ function step_otd_awards(): array
         }
     }
 
-    // reset ofthes counters
     perform_query("UPDATE ofthes SET baotd = 0, botd = 0, motd = 0, kotd = 0");
 
     return ['awarded' => $awarded];

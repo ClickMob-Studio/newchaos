@@ -265,10 +265,7 @@ $viewerId = (int) $user_class->id;
                 <?php endforeach; ?>
 
                 <?php
-                // Optional: show viewer's rank (originally done for id==682; now generic & efficient)
-                // Only if viewer is NOT already in top list and has a non-zero metric in the last week.
                 if ($viewerId && !in_array($viewerId, $topIds, true)) {
-                    // 1) Get viewer's metric
                     $db->query("
                 SELECT b.`$col` AS metric
                 FROM bbusers b
@@ -280,15 +277,14 @@ $viewerId = (int) $user_class->id;
                     $myMetric = (int) ($db->fetch_single() ?? 0);
 
                     if ($myMetric > 0) {
-                        // 2) Dense rank = 1 + count of distinct values greater than my value
                         $db->query("
-                    SELECT 1 + COUNT(DISTINCT b.`$col`) AS rnk
-                    FROM bbusers b
-                    JOIN grpgusers g ON g.id = b.userid
-                    WHERE b.`$col` > ?
-                      AND g.lastactive > UNIX_TIMESTAMP() - (86400 * 7)
-                      AND g.admin = 0
-                ");
+                            SELECT 1 + COUNT(*) AS rnk
+                            FROM bbusers b
+                            JOIN grpgusers g ON g.id = b.userid
+                            WHERE b.`$col` > ?
+                            AND g.lastactive > UNIX_TIMESTAMP() - (86400 * 7)
+                            AND g.admin = 0;
+                        ");
                         $db->execute([$myMetric]);
                         $myRank = (int) ($db->fetch_single() ?? 0);
 
@@ -311,7 +307,6 @@ $viewerId = (int) $user_class->id;
 
 <script>
     (function () {
-        // Client-side countdown (no server polling)
         const el = document.getElementById('bb-countdown');
         if (!el) return;
         const end = parseInt(el.dataset.end, 10) * 1000;
