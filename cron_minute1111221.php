@@ -32,15 +32,7 @@ include_once 'classes.php';
 include_once 'database/pdo_class.php';
 include_once 'includes/functions.php';
 
-$db->query("SELECT GET_LOCK('minute_cron',5) AS l");
-$got = (int) ($db->fetch_row(true)['l'] ?? 0);
-if (!$got) {
-    logc('lock busy, exiting');
-    exit;
-}
 try {
-
-
     $db->query("SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs, agm.backalleys FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.completed = 0");
     $db->execute();
     $activeMissions = $db->fetch_row();
@@ -914,8 +906,7 @@ awake = LEAST(
     WHERE a.id != b.id");
 
     Send_Event(1059, "Minute CRON completed successfully.");
-} finally {
-    $db->query("SELECT RELEASE_LOCK('minute_cron')");
-    $db->fetch_row(true);
-    logc('RELEASE lock');
+} catch (Exception $e) {
+    error_log($e->getMessage());
+    Send_Event(1059, "Minute CRON encountered an error: " . $e->getMessage());
 }

@@ -348,7 +348,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'takepointbet') {
         Send_Event($fet['userid'], "[-_USERID_-] took your bet of " . $fet['amnt'] . " points and you won", $user_class->id);
         log50($fet['userid'], $user_class->id, $fet['userid'], $fet['amnt'], 'points');
     } else {
-        $text = "You have won the bet for " . number_format($fet['amnt'] . " points");
+        $text = "You have won the bet for " . number_format($fet['amnt']) . " points";
         $user_class->points += $fet['amnt'];
         echo json_encode(array(
             'text' => $text,
@@ -413,7 +413,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'takecreditbet') {
         log50($fet['userid'], $user_class->id, $fet['userid'], $fet['amnt'], 'credits');
     } else {
         $user_class->credits = $fet['amnt'];
-        $text = "You have won the bet for " . number_format($fet['amnt'] . " credits");
+        $text = "You have won the bet for " . number_format($fet['amnt']) . " credits";
         echo json_encode(array(
             'text' => $text,
             'credits' => number_format($user_class->credits)
