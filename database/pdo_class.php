@@ -54,7 +54,6 @@ class database
         $this->num_queries++;
         try {
             $this->stmt = $this->db->prepare($query);
-            $this->stmtExecuted = false;
         } catch (PDOException $e) {
             echo '<p><strong>QUERY ERROR</strong></p>' . $e->getMessage();
             error_log($e->getMessage() . ' - ' . $_SERVER['PHP_SELF'] . ' - ' . __FILE__, 0);
@@ -66,7 +65,6 @@ class database
     {
         try {
             $this->db->prepare($query);
-            $this->stmtExecuted = false;
         } catch (PDOException $e) {
             echo '<p><strong>QUERY (PREPARE) ERROR</strong></p>' . $e->getMessage();
             error_log($e->getMessage() . ' - ' . $_SERVER['PHP_SELF'] . ' - ' . __FILE__, 0);
@@ -102,16 +100,11 @@ class database
     {
         if (!isset($this->stmt))
             return false;
-
         try {
-            if (!empty($binds) && count($binds) > 0) {
-
-                $this->stmtExecuted = true;
+            if (!empty($binds) && count($binds) > 0)
                 return $this->stmt->execute($binds);
-            } else {
-                $this->stmtExecuted = true;
+            else
                 return $this->stmt->execute();
-            }
         } catch (PDOException $e) {
             echo "<p><strong>EXECUTION ERROR</strong></p>" . $e->getMessage() . " " . $this->last_query;
             error_log($e->getMessage() . ' - ' . $_SERVER['PHP_SELF'] . ' - ' . __FILE__, 0);
@@ -123,17 +116,18 @@ class database
     {
         if (!isset($this->stmt))
             return null;
-
         try {
-            if ($binds !== null) {
-                $this->execute($binds);
-            } elseif (!$this->stmtExecuted) {
-                $this->execute();
+            if (!$this->stmtExecuted) {
+                if ($binds !== null) {
+                    $this->stmt->execute($binds);
+                    $this->stmtExecuted = true;
+                } else {
+                    $this->execute(); // sets flag
+                }
             }
-
             $ret = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($shifted === true) {
-                $ret = array_shift($ret) ?: null;
+                $ret = array_shift($ret) ?: null; // ensure null on empty
             }
             return $ret;
         } catch (PDOException $e) {
@@ -146,13 +140,14 @@ class database
         if (!isset($this->stmt))
             return null;
         try {
-            if ($binds !== null) {
-
-                $this->execute($binds);
-            } elseif (!$this->stmtExecuted) {
-                $this->execute();
+            if (!$this->stmtExecuted) {
+                if ($binds !== null) {
+                    $this->stmt->execute($binds);
+                    $this->stmtExecuted = true;
+                } else {
+                    $this->execute();
+                }
             }
-
             return $this->stmt->fetchColumn(0);
         } catch (PDOException $e) {
             exit('<p><strong>FETCH SINGLE ERROR</strong></p>' . $e->getMessage());
@@ -164,11 +159,13 @@ class database
         if (!isset($this->stmt))
             return null;
         try {
-            if ($binds !== null) {
-
-                $this->execute($binds);
-            } elseif (!$this->stmtExecuted) {
-                $this->execute();
+            if (!$this->stmtExecuted) {
+                if ($binds !== null) {
+                    $this->stmt->execute($binds);
+                    $this->stmtExecuted = true;
+                } else {
+                    $this->execute();
+                }
             }
             return $this->stmt->fetch(PDO::FETCH_OBJ) ?: null;
         } catch (PDOException $e) {
