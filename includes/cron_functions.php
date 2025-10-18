@@ -449,3 +449,110 @@ function step_cleanup(): array
     }
     return ['extra_deleted' => $extra];
 }
+
+function step_gang_territory_payouts(): array
+{
+    global $db;
+
+    $summary = ['zones' => 0, 'members' => 0, 'points' => 0, 'money' => 0, 'raidtokens' => 0, 'items' => 0];
+
+    // Get all zones that are owned by a gang
+    $db->query("SELECT * FROM gang_territory_zone WHERE owned_by_gang_id > 0");
+    $db->execute();
+    $gangTerritoryZones = $db->fetch_row();
+
+    if (empty($gangTerritoryZones)) {
+        return $summary;
+    }
+
+    foreach ($gangTerritoryZones as $zone) {
+        $summary['zones']++;
+        $ownedByGang = new Gang($zone['owned_by_gang_id']);
+        foreach ($ownedByGang->memberids as $member) {
+            $memberId = (int) $member['id'];
+            $summary['members']++;
+
+            // Points payout
+            if (!empty($zone['daily_points_payout']) && $zone['daily_points_payout'] > 0) {
+                $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+                $db->execute([$zone['daily_points_payout'], $memberId]);
+
+                $summary['points'] += (int) $zone['daily_points_payout'];
+
+                Send_Event(
+                    $memberId,
+                    'You gained ' . number_format($zone['daily_points_payout'], 0) .
+                    ' points for your gang\'s protection racket ' . $zone['name']
+                );
+            }
+
+            // Money payout + bank_log (transactional)
+            if (!empty($zone['daily_money_payout']) && $zone['daily_money_payout'] > 0) {
+                $us = new User($memberId);
+                $newBankBalance = $us->bank + (int) $zone['daily_money_payout'];
+                $amount = (int) $zone['daily_money_payout'];
+
+                try {
+                    $db->startTrans();
+
+                    // Update bank
+                    $db->query("UPDATE grpgusers SET bank = bank + ? WHERE id = ?");
+                    if (!$db->execute([$amount, $memberId])) {
+                        throw new Exception("Failed to update bank for user ID: {$memberId}");
+                    }
+
+                    // Log the deposit
+                    $db->query("INSERT INTO bank_log (`userid`, `amount`, `action`, `newbalance`, `timestamp`)
+                                VALUES (?, ?, ?, ?, ?)");
+                    if (!$db->execute([$memberId, $amount, 'mdep', $newBankBalance, time()])) {
+                        throw new Exception("Failed to insert bank log for user ID: {$memberId}");
+                    }
+
+                    $db->endTrans();
+
+                    $summary['money'] += $amount;
+
+                    Send_Event(
+                        $memberId,
+                        'You gained $' . number_format($amount, 0) .
+                        ' for your gang\'s protection racket ' . $zone['name']
+                    );
+                } catch (Exception $e) {
+                    $db->cancelTransaction();
+                    error_log($e->getMessage());
+                }
+            }
+
+            // Raid token payout
+            if (!empty($zone['daily_raid_tokens_payout']) && $zone['daily_raid_tokens_payout'] > 0) {
+                $db->query("UPDATE grpgusers SET raidtokens = raidtokens + ? WHERE id = ?");
+                $db->execute([(int) $zone['daily_raid_tokens_payout'], $memberId]);
+
+                $summary['raidtokens'] += (int) $zone['daily_raid_tokens_payout'];
+
+                Send_Event(
+                    $memberId,
+                    'You gained ' . number_format($zone['daily_raid_tokens_payout'], 0) .
+                    ' Raid Tokens for your gang\'s protection racket ' . $zone['name']
+                );
+            }
+
+            // Item payout
+            if (!empty($zone['daily_item_payout']) && $zone['daily_item_payout'] > 0) {
+                $itemId = (int) $zone['daily_item_payout'];
+                $itemname = Item_Name($itemId);
+                Give_Item($itemId, $memberId, 1);
+
+                $summary['items'] += 1;
+
+                Send_Event(
+                    $memberId,
+                    'You gained 1 x ' . $itemname .
+                    ' for your gang\'s protection racket ' . $zone['name']
+                );
+            }
+        }
+    }
+
+    return $summary;
+}

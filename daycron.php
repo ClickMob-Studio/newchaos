@@ -28,16 +28,8 @@ $steps = [
     ['I: Gang competition', 'step_gang_competition'],
     ['J: Cleanup', 'step_cleanup'],
     ['K: Decrement ban days', 'step_ban_expiry'],
+    ['L: Protection Racket Payouts', 'step_gang_territory_payouts'],
 ];
-
-global $db;
-$db->query("SELECT GET_LOCK('daily_cron', 10) AS l");
-$got = (int) ($db->fetch_row(true)['l'] ?? 0);
-if (!$got) {
-    logCronError('daily_cron', new RuntimeException('Another instance is running, exiting.'));
-    exit;
-}
-
 
 $results = [];
 try {
@@ -67,3 +59,5 @@ foreach ($results as $r) {
         echo "  -> " . $r['error'] . "\n";
     }
 }
+
+Send_Event(1059, 'Daily cron finished (all steps).');
