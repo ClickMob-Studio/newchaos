@@ -17,9 +17,13 @@ function logc($m)
 }
 logc('ENTER minute cron');
 
+
+
 define('VERBOSE', true);
 
 chdir(__DIR__);
+
+@set_time_limit(300);
 
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
