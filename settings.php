@@ -546,7 +546,7 @@ include 'header.php';
 
         <div class="col-md-4 col-6">
             <h1>Abbreviate Statistics?</h1>
-            <p>Use abbreviate statistics in header space.</p>
+            <p>Use abbreviated statistics in header space.</p>
             <select id="isStatsAbbreviatedSelect">
                 <option value="1" <?php echo $user_class->is_stats_abbreviated == 1 ? 'selected' : ''; ?>>Yes</option>
                 <option value="0" <?php echo $user_class->is_stats_abbreviated == 0 ? 'selected' : ''; ?>>No</option>
