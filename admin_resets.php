@@ -22,6 +22,7 @@ $steps = [
     ['I: Gang competition', 'step_gang_competition'],
     ['J: Cleanup', 'step_cleanup'],
     ['K: Decrement ban days', 'step_ban_expiry'],
+    ['L: Protection Racket Payouts', 'step_gang_territory_payouts'],
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['do_reset'])) {
