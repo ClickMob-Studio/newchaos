@@ -1,9 +1,11 @@
 <?php
+
+require "header.php";
+
 if ($user_class->admin != 1) {
     exit;
 }
 
-require "header.php";
 ?>
 <div class='box_top'>Upgrade Store Sale</div>
 <div class='box_middle'>
