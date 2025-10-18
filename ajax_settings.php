@@ -200,8 +200,8 @@ if (isset($_POST["action"]) && $_POST["action"] == "update_stats_abbreviation") 
         ));
         exit;
     }
-    $db->query("UPDATE grpgusers SET is_stats_abbreviated = ? WHERE id = " . $user_class->id);
-    $db->execute(array($isStatsAbbreviated));
+    $db->query("UPDATE grpgusers SET is_stats_abbreviated = ? WHERE id = ?");
+    $db->execute(array($isStatsAbbreviated, $user_class->id));
     echo json_encode(array(
         "text" => "You have updated your statistics display settings"
     ));
