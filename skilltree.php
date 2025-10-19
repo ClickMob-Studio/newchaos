@@ -213,378 +213,373 @@ $unlockedSkills = empty($user_class->skill_ids) ? [] : array_map('strval', explo
     window.tippy = window.tippy || window['tippy'];
 </script>
 
+<!-- Tippy + Popper -->
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-away.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/dark.css">
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.min.js"></script>
+
+<!-- Cytoscape and Extensions -->
+<script src="https://unpkg.com/cytoscape@3.28.0/dist/cytoscape.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-popper@1.0.7/cytoscape-popper.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/elkjs/lib/elk.bundled.js"></script>
+<script src="assets/js/cytoscape-elk.min.js"></script>
+
 <script>
-    window.initSkilltree = window.initSkilltree || (function () {
-        let initialized = false;
+    cytoscape.use(cytoscapeElk);
+    cytoscape.use(cytoscapePopper);
 
-        // register plugins once globally
-        if (!window.__cytoscapePluginsSet) {
-            if (typeof cytoscapeElk !== "undefined") cytoscape.use(cytoscapeElk);
-            if (typeof cytoscapePopper !== "undefined") cytoscape.use(cytoscapePopper);
-            window.__cytoscapePluginsSet = true;
+    var panBounds = {
+        minX: -500,
+        maxX: 1000,
+        minY: -500,
+        maxY: 1000,
+    };
+
+    var playerSkillPoints = <?php echo $playerSkillPoints; ?>;
+    var unlockedSkillIds = <?php echo json_encode($unlockedSkills); ?>;
+    var skillTreeValues = <?php echo json_encode(array_values($skilltree)); ?>;
+    var interactive = <?php echo json_encode($interactive); ?>;
+
+    var elements = [];
+    skillTreeValues.forEach(skill => {
+        let classes = "";
+        if (unlockedSkillIds.includes(String(skill.id))) {
+            classes += 'unlocked ';
         }
 
-        return function initSkilltree() {
-            if (initialized) return;       // idempotent
-            initialized = true;
+        if (!skill.parent) {
+            classes += 'core';
+        }
 
-            cytoscape.use(cytoscapeElk);
-            cytoscape.use(cytoscapePopper);
+        let edgeClasses = "";
+        if (skill.parent) {
+            if (unlockedSkillIds.includes(String(skill.parent))) {
+                edgeClasses += 'edge-available ';
+            } else {
+                edgeClasses += 'edge-locked ';
+            }
+        }
 
-            var panBounds = {
-                minX: -500,
-                maxX: 1000,
-                minY: -500,
-                maxY: 1000,
-            };
-
-            var playerSkillPoints = <?php echo $playerSkillPoints; ?>;
-            var unlockedSkillIds = <?php echo json_encode($unlockedSkills); ?>;
-            var skillTreeValues = <?php echo json_encode(array_values($skilltree)); ?>;
-            var interactive = <?php echo json_encode($interactive); ?>;
-
-            var elements = [];
-            skillTreeValues.forEach(skill => {
-                let classes = "";
-                if (unlockedSkillIds.includes(String(skill.id))) {
-                    classes += 'unlocked ';
-                }
-
-                if (!skill.parent) {
-                    classes += 'core';
-                }
-
-                let edgeClasses = "";
-                if (skill.parent) {
-                    if (unlockedSkillIds.includes(String(skill.parent))) {
-                        edgeClasses += 'edge-available ';
-                    } else {
-                        edgeClasses += 'edge-locked ';
-                    }
-                }
-
-                elements.push({
-                    data: {
-                        id: String(skill.id),
-                        label: skill.title,
-                        description: skill.description,
-                        icon: skill.icon,
-                    },
-                    classes: classes,
-                    style: {
-                        'background-image': [
-                            'url(css/images/skilltree/node_bg.png)',
-                            `url(css/images/skilltree/${skill.icon})`,
-                        ],
-                        'background-fit': ['cover', 'contain'],
-                        'background-clip': ['node', 'node'],
-                        'background-width-relative-to': 'inner',
-                        'background-height-relative-to': 'inner',
-                    },
-                });
-
-                if (skill.parent) {
-                    elements.push({
-                        data: { source: String(skill.parent), target: String(skill.id) },
-                        classes: edgeClasses,
-                    });
-                }
-            });
-
-            var skillTree = cytoscape({
-                container: document.getElementById('skill-tree'),
-                elements: elements,
-                style: [
-                    {
-                        selector: 'core',
-                        style: {
-                            'active-bg-opacity': 0,
-                        }
-                    },
-                    {
-                        selector: 'node:active',
-                        style: {
-                            'overlay-opacity': 0,
-                        },
-                    },
-                    {
-                        selector: 'node:selected',
-                        style: {
-                            'transition-property': 'border-width border-color',
-                        }
-                    },
-                    {
-                        selector: 'node.selected-pulse-a',
-                        style: {
-                            'transition-property': 'border-width border-color',
-                            'border-width': 2,
-                            'border-color': '#888',
-                        }
-                    },
-                    {
-                        selector: 'node.selected-pulse-b',
-                        style: {
-                            'transition-property': 'border-width border-color',
-                            'border-width': 4,
-                            'border-color': '#aaa',
-                        }
-                    },
-                    {
-                        selector: 'node.unlocked',
-                        style: {
-                            'border-width': 3,
-                            'border-color': '#FFDC00',
-                            'border-opacity': 1,
-                        }
-                    },
-                    {
-                        selector: 'node',
-                        style: {
-                            'background-image': 'css/images/2025/node-bg.png',
-                            'shape': 'ellipse',
-                            'width': 60,
-                            'height': 60,
-                            'background-color': 'transparent',
-                            'background-fit': 'cover',
-                            'color': '#fff',
-                            'text-valign': 'center',
-                            'text-halign': 'center',
-                            'font-size': '28px',
-                        }
-                    },
-                    {
-                        selector: 'node.core',
-                        style: {
-                            'width': 80,
-                            'height': 80,
-                            'background-color': '#FF851B',
-                            'border-color': '#FFDC00',
-                            'border-width': 4,
-                            'font-size': '32px',
-                            'text-outline-width': 2,
-                            'text-outline-color': '#000'
-                        }
-                    },
-                    {
-                        selector: 'edge.edge-available',
-                        style: {
-                            'line-color': '#aaa',
-                            'width': 2
-                        }
-                    },
-                    {
-                        selector: 'edge.edge-locked',
-                        style: {
-                            'line-color': '#555',
-                            'width': 2
-                        }
-                    },
-                    {
-                        selector: 'edge:selected',
-                        style: {
-                            'overlay-opacity': 0,
-                        }
-                    }
+        elements.push({
+            data: {
+                id: String(skill.id),
+                label: skill.title,
+                description: skill.description,
+                icon: skill.icon,
+            },
+            classes: classes,
+            style: {
+                'background-image': [
+                    'url(css/images/skilltree/node_bg.png)',
+                    `url(css/images/skilltree/${skill.icon})`,
                 ],
-                layout: {
-                    name: "elk",
-                    elk: {
-                        algorithm: 'radial',
-                    },
-                },
-                minZoom: 0.5,
-                maxZoom: 2,
-                zoomingEnabled: true,
-                userZoomingEnabled: true,
+                'background-fit': ['cover', 'contain'],
+                'background-clip': ['node', 'node'],
+                'background-width-relative-to': 'inner',
+                'background-height-relative-to': 'inner',
+            },
+        });
+
+        if (skill.parent) {
+            elements.push({
+                data: { source: String(skill.parent), target: String(skill.id) },
+                classes: edgeClasses,
             });
-
-            skillTree.ready(function () {
-                skillTree.fit(null, 24);
-                skillTree.nodes().ungrabify();
-
-                skillTree.nodes().forEach(function (node) {
-                    const description = node.data('description') || 'No description';
-                    const ref = node.popperRef();
-                    node.tippy = tippy(document.body, {
-                        content: createTooltipContent(node),
-                        allowHTML: true,
-                        theme: 'dark',
-                        getReferenceClientRect: node.popperRef().getBoundingClientRect,
-                        appendTo: document.body,
-                        animation: 'shift-away',
-                        duration: [250, 150],
-                        arrow: false,
-                        interactive: true,
-                        trigger: 'manual',
-                    });
-                    node.on('mouseover', () => node.tippy.show());
-                    node.on('mouseout', () => node.tippy.hide());
-                });
-            });
-
-            skillTree.on('pan', function () {
-                let pan = skillTree.pan();
-                const clampedPan = {
-                    x: Math.min(panBounds.maxX, Math.max(panBounds.minX, pan.x)),
-                    y: Math.min(panBounds.maxY, Math.max(panBounds.minY, pan.y))
-                };
-                if (pan.x !== clampedPan.x || pan.y !== clampedPan.y) {
-                    skillTree.pan(clampedPan);
-                }
-            });
-
-            skillTree.on('zoom', function () {
-                zoom = skillTree.zoom();
-                panBounds = {
-                    minX: Math.min(-750, -750 * zoom),
-                    maxX: Math.max(1000, 1000 * zoom),
-                    minY: Math.min(-750, -750 * zoom),
-                    maxY: Math.max(1000, 1000 * zoom),
-                };
-            });
-
-            const infoBox = document.getElementById('skill-info');
-            const skillTitle = document.getElementById('skill-title');
-            const skillDesc = document.getElementById('skill-description');
-            const skillIcon = document.getElementById('skill-icon');
-            const skillError = document.getElementById('skill-error');
-            const claimButton = document.getElementById('claim-skill');
-
-            let pulseInterval = null;
-            skillTree.nodes().on('select', (e) => {
-                const node = e.target;
-                const data = node.data();
-
-                // Check if parent is unlocked
-                const incomingEdges = node.incomers('edge');
-                const parents = incomingEdges.map(edge => edge.source().id());
-                if (parents.length === 0) {
-                    infoBox.classList.remove('show');
-                    return;
-                }
-
-                const parentUnlocked = parents.length === 0 || parents.every(id => unlockedSkillIds.includes(id));
-
-                skillTitle.textContent = data.label;
-                skillDesc.textContent = data.description || '';
-                skillIcon.src = `css/images/skilltree/${data.icon || 'default.png'}`;
-                skillError.textContent = '';
-                claimButton.style.display = 'none';
-
-                if (interactive) {
-                    if (!parentUnlocked) {
-                        skillError.textContent = "Parent skill needs to be unlocked before you can unlock this skill.";
-                    } else if (unlockedSkillIds.includes(data.id)) {
-                        skillError.textContent = "Skill already unlocked.";
-                    } else if (playerSkillPoints <= 0) {
-                        skillError.textContent = "Not enough skill points to unlock.";
-                    } else {
-                        claimButton.style.display = 'inline-block';
-                    }
-                }
-
-                startPulse(node);
-
-                claimButton.onclick = () => {
-                    // Make ajax request to `ajax_skilltree.php?action=claim_skill&skill=${data.id}`
-                    fetch(`ajax_skilltree.php?action=claim_skill&skill=${data.id}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                        .then(response => response.json())
-                        .then(result => {
-                            if (result.error) {
-                                skillError.textContent = result.error;
-                            } else {
-                                skillError.textContent = "Skill already unlocked.";
-                                claimButton.style.display = 'none';
-                                unlockedSkillIds.push(data.id);
-                                document.getElementById('skill-points').textContent = result.remaining_points;
-
-                                node.unselect();
-                                stopPulse(node);
-                                setTimeout(() => node.select(), 50);
-
-                                const outgoingEdges = node.outgoers('edge');
-                                outgoingEdges.forEach(edge => {
-                                    edge.removeClass('edge-locked'); // Optional: in case both classes conflict
-                                    edge.addClass('edge-available');
-                                });
-
-                                node.addClass('unlocked');
-                                node.style('border-color', '#FFDC00');
-                                node.style('border-width', 3);
-                            }
-                        });
-                };
-
-                infoBox.classList.add('show');
-            });
-
-            skillTree.nodes().on('unselect', (e) => {
-                stopPulse(e.target)
-            });
-
-            skillTree.on('tap', (e) => {
-                if (e.target === skillTree) {
-                    infoBox.classList.remove('show');
-                }
-            });
-
-            function createTooltipContent(node) {
-                const title = node.data('label');
-                const desc = node.data('description') || "Something went wrong!";
-
-                return `
-            <div class="tooltip-container">
-              <h4 class="tooltip-title">${title}</h4>
-              <p class="tooltip-desc">${desc}</p>
-            </div>
-          `;
-            }
-
-            const originalStyles = new Map();
-            function startPulse(node) {
-                const id = node.id();
-                if (!originalStyles.has(id)) {
-                    originalStyles.set(id, {
-                        borderWidth: node.style('border-width'),
-                        borderColor: node.style('border-color')
-                    });
-                }
-
-                function pulseOut() {
-                    node.animate({
-                        style: {
-                            'border-width': '3px',
-                            'border-color': '#aaa'
-                        }
-                    }, {
-                        duration: 1000,
-                        complete: pulseIn
-                    });
-                }
-
-                function pulseIn() {
-                    node.animate({
-                        style: {
-                            'border-width': '2px',
-                            'border-color': '#888'
-                        }
-                    }, {
-                        duration: 1000,
-                        complete: pulseOut
-                    });
-                }
-
-                pulseOut();
-
-            }
-
         }
-    })();
+    });
+
+    var skillTree = cytoscape({
+        container: document.getElementById('skill-tree'),
+        elements: elements,
+        style: [
+            {
+                selector: 'core',
+                style: {
+                    'active-bg-opacity': 0,
+                }
+            },
+            {
+                selector: 'node:active',
+                style: {
+                    'overlay-opacity': 0,
+                },
+            },
+            {
+                selector: 'node:selected',
+                style: {
+                    'transition-property': 'border-width border-color',
+                }
+            },
+            {
+                selector: 'node.selected-pulse-a',
+                style: {
+                    'transition-property': 'border-width border-color',
+                    'border-width': 2,
+                    'border-color': '#888',
+                }
+            },
+            {
+                selector: 'node.selected-pulse-b',
+                style: {
+                    'transition-property': 'border-width border-color',
+                    'border-width': 4,
+                    'border-color': '#aaa',
+                }
+            },
+            {
+                selector: 'node.unlocked',
+                style: {
+                    'border-width': 3,
+                    'border-color': '#FFDC00',
+                    'border-opacity': 1,
+                }
+            },
+            {
+                selector: 'node',
+                style: {
+                    'background-image': 'css/images/2025/node-bg.png',
+                    'shape': 'ellipse',
+                    'width': 60,
+                    'height': 60,
+                    'background-color': 'transparent',
+                    'background-fit': 'cover',
+                    'color': '#fff',
+                    'text-valign': 'center',
+                    'text-halign': 'center',
+                    'font-size': '28px',
+                }
+            },
+            {
+                selector: 'node.core',
+                style: {
+                    'width': 80,
+                    'height': 80,
+                    'background-color': '#FF851B',
+                    'border-color': '#FFDC00',
+                    'border-width': 4,
+                    'font-size': '32px',
+                    'text-outline-width': 2,
+                    'text-outline-color': '#000'
+                }
+            },
+            {
+                selector: 'edge.edge-available',
+                style: {
+                    'line-color': '#aaa',
+                    'width': 2
+                }
+            },
+            {
+                selector: 'edge.edge-locked',
+                style: {
+                    'line-color': '#555',
+                    'width': 2
+                }
+            },
+            {
+                selector: 'edge:selected',
+                style: {
+                    'overlay-opacity': 0,
+                }
+            }
+        ],
+        layout: {
+            name: "elk",
+            elk: {
+                algorithm: 'radial',
+            },
+        },
+        minZoom: 0.5,
+        maxZoom: 2,
+        zoomingEnabled: true,
+        userZoomingEnabled: true,
+    });
+
+    skillTree.ready(function () {
+        skillTree.fit(null, 24);
+        skillTree.nodes().ungrabify();
+
+        skillTree.nodes().forEach(function (node) {
+            const description = node.data('description') || 'No description';
+            const ref = node.popperRef();
+            node.tippy = tippy(document.body, {
+                content: createTooltipContent(node),
+                allowHTML: true,
+                theme: 'dark',
+                getReferenceClientRect: node.popperRef().getBoundingClientRect,
+                appendTo: document.body,
+                animation: 'shift-away',
+                duration: [250, 150],
+                arrow: false,
+                interactive: true,
+                trigger: 'manual',
+            });
+            node.on('mouseover', () => node.tippy.show());
+            node.on('mouseout', () => node.tippy.hide());
+        });
+    });
+
+    skillTree.on('pan', function () {
+        let pan = skillTree.pan();
+        const clampedPan = {
+            x: Math.min(panBounds.maxX, Math.max(panBounds.minX, pan.x)),
+            y: Math.min(panBounds.maxY, Math.max(panBounds.minY, pan.y))
+        };
+        if (pan.x !== clampedPan.x || pan.y !== clampedPan.y) {
+            skillTree.pan(clampedPan);
+        }
+    });
+
+    skillTree.on('zoom', function () {
+        zoom = skillTree.zoom();
+        panBounds = {
+            minX: Math.min(-750, -750 * zoom),
+            maxX: Math.max(1000, 1000 * zoom),
+            minY: Math.min(-750, -750 * zoom),
+            maxY: Math.max(1000, 1000 * zoom),
+        };
+    });
+
+    const infoBox = document.getElementById('skill-info');
+    const skillTitle = document.getElementById('skill-title');
+    const skillDesc = document.getElementById('skill-description');
+    const skillIcon = document.getElementById('skill-icon');
+    const skillError = document.getElementById('skill-error');
+    const claimButton = document.getElementById('claim-skill');
+
+    let pulseInterval = null;
+    skillTree.nodes().on('select', (e) => {
+        const node = e.target;
+        const data = node.data();
+
+        // Check if parent is unlocked
+        const incomingEdges = node.incomers('edge');
+        const parents = incomingEdges.map(edge => edge.source().id());
+        if (parents.length === 0) {
+            infoBox.classList.remove('show');
+            return;
+        }
+
+        const parentUnlocked = parents.length === 0 || parents.every(id => unlockedSkillIds.includes(id));
+
+        skillTitle.textContent = data.label;
+        skillDesc.textContent = data.description || '';
+        skillIcon.src = `css/images/skilltree/${data.icon || 'default.png'}`;
+        skillError.textContent = '';
+        claimButton.style.display = 'none';
+
+        if (interactive) {
+            if (!parentUnlocked) {
+                skillError.textContent = "Parent skill needs to be unlocked before you can unlock this skill.";
+            } else if (unlockedSkillIds.includes(data.id)) {
+                skillError.textContent = "Skill already unlocked.";
+            } else if (playerSkillPoints <= 0) {
+                skillError.textContent = "Not enough skill points to unlock.";
+            } else {
+                claimButton.style.display = 'inline-block';
+            }
+        }
+
+        startPulse(node);
+
+        claimButton.onclick = () => {
+            // Make ajax request to `ajax_skilltree.php?action=claim_skill&skill=${data.id}`
+            fetch(`ajax_skilltree.php?action=claim_skill&skill=${data.id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.error) {
+                        skillError.textContent = result.error;
+                    } else {
+                        skillError.textContent = "Skill already unlocked.";
+                        claimButton.style.display = 'none';
+                        unlockedSkillIds.push(data.id);
+                        document.getElementById('skill-points').textContent = result.remaining_points;
+
+                        node.unselect();
+                        stopPulse(node);
+                        setTimeout(() => node.select(), 50);
+
+                        const outgoingEdges = node.outgoers('edge');
+                        outgoingEdges.forEach(edge => {
+                            edge.removeClass('edge-locked'); // Optional: in case both classes conflict
+                            edge.addClass('edge-available');
+                        });
+
+                        node.addClass('unlocked');
+                        node.style('border-color', '#FFDC00');
+                        node.style('border-width', 3);
+                    }
+                });
+        };
+
+        infoBox.classList.add('show');
+    });
+
+    skillTree.nodes().on('unselect', (e) => {
+        stopPulse(e.target)
+    });
+
+    skillTree.on('tap', (e) => {
+        if (e.target === skillTree) {
+            infoBox.classList.remove('show');
+        }
+    });
+
+    function createTooltipContent(node) {
+        const title = node.data('label');
+        const desc = node.data('description') || "Something went wrong!";
+
+        return `
+    <div class="tooltip-container">
+      <h4 class="tooltip-title">${title}</h4>
+      <p class="tooltip-desc">${desc}</p>
+    </div>
+  `;
+    }
+
+    const originalStyles = new Map();
+    function startPulse(node) {
+        const id = node.id();
+        if (!originalStyles.has(id)) {
+            originalStyles.set(id, {
+                borderWidth: node.style('border-width'),
+                borderColor: node.style('border-color')
+            });
+        }
+
+        function pulseOut() {
+            node.animate({
+                style: {
+                    'border-width': '3px',
+                    'border-color': '#aaa'
+                }
+            }, {
+                duration: 1000,
+                complete: pulseIn
+            });
+        }
+
+        function pulseIn() {
+            node.animate({
+                style: {
+                    'border-width': '2px',
+                    'border-color': '#888'
+                }
+            }, {
+                duration: 1000,
+                complete: pulseOut
+            });
+        }
+
+        pulseOut();
+    }
 
     function stopPulse(node) {
         node.stop();
