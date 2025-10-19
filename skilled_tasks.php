@@ -11,7 +11,7 @@ if (!empty($user_class->skills)) {
     $unlockedSkills = array_map('strval', $user_class->skills);
 }
 ?>
-
+<script src="/assets/js/cytoscape-elk.min.js"></script>
 <style>
     .task-list {
         display: flex;
