@@ -4427,7 +4427,6 @@ function get_skilltree_from_skill($id)
 
     $skillTreeId = $db->fetch_single();
     if ($skillTreeId) {
-        echo $skillTreeId;
         return get_skilltree($skillTreeId);
     }
 
