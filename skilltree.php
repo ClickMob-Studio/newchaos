@@ -485,6 +485,7 @@ $unlockedSkills = empty($user_class->skill_ids) ? [] : array_map('strval', explo
                     skillError.textContent = "Parent skill needs to be unlocked before you can unlock this skill.";
                 } else if (unlockedSkillIds.includes(data.id)) {
                     skillError.textContent = "Skill already unlocked.";
+                    skillError.style.color = "green";
                 } else if (playerSkillPoints <= 0) {
                     skillError.textContent = "Not enough skill points to unlock.";
                 } else {
