@@ -288,26 +288,11 @@ if (!empty($user_class->skills)) {
         <div id="skilltree-wrapper" style="height:700px;"></div>
 
         <script>
-            function libsReady() {
-                return !!(window.cytoscape && window.cytoscapeElk && window.tippy);
-            }
-            function whenLibsReady(cb) {
-                if (libsReady()) return cb();
-                const iv = setInterval(() => {
-                    if (libsReady()) { clearInterval(iv); cb(); }
-                }, 30);
-            }
-
             $('#skilltree-wrapper').load('skilltree.php', function (response, status, xhr) {
                 if (status === "error") {
                     console.error("Skill tree failed to load:", xhr.status, xhr.statusText);
                     $('#skilltree-wrapper').html('<p>Failed to load skill tree.</p>');
-                    return;
                 }
-
-                whenLibsReady(() => {
-                    if (typeof window.initSkilltree === 'function') window.initSkilltree();
-                });
             });
         </script>
     <?php endif; ?>
