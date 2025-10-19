@@ -673,21 +673,6 @@ $no2 = $db->num_rows();
 
     <script src="/assets/js/cc-countdown.js"></script>
 
-    <!-- Tippy + Popper -->
-    <link id="tippy-anim" rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-away.css" defer>
-    <link id="tippy-theme-dark" rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/dark.css" defer>
-    <script id="popper-js" src="https://unpkg.com/@popperjs/core@2" defer></script>
-    <script id="tippy-js" src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.min.js" defer></script>
-
-    <!-- Cytoscape and Extensions -->
-    <script id="cytoscape-js" src="https://unpkg.com/cytoscape@3.28.0/dist/cytoscape.min.js" defer></script>
-    <script id="cytoscape-popper-js" src="https://cdn.jsdelivr.net/npm/cytoscape-popper@1.0.7/cytoscape-popper.js"
-        defer></script>
-
-    <!-- ELK layout -->
-    <script id="elk-js" src="https://cdn.jsdelivr.net/npm/elkjs/lib/elk.bundled.js" defer></script>
-    <script id="cytoscape-elk" src="assets/js/cytoscape-elk.min.js" defer></script>
-
     <style>
         a {
             text-decoration: none;
