@@ -174,6 +174,16 @@ $unlockedSkills = empty($user_class->skill_ids) ? [] : array_map('strval', explo
         z-index: 1000;
         pointer-events: none;
     }
+
+    #skill-title {
+        margin-block-start: 0px;
+        margin-block-end: 0px;
+    }
+
+    #skill-description {
+        margin-block-start: 0px;
+        margin-block-end: 0px;
+    }
 </style>
 
 <div>
