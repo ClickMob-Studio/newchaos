@@ -38,6 +38,20 @@ $unlockedSkills = empty($user_class->skill_ids) ? [] : array_map('strval', explo
 
 ?>
 
+<!-- Tippy + Popper -->
+<link id="tippy-anim" rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-away.css">
+<link id="tippy-theme-dark" rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/dark.css">
+<script id="popper-js" src="https://unpkg.com/@popperjs/core@2"></script>
+<script id="tippy-js" src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.min.js"></script>
+
+<!-- Cytoscape and Extensions -->
+<script id="cytoscape-js" src="https://unpkg.com/cytoscape@3.28.0/dist/cytoscape.min.js"></script>
+<script id="cytoscape-popper-js" src="https://cdn.jsdelivr.net/npm/cytoscape-popper@1.0.7/cytoscape-popper.js"></script>
+
+<!-- ELK layout -->
+<script id="elk-js" src="https://cdn.jsdelivr.net/npm/elkjs/lib/elk.bundled.js"></script>
+<script id="cytoscape-elk" src="assets/js/cytoscape-elk.min.js"></script>
+
 <style>
     <?php if (!$interactive): ?>
         body {
