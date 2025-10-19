@@ -38,6 +38,10 @@ $unlockedSkills = empty($user_class->skill_ids) ? [] : array_map('strval', explo
 
 ?>
 
+<head>
+    <link href="newassets/css/style.css?v=1714569ss35a" rel="stylesheet" type="text/css">
+</head>
+
 <style>
     <?php if (!$interactive): ?>
         body {
