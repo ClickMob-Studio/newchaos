@@ -32,24 +32,36 @@ $steps = [
 ];
 
 $results = [];
-try {
-    foreach ($steps as [$label, $fn]) {
-        if (!is_callable($fn)) {
-            $results[] = ['name' => $label, 'ok' => false, 'ms' => 0, 'error' => "Missing function: $fn"];
+foreach ($steps as [$label, $fn]) {
+    if (!is_callable($fn)) {
+        $results[] = ['name' => $label, 'ok' => false, 'ms' => 0, 'error' => "Missing function: $fn"];
+        if (function_exists('logCronError')) {
             logCronError($label, new RuntimeException("Missing function: $fn"));
-            continue;
         }
-        $results[] = runStep($label, $fn);
+        continue;
     }
 
-    foreach ([1059, 1034] as $aid) {
-        if (function_exists('Send_Event')) {
-            Send_Event($aid, 'Daily cron finished (all steps).');
+    try {
+        $results[] = runStep($label, $fn);
+    } catch (Throwable $e) {
+        // Log and record the failure but continue with the next step
+        error_log(sprintf("[%s] Step '%s' failed: %s in %s on line %d", date('c'), $label, $e->getMessage(), $e->getFile(), $e->getLine()));
+        if (function_exists('logCronError')) {
+            logCronError($label, $e);
         }
+        $results[] = [
+            'name' => $label,
+            'ok' => false,
+            'ms' => 0,
+            'error' => $e->getMessage(),
+        ];
     }
-} finally {
-    $db->query("SELECT RELEASE_LOCK('daily_cron')");
-    $db->fetch_row(true);
+}
+
+foreach ([1059, 1034] as $aid) {
+    if (function_exists('Send_Event')) {
+        Send_Event($aid, 'Daily cron finished (all steps).');
+    }
 }
 
 header('Content-Type: text/plain; charset=utf-8');

@@ -5,19 +5,20 @@ include 'header.php';
 <div class='box_middle'>
   <div class='pad'>
     <?php
-    if ($_GET['id'] == "") {
+    if (!isset($_GET['id']) || $_GET['id'] == "") {
       echo Message("You haven't picked an item.");
       include 'footer.php';
       die();
     }
     $worked = Get_Item($_GET['id']);
-    if ($worked['buyable'] == 0) {
-      echo Message("You can't sell that item.");
+    if (empty($worked) || $worked['itemname'] == "") {
+      echo Message("That isn't a real item.");
       include 'footer.php';
       die();
     }
-    if ($worked['itemname'] == "") {
-      echo Message("That isn't a real item.");
+
+    if ($worked['buyable'] == 0) {
+      echo Message("You can't sell that item.");
       include 'footer.php';
       die();
     }
@@ -51,6 +52,12 @@ include 'header.php';
     </script>
     <?php
     if (isset($_POST['submit'])) { //if they confirm they want to sell it
+      if (!isset($_POST['amount']) || $_POST['amount'] == "") {
+        echo Message("You need to enter an amount to sell.");
+        include 'footer.php';
+        die();
+      }
+
       $_POST['amount'] = intval($_POST['amount']);
       if ($_POST['amount'] < 1) {
         $error = "You need to sell at least 1";
@@ -70,8 +77,6 @@ include 'header.php';
       echo Message("You have sold " . $_POST['amount'] . " x " . $worked['itemname'] . " for $" . prettynum($price) . ".<br /><br /><a href='inventory.php'>Back to Inventory</a>");
       include 'footer.php';
       die();
-
-
     }
     ?>
     <tr>

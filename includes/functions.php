@@ -4721,7 +4721,6 @@ function cleanOldDBEntries()
     global $db;
 
     $total = 0;
-
     $timestamp = time() - (31 * 24 * 60 * 60);
 
     $db->startTrans();
