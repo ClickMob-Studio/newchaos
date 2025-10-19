@@ -142,6 +142,8 @@ $unlockedSkills = empty($user_class->skill_ids) ? [] : array_map('strval', explo
         color: #ff4d4f;
         font-weight: bold;
         margin-top: 8px;
+        margin-block-end: 0px;
+        font-size: 12px;
     }
 
     .claim-button {
@@ -482,13 +484,13 @@ $unlockedSkills = empty($user_class->skill_ids) ? [] : array_map('strval', explo
 
             if (interactive) {
                 if (!parentUnlocked) {
-                    skillError.textContent = "Parent skill needs to be unlocked before you can unlock this skill.";
+                    skillError.textContent = "Parent skill needs to be unlocked before you can unlock this skill";
                     skillError.style.color = "#ff4d4f;";
                 } else if (unlockedSkillIds.includes(data.id)) {
-                    skillError.textContent = "Skill unlocked.";
+                    skillError.textContent = "Skill unlocked";
                     skillError.style.color = "green";
                 } else if (playerSkillPoints <= 0) {
-                    skillError.textContent = "Not enough skill points to unlock.";
+                    skillError.textContent = "Not enough skill points to unlock";
                     skillError.style.color = "#ff4d4f;";
                 } else {
                     claimButton.style.display = "inline-block";
@@ -507,7 +509,7 @@ $unlockedSkills = empty($user_class->skill_ids) ? [] : array_map('strval', explo
                         if (result.error) {
                             skillError.textContent = result.error;
                         } else {
-                            skillError.textContent = "Skill already unlocked.";
+                            skillError.textContent = "Skill unlocked";
                             claimButton.style.display = "none";
                             unlockedSkillIds.push(data.id);
 
