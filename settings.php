@@ -585,7 +585,7 @@ include 'header.php';
 
             ?>
             <p style="color:<?= ($isConnected ? 'green' : 'red') ?>">
-                <?php $isConnected ? 'Connected!' : 'Not Connected!'; ?>
+                <?= ($isConnected ? 'Connected!' : 'Not Connected!') ?>
             </p>
 
             <?php if ($isConnected): ?>
