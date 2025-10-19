@@ -114,17 +114,17 @@ if (!empty($user_class->skills)) {
 </script>
 
 <!-- Tippy + Popper -->
-<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-away.css" />
+<!-- <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-away.css" />
 <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/dark.css">
 <script src="https://unpkg.com/@popperjs/core@2"></script>
-<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.min.js"></script> -->
 
 <!-- Cytoscape and Extensions -->
-<script src="https://unpkg.com/cytoscape@3.28.0/dist/cytoscape.min.js"></script>
+<!-- <script src="https://unpkg.com/cytoscape@3.28.0/dist/cytoscape.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/cytoscape-popper@1.0.7/cytoscape-popper.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/elkjs/lib/elk.bundled.js"></script>
-<script src="assets/js/cytoscape-elk.min.js"></script>
+<script src="assets/js/cytoscape-elk.min.js"></script> -->
 
 
 <div class="container">
@@ -299,34 +299,6 @@ if (!empty($user_class->skills)) {
             <iframe src="/skilltree.php" style="width:100%; height:100%; border:0;" loading="lazy"
                 referrerpolicy="no-referrer"></iframe>
         </div>
-
-        <!-- <script>
-            $('#skilltree-wrapper').load('skilltree.php', function (response, status, xhr) {
-                if (status === "error") {
-                    console.error("Skill tree failed to load:", xhr.status, xhr.statusText);
-                    $('#skilltree-wrapper').html('<p>Failed to load skill tree.</p>');
-                    return;
-                }
-
-                const start = Date.now();
-                (function waitAndFit() {
-                    if (window.__skillTree) {
-                        try {
-                            window.__skillTree.resize();
-                            window.__skillTree.fit(null, 24);
-                        } catch (e) {
-                            console.warn('Skilltree post-load fit failed:', e);
-                        }
-                        return;
-                    }
-                    if (Date.now() - start > 5000) {
-                        console.warn('Skilltree init not detected within 5s.');
-                        return;
-                    }
-                    setTimeout(waitAndFit, 30);
-                })();
-            });
-        </script> -->
     <?php endif; ?>
 </div>
 
