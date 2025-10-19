@@ -199,24 +199,25 @@ if (!empty($user_class->skills)) {
 
     <?php else: ?>
 
-        <div class="task-list" id="task-list">
-            <h2>It's a lovely day in <?php echo $user_class->cityname ?>, what will you do?</h2>
-            <!-- JS will populate this -->
-        </div>
+        <!-- <div class="task-list" id="task-list">
+            <h2>It's a lovely day in <?php
+            // echo $user_class->cityname; 
+            ?>, what will you do?</h2>
+    </div>
 
-        <div class="modal" id="task-modal">
-            <div class="modal-content">
-                <button class="close-btn" onclick="closeModal()">×</button>
-                <h3 id="task-title">Title</h3>
-                <p id="task-desc">Description here</p>
-                <p><strong>Energy:</strong> <span id="task-energy"></span></p>
-                <p><strong>Duration:</strong> <span id="task-duration"></span></p>
-                <p><strong>Required Skills:</strong> <span id="task-skills"></span></p>
-                <button class="start-button" onclick="startTask()">Start Task</button>
-            </div>
+    <div class="modal" id="task-modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <h3 id="task-title">Title</h3>
+            <p id="task-desc">Description here</p>
+            <p><strong>Energy:</strong> <span id="task-energy"></span></p>
+            <p><strong>Duration:</strong> <span id="task-duration"></span></p>
+            <p><strong>Required Skills:</strong> <span id="task-skills"></span></p>
+            <button class="start-button" onclick="startTask()">Start Task</button>
         </div>
+    </div>
 
-        <br> <br>
+    <br> <br> -->
 
         <script>
             const tasks = [
