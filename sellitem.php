@@ -62,7 +62,7 @@ include 'header.php';
       if ($_POST['amount'] < 1) {
         $error = "You need to sell at least 1";
       }
-      $error = ($howmany < $_POST['amount']) ? "You don't have that many of those." : $error;
+      $error = ($howmany < $_POST['amount']) ? "You don't have that many of those." : null;
       if (isset($error)) {
         echo Message($error);
         include 'footer.php';
