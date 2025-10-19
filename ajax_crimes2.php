@@ -330,15 +330,26 @@ if (isset($_POST['id']) || isset($data['id'])) {
             die($ftext . ".|" . number_format($user_class->points) . "|" . number_format($user_class->money) . "|" . number_format($user_class->level) . "|" . genBars());
         } elseif ($chance == 6) {
             $user_class->nerve -= $nerve;
-            $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ?, caught = caught + 1, jail = 300 WHERE id = ?");
-            $db->execute(array(
-                $nerve,
-                $user_class->id
-            ));
-            $debug['response'] = "Jail for 5 Minutes";
-            echo json_encode(array(
-                'text' => 'You were hauled off to jail for 5 minutes',
-            ));
+
+            $avoid_police = avoid_police($user_boosts);
+            $escape_police = escape_police($user_boosts);
+            if ($avoid_police || $escape_police) {
+                $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ? WHERE id = ?");
+                $db->execute([$nerve, $user_class->id]);
+
+                $debug['response'] = $avoid_police ? "Avoided police, no jail time" : "Escaped police, no jail time";
+                echo json_encode(array(
+                    'text' => $avoid_police ? 'You managed to avoid the police and escape jail time!' : 'You managed to escape the police and avoid jail time!',
+                ));
+            } else {
+                $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ?, caught = caught + 1, jail = 300 WHERE id = ?");
+                $db->execute([$nerve, $user_class->id]);
+
+                $debug['response'] = "Jail for 5 Minutes";
+                echo json_encode(array(
+                    'text' => 'You were hauled off to jail for 5 minutes',
+                ));
+            }
             die();
         } else {
             $debug['mission_nerve'] = $mission_nerve;

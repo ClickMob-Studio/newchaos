@@ -243,10 +243,18 @@ try {
         if ($attack_person->lastactive > $active) {
             Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
         }
-        $db->query("UPDATE grpgusers SET jail = ? WHERE id = ?");
-        $db->execute(array(300, $user_class->id));
 
-        echo json_encode(success("You failed and were sent to prison for 5 minutes!"));
+        $user_boosts = get_skill_boosts($user_class->skills);
+        $avoid_police = avoid_police($user_boosts);
+        $escape_police = escape_police($user_boosts);
+        if ($avoid_police || $escape_police) {
+            echo json_encode(success("You failed to mug {$attack_person->formattedname}, but managed to avoid or " . ($escape_police ? "escape" : "avoid") . " prison!"));
+        } else {
+            $db->query("UPDATE grpgusers SET jail = ? WHERE id = ?");
+            $db->execute(array(300, $user_class->id));
+
+            echo json_encode(success("You failed and were sent to prison for 5 minutes!"));
+        }
         exit;
     }
 } catch (Exception $e) {

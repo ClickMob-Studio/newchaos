@@ -327,6 +327,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db->execute([$user_class->id]);
         // Assuming the prestige level is updated in the object, you might need to refresh it or adjust the object property accordingly
         echo Message("Congratulations! You have prestiged to level " . ($user_class->prestige + 1) . ".");
+
+        invalidateFormattedName($user_class->id);
+
         $_SESSION['prestige'] = true;
     } else {
         echo Message("You must be at least level " . $prestigeLevelRequired . " to prestige.");

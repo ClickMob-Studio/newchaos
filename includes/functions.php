@@ -4552,6 +4552,30 @@ function get_skill_boosts(array $userSkillIds)
     return $merged;
 }
 
+function avoid_police($user_boosts)
+{
+    $chance = 0;
+    if (isset($user_boosts['avoid_police'])) {
+        $chance = ($user_boosts['avoid_police'] - 1) * 100;
+    }
+
+    $rng = mt_rand(1, 100);
+
+    return $rng <= $chance;
+}
+
+function escape_police($user_boosts)
+{
+    $chance = 0;
+    if (isset($user_boosts['escape_police'])) {
+        $chance = ($user_boosts['escape_police'] - 1) * 100;
+    }
+
+    $rng = mt_rand(1, 100);
+
+    return $rng <= $chance;
+}
+
 function get_maze_options()
 {
     global $db, $cache;

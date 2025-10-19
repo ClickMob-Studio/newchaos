@@ -130,18 +130,26 @@ if (isset($_POST['direction'])) {
             break;
 
         case 'jail':
-            $logDescription = "Has landed in some trouble. They are on the way to Jail!.";
+            $user_boosts = get_skill_boosts($user_class->skills);
+            $avoid_police = avoid_police($user_boosts);
+            $escape_police = escape_police($user_boosts);
+            if ($avoid_police || $escape_police) {
+                $logDescription = $avoid_police ? "Avoided the police while searching downtown." : "Escaped the police while searching downtown.";
+                perform_query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'avoid_jail', ?, UNIX_TIMESTAMP())", [$user_class->id, $logDescription]);
+                $description = "<strong style='color:green;'>" . $event['description_template'] . "</strong>";
+            } else {
+                $logDescription = "Has landed in some trouble. They are on the way to Jail!.";
 
-            $db->query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'jail', ?, UNIX_TIMESTAMP())");
-            $db->execute([$user_class->id, $logDescription]);
+                $db->query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'jail', ?, UNIX_TIMESTAMP())");
+                $db->execute([$user_class->id, $logDescription]);
 
-            $jailTime = rand($event['min_value'], $event['max_value']);
-            $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
+                $jailTime = rand($event['min_value'], $event['max_value']);
+                $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
 
-            $db->query("UPDATE grpgusers SET jail = jail + ? WHERE id = ?");
-            $db->execute([$jailTime, $user_class->id]);
+                $db->query("UPDATE grpgusers SET jail = jail + ? WHERE id = ?");
+                $db->execute([$jailTime, $user_class->id]);
+            }
             break;
-
         case 'hospital':
             $logDescription = "Has ended up getting hurt. They are on the way to the hospital!.";
             $db->query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'hospital', ?, UNIX_TIMESTAMP())");

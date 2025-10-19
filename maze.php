@@ -182,14 +182,25 @@ include 'header.php';
                     break;
 
                 case 'jail':
-                    $logDescription = "Has landed in some trouble. They are on the way to Jail!.";
-                    perform_query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'jail', ?, UNIX_TIMESTAMP())", [$user_class->id, $logDescription]);
+                    $user_boosts = get_skill_boosts($user_class->skills);
+                    $avoid_police = avoid_police($user_boosts);
+                    $escape_police = escape_police($user_boosts);
+                    if ($avoid_police || $escape_police) {
+                        $logDescription = $avoid_police ? "Avoided the police while searching downtown." : "Escaped the police while searching downtown.";
+                        perform_query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'avoid_jail', ?, UNIX_TIMESTAMP())", [$user_class->id, $logDescription]);
 
-                    $jailTime = rand($event['min_value'], $event['max_value']);
-                    $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
-                    perform_query("UPDATE grpgusers SET jail = jail + ? WHERE id = ?", [$jailTime, $user_class->id]);
+                        $description = "<strong style='color:green;'>" . $event['description_template'] . "</strong>";
+                        break;
+                    } else {
+                        $logDescription = "Has landed in some trouble. They are on the way to Jail!.";
+                        perform_query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'jail', ?, UNIX_TIMESTAMP())", [$user_class->id, $logDescription]);
 
-                    echo json_encode(['redirect' => 'jail_page.php']);
+                        $jailTime = rand($event['min_value'], $event['max_value']);
+                        $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
+                        perform_query("UPDATE grpgusers SET jail = jail + ? WHERE id = ?", [$jailTime, $user_class->id]);
+
+                        echo json_encode(['redirect' => 'jail_page.php']);
+                    }
                     exit;
 
                 case 'hospital':

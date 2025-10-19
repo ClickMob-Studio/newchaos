@@ -279,7 +279,7 @@ if (!empty($user_class->skills)) {
                 closeModal();
             }
 
-            renderTasks();
+            // renderTasks();
         </script>
 
         <div id="skilltree-wrapper" style="height:700px; position:relative;">
