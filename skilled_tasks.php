@@ -295,18 +295,33 @@ if (!empty($user_class->skills)) {
             renderTasks();
         </script>
 
-        <div id="skilltree-wrapper" style="height:700px;"></div>
+        <div id="skilltree-wrapper" style="height:700px; position:relative;"></div>
 
         <script>
             $('#skilltree-wrapper').load('skilltree.php', function (response, status, xhr) {
                 if (status === "error") {
                     console.error("Skill tree failed to load:", xhr.status, xhr.statusText);
                     $('#skilltree-wrapper').html('<p>Failed to load skill tree.</p>');
-                } else {
-                    $('#skilltree-wrapper script').each(function () {
-                        $.globalEval(this.text || this.textContent || this.innerHTML || '');
-                    });
+                    return;
                 }
+
+                const start = Date.now();
+                (function waitAndFit() {
+                    if (window.__skillTree) {
+                        try {
+                            window.__skillTree.resize();
+                            window.__skillTree.fit(null, 24);
+                        } catch (e) {
+                            console.warn('Skilltree post-load fit failed:', e);
+                        }
+                        return;
+                    }
+                    if (Date.now() - start > 5000) {
+                        console.warn('Skilltree init not detected within 5s.');
+                        return;
+                    }
+                    setTimeout(waitAndFit, 30);
+                })();
             });
         </script>
     <?php endif; ?>
