@@ -178,7 +178,7 @@ $unlockedSkills = empty($user_class->skill_ids) ? [] : array_map('strval', explo
 
 <div>
     <?php if (!empty($title)): ?>
-        <p style="font-size:36px;margin-top:6px;position:absolute;z-index:60;padding-left:16px;">
+        <p style="font-size:36px;color:white;margin-top:6px;position:absolute;z-index:60;padding-left:16px;">
             <?php echo htmlspecialchars($title); ?>
         </p>
     <?php endif; ?>
