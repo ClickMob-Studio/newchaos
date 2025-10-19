@@ -113,20 +113,6 @@ if (!empty($user_class->skills)) {
     window.tippy = window.tippy || window['tippy'];
 </script>
 
-<!-- Tippy + Popper -->
-<!-- <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-away.css" />
-<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/dark.css">
-<script src="https://unpkg.com/@popperjs/core@2"></script>
-<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.min.js"></script> -->
-
-<!-- Cytoscape and Extensions -->
-<!-- <script src="https://unpkg.com/cytoscape@3.28.0/dist/cytoscape.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/cytoscape-popper@1.0.7/cytoscape-popper.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/elkjs/lib/elk.bundled.js"></script>
-<script src="assets/js/cytoscape-elk.min.js"></script> -->
-
-
 <div class="container">
     <br>
     <h1>Criminal Actions</h1>
@@ -296,8 +282,14 @@ if (!empty($user_class->skills)) {
         </script>
 
         <div id="skilltree-wrapper" style="height:700px; position:relative;">
-            <iframe src="/skilltree.php" style="width:100%; height:100%; border:0;" loading="lazy"
-                referrerpolicy="no-referrer"></iframe>
+            <!-- <iframe src="/skilltree.php" style="width:100%; height:100%; border:0;" loading="lazy"
+                referrerpolicy="no-referrer"></iframe> -->
+            <?php
+            ob_start();
+            include __DIR__ . '/skilltree.php';
+
+            echo ob_get_clean();
+            ?>
         </div>
     <?php endif; ?>
 </div>
