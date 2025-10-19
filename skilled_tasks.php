@@ -292,10 +292,6 @@ if (!empty($user_class->skills)) {
                 if (status === "error") {
                     console.error("Skill tree failed to load:", xhr.status, xhr.statusText);
                     $('#skilltree-wrapper').html('<p>Failed to load skill tree.</p>');
-                } else {
-                    $('#skilltree-wrapper script').each(function () {
-                        $.globalEval(this.text || this.textContent || this.innerHTML || '');
-                    });
                 }
             });
         </script>
