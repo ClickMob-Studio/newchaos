@@ -282,8 +282,8 @@ if (!empty($user_class->skills)) {
         </script>
 
         <div id="skilltree-wrapper" style="height:700px; position:relative;">
-            <iframe src="/skilltree.php" style="width:100%; height:100%; border:0;" loading="lazy"
-                referrerpolicy="no-referrer"></iframe>
+            <iframe src="/skilltree.php" style="width:100%; height:100%; border:0;"
+                sandbox="allow-scripts allow-same-origin"></iframe>
         </div>
     <?php endif; ?>
 </div>
