@@ -76,47 +76,51 @@ if (!$result || empty($result)) {
     // $db->execute(['Brawler', 'brawler.png']);
 }
 
+$db->query("SELECT id FROM `skilltrees` LIMIT 1");
+$db->execute();
+$skilltreeId = $db->fetch_single();
+
 $db->query("SELECT COUNT(*) FROM `skilltree_nodes`");
 $result = $db->fetch_single();
 if (!$result || empty($result)) {
     // Insert Skilltree Nodes
     // Root
     $db->query("INSERT INTO `skilltree_nodes` (`treeid`, `title`, `description`, `icon`, `parent`) VALUES (?, ?, ?, ?, NULL)");
-    $db->execute([1, 'Skilltree', 'Carve your own path as a respectable mobster', 'root.png']);
+    $db->execute([$skilltreeId, 'Skilltree', 'Carve your own path as a respectable mobster', 'root.png']);
     // Children
     $db->query("INSERT INTO `skilltree_nodes` (`treeid`, `title`, `description`, `icon`, `parent`, `rewards`) VALUES (?, ?, ?, ?, ?, ?)");
-    $db->execute([1, 'Stealth', '-5% Chance to be caught by Police', 'stealth.png', 1, json_encode(['avoid_police' => 1.05])]);
-    $db->execute([1, 'Picklocking', '-5% Chance to be caught by Police', 'picklocking.png', 2, json_encode(['avoid_police' => 1.05])]);
-    $db->execute([1, 'Pocket Thief', '+10% Earnings in Back Alley', 'pocket_thief.png', 3, json_encode(['ba_earnings' => 1.10])]);
-    $db->execute([1, 'Directionist Master', '+10% Earnings in Back Alley and Maze', 'directionist_master.png', 4, json_encode(['ba_earnings' => 1.10, 'maze_earnings' => 1.10])]);
-    $db->execute([1, "Crow's Tools", '+25% Chance to escape Police after being caught', 'crows_tools.png', 3, json_encode(['escape_police' => 1.25])]);
-    $db->execute([1, "Escapist", '+10% Earnings from Crimes', 'escapist.png', 3, json_encode(['crime_earnings' => 1.10])]);
-    $db->execute([1, "Surveillance", '+25% Chance to escape Police after being caught', 'surveillance.png', 2, json_encode(['escape_police' => 1.25])]);
-    $db->execute([1, "Camera Setup", '+25% Chance to Successfully Spy on a Player', 'camera_setup.png', 8, json_encode(['spy_chance' => 1.25])]);
-    $db->execute([1, "Spyware Expert", '+10% Chance to Successfully Spy on a Player', 'spyware_expert.png', 9, json_encode(['spy_chance' => 1.10])]);
-    $db->execute([1, "Preparation", '+5% Earnings from Crimes and -5% Chance to be caught by Police', 'preparation.png', 8, json_encode(['crime_earnings' => 1.05, 'avoid_police' => 1.05])]);
+    $db->execute([$skilltreeId, 'Stealth', '-5% Chance to be caught by Police', 'stealth.png', 1, json_encode(['avoid_police' => 1.05])]);
+    $db->execute([$skilltreeId, 'Picklocking', '-5% Chance to be caught by Police', 'picklocking.png', 2, json_encode(['avoid_police' => 1.05])]);
+    $db->execute([$skilltreeId, 'Pocket Thief', '+10% Earnings in Back Alley', 'pocket_thief.png', 3, json_encode(['ba_earnings' => 1.10])]);
+    $db->execute([$skilltreeId, 'Directionist Master', '+10% Earnings in Back Alley and Maze', 'directionist_master.png', 4, json_encode(['ba_earnings' => 1.10, 'maze_earnings' => 1.10])]);
+    $db->execute([$skilltreeId, "Crow's Tools", '+25% Chance to escape Police after being caught', 'crows_tools.png', 3, json_encode(['escape_police' => 1.25])]);
+    $db->execute([$skilltreeId, "Escapist", '+10% Earnings from Crimes', 'escapist.png', 3, json_encode(['crime_earnings' => 1.10])]);
+    $db->execute([$skilltreeId, "Surveillance", '+25% Chance to escape Police after being caught', 'surveillance.png', 2, json_encode(['escape_police' => 1.25])]);
+    $db->execute([$skilltreeId, "Camera Setup", '+25% Chance to Successfully Spy on a Player', 'camera_setup.png', 8, json_encode(['spy_chance' => 1.25])]);
+    $db->execute([$skilltreeId, "Spyware Expert", '+10% Chance to Successfully Spy on a Player', 'spyware_expert.png', 9, json_encode(['spy_chance' => 1.10])]);
+    $db->execute([$skilltreeId, "Preparation", '+5% Earnings from Crimes and -5% Chance to be caught by Police', 'preparation.png', 8, json_encode(['crime_earnings' => 1.05, 'avoid_police' => 1.05])]);
 
-    $db->execute([1, 'Operations', '+5% Earnings from Missions', 'operations.png', 1, json_encode(['mission_earnings' => 1.05])]);
-    $db->execute([1, 'Back Alley Luck', '+10% Chance to find Gold Rush in Back Alley', 'maze_expert.png', 12, json_encode(['ba_gold_rush_chance' => 1250])]);
-    $db->execute([1, 'Gold Digger', '+10% Chance to find Gold Rush in Back Alley', 'maze_architect.png', 13, json_encode(['ba_gold_rush_chance' => 1250])]);
-    $db->execute([1, 'Logistics', '+5% Earnings from Missions', 'logistics.png', 12, json_encode(['mission_earnings' => 1.05])]);
-    $db->execute([1, 'Intel Broker', '+5% Earnings in Back Alley', 'intel_broker.png', 14, json_encode(['ba_earnings' => 1.05])]);
-    $db->execute([1, 'Special Operations', '+5% Earnings from Operations', 'special_operations.png', 14, json_encode(['operations_earnings' => 1.05])]);
-    $db->execute([1, 'Operations Director', '+5% Earnings from Missions & Operations', 'operations_director.png', 17, json_encode(['mission_earnings' => 1.05, 'operations_earnings' => 1.05])]);
-    $db->execute([1, 'Recon Specialist', '+10% Drop Rate in Raids', 'recon_specialist.png', 12, json_encode(['raid_drop_rate' => 1.10])]);
-    $db->execute([1, 'Extraction Expert', '+5% Drop Rate in Raids', 'extraction_expert.png', 19, json_encode(['raid_drop_rate' => 1.05])]);
-    $db->execute([1, 'Stamina', '+5% Stat Bonus from Gym', 'stamina.png', 19, json_encode(['gym_boost' => 1.05])]);
+    $db->execute([$skilltreeId, 'Operations', '+5% Earnings from Missions', 'operations.png', 1, json_encode(['mission_earnings' => 1.05])]);
+    $db->execute([$skilltreeId, 'Back Alley Luck', '+10% Chance to find Gold Rush in Back Alley', 'maze_expert.png', 12, json_encode(['ba_gold_rush_chance' => 1250])]);
+    $db->execute([$skilltreeId, 'Gold Digger', '+10% Chance to find Gold Rush in Back Alley', 'maze_architect.png', 13, json_encode(['ba_gold_rush_chance' => 1250])]);
+    $db->execute([$skilltreeId, 'Logistics', '+5% Earnings from Missions', 'logistics.png', 12, json_encode(['mission_earnings' => 1.05])]);
+    $db->execute([$skilltreeId, 'Intel Broker', '+5% Earnings in Back Alley', 'intel_broker.png', 14, json_encode(['ba_earnings' => 1.05])]);
+    $db->execute([$skilltreeId, 'Special Operations', '+5% Earnings from Operations', 'special_operations.png', 14, json_encode(['operations_earnings' => 1.05])]);
+    $db->execute([$skilltreeId, 'Operations Director', '+5% Earnings from Missions & Operations', 'operations_director.png', 17, json_encode(['mission_earnings' => 1.05, 'operations_earnings' => 1.05])]);
+    $db->execute([$skilltreeId, 'Recon Specialist', '+10% Drop Rate in Raids', 'recon_specialist.png', 12, json_encode(['raid_drop_rate' => 1.10])]);
+    $db->execute([$skilltreeId, 'Extraction Expert', '+5% Drop Rate in Raids', 'extraction_expert.png', 19, json_encode(['raid_drop_rate' => 1.05])]);
+    $db->execute([$skilltreeId, 'Stamina', '+5% Stat Bonus from Gym', 'stamina.png', 19, json_encode(['gym_boost' => 1.05])]);
 
-    $db->execute([1, 'Brawler', '+5% Stat Gain from Gym', 'brawler.png', 1, json_encode(['gym_boost' => 1.05])]);
-    $db->execute([1, 'Power Lifter', '+5% Stat Gain from Gym', 'power_lifter.png', 22, json_encode(['gym_boost' => 1.05])]);
-    $db->execute([1, 'Raider', '+5% Drop Rate from Raids', 'raider.png', 22, json_encode(['raid_drop_rate' => 1.05])]);
-    $db->execute([1, 'Strike Agent', '+5% Drop Rate from Raids', 'strike_agent.png', 24, json_encode(['raid_drop_rate' => 1.05])]);
-    $db->execute([1, 'Raid Architect', '+5% Drop Rate from Raids', 'raid_architect.png', 25, json_encode(['raid_drop_rate' => 1.05])]);
-    $db->execute([1, 'Tamer', '+5% Pet Stat Gain from Pet Gym', 'tamer.png', 22, json_encode(['pet_gym_boost' => 1.05])]);
-    $db->execute([1, 'Beast Master', '+10% Pet Stat Gain from Pet Gym', 'beast_master.png', 27, json_encode(['pet_gym_boost' => 1.10])]);
-    $db->execute([1, 'Beast Mind', '+10% Drop Rate from Raids', 'beast_mind.png', 28, json_encode(['raid_drop_rate' => 1.10])]);
-    $db->execute([1, 'Street Brawler', '+10% Earnings in Back Alley', 'street_brawler.png', 22, json_encode(['ba_earnings' => 1.10])]);
-    $db->execute([1, 'Street Veteran', '+10% Earnings in Back Alley', 'street_veteran.png', 30, json_encode(['ba_earnings' => 1.10])]);
+    $db->execute([$skilltreeId, 'Brawler', '+5% Stat Gain from Gym', 'brawler.png', 1, json_encode(['gym_boost' => 1.05])]);
+    $db->execute([$skilltreeId, 'Power Lifter', '+5% Stat Gain from Gym', 'power_lifter.png', 22, json_encode(['gym_boost' => 1.05])]);
+    $db->execute([$skilltreeId, 'Raider', '+5% Drop Rate from Raids', 'raider.png', 22, json_encode(['raid_drop_rate' => 1.05])]);
+    $db->execute([$skilltreeId, 'Strike Agent', '+5% Drop Rate from Raids', 'strike_agent.png', 24, json_encode(['raid_drop_rate' => 1.05])]);
+    $db->execute([$skilltreeId, 'Raid Architect', '+5% Drop Rate from Raids', 'raid_architect.png', 25, json_encode(['raid_drop_rate' => 1.05])]);
+    $db->execute([$skilltreeId, 'Tamer', '+5% Pet Stat Gain from Pet Gym', 'tamer.png', 22, json_encode(['pet_gym_boost' => 1.05])]);
+    $db->execute([$skilltreeId, 'Beast Master', '+10% Pet Stat Gain from Pet Gym', 'beast_master.png', 27, json_encode(['pet_gym_boost' => 1.10])]);
+    $db->execute([$skilltreeId, 'Beast Mind', '+10% Drop Rate from Raids', 'beast_mind.png', 28, json_encode(['raid_drop_rate' => 1.10])]);
+    $db->execute([$skilltreeId, 'Street Brawler', '+10% Earnings in Back Alley', 'street_brawler.png', 22, json_encode(['ba_earnings' => 1.10])]);
+    $db->execute([$skilltreeId, 'Street Veteran', '+10% Earnings in Back Alley', 'street_veteran.png', 30, json_encode(['ba_earnings' => 1.10])]);
 
     // Insert Stealth Skill Tree
     // Root
