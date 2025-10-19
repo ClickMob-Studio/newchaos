@@ -185,6 +185,7 @@ $unlockedSkills = empty($user_class->skill_ids) ? [] : array_map('strval', explo
     #skill-description {
         margin-block-start: 8px;
         margin-block-end: 0px;
+        font-size: 14px;
     }
 </style>
 
