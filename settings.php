@@ -578,6 +578,11 @@ include 'header.php';
 
             <?php
             $isConnected = isset($user_class->discord_user_id) && !empty($user_class->discord_user_id);
+            if (!$isConnected) {
+                $_SESSION['discord_oauth_state'] = bin2hex(random_bytes(16));
+                $state = $_SESSION['discord_oauth_state'];
+            }
+
             ?>
             <p style="color:<?= ($isConnected ? 'green' : 'red') ?>">
                 <?php $isConnected ? 'Connected!' : 'Not Connected!'; ?>
@@ -587,7 +592,7 @@ include 'header.php';
                 <button id="removeDiscordConnectionBtn" type="button">Remove Connection</button>
             <?php else: ?>
                 <a
-                    href="https://discord.com/oauth2/authorize?client_id=1429601793544945775&response_type=code&redirect_uri=https%3A%2F%2Fchaoscity.co.uk%2Fdiscord%2Fcallback.php&scope=identify+guilds.members.read">
+                    href="https://discord.com/oauth2/authorize?client_id=1429601793544945775&response_type=code&redirect_uri=https%3A%2F%2Fchaoscity.co.uk%2Fdiscord%2Fcallback.php&scope=identify+guilds.members.read&state=<?= $state; ?>">
                     <button id="updateDiscordConnectionBtn" type="button">Add Connection</button>
                 </a>
             <?php endif; ?>
