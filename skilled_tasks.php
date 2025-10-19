@@ -6,7 +6,11 @@ $unlockedSkills = [];
 if (!empty($user_class->skills)) {
     $unlockedSkills = array_map('strval', $user_class->skills);
 } else {
-    claim_specialization(1, $user_class->id);
+    $db->query("SELECT id FROM `skilltrees` LIMIT 1");
+    $db->execute();
+    $skilltreeId = $db->fetch_single();
+
+    claim_specialization($skilltreeId, $user_class->id);
     $user_class = new User($user_class->id);
     $unlockedSkills = array_map('strval', $user_class->skills);
 }
