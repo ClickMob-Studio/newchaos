@@ -295,9 +295,12 @@ if (!empty($user_class->skills)) {
             renderTasks();
         </script>
 
-        <div id="skilltree-wrapper" style="height:700px; position:relative;"></div>
+        <div id="skilltree-wrapper" style="height:700px; position:relative;">
+            <iframe src="/skilltree.php" style="width:100%; height:100%; border:0;" loading="lazy"
+                referrerpolicy="no-referrer"></iframe>
+        </div>
 
-        <script>
+        <!-- <script>
             $('#skilltree-wrapper').load('skilltree.php', function (response, status, xhr) {
                 if (status === "error") {
                     console.error("Skill tree failed to load:", xhr.status, xhr.statusText);
@@ -323,7 +326,7 @@ if (!empty($user_class->skills)) {
                     setTimeout(waitAndFit, 30);
                 })();
             });
-        </script>
+        </script> -->
     <?php endif; ?>
 </div>
 
