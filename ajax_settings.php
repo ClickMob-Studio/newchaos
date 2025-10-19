@@ -206,6 +206,13 @@ if (isset($_POST["action"]) && $_POST["action"] == "update_stats_abbreviation") 
         "text" => "You have updated your statistics display settings"
     ));
 }
+if (isset($_POST["action"]) && $_POST["action"] == "remove_discord_connection") {
+    $db->query("UPDATE grpgusers SET discord_user_id = NULL WHERE id = ?");
+    $db->execute(array($$user_class->id));
+    echo json_encode(array(
+        "text" => "You have removed your discord connection"
+    ));
+}
 if (isset($_POST["action"]) && $_POST["action"] == "privacy") {
     $privacy = intval($_POST['privacy']);
     if ($privacy != 1 && $privacy != 0) {

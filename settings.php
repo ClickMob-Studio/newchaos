@@ -266,6 +266,24 @@ include 'header.php';
                 }
             });
         });
+
+        $("#removeDiscordConnectionBtn").click(function () {
+            $.ajax({
+                url: '/ajax_settings.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    action: 'remove_discord_connection',
+                },
+                success: function (response) {
+                    $('.info-alert').html(response.text).show();
+                    window.location.reload();
+                },
+                error: function () {
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
     });
     document.addEventListener('DOMContentLoaded', function () {
         const refillButton = document.querySelector('.nerve-action');
@@ -552,6 +570,27 @@ include 'header.php';
                 <option value="0" <?php echo $user_class->is_stats_abbreviated == 0 ? 'selected' : ''; ?>>No</option>
             </select>
             <button id="updateStatsDisplayBtn" type="button">Update Statistics Display</button>
+        </div>
+
+        <div class="col-md-4 col-6">
+            <h1>Connect Discord Account?</h1>
+            <p>Link your Discord account for enhanced features.</p>
+
+            <?php
+            $isConnected = isset($user_class->discord_user_id) && !empty($user_class->discord_user_id);
+            ?>
+            <p style="color:<?= ($isConnected ? 'green' : 'red') ?>">
+                <?php $isConnected ? 'Connected!' : 'Not Connected!'; ?>
+            </p>
+
+            <?php if ($isConnected): ?>
+                <button id="removeDiscordConnectionBtn" type="button">Remove Connection</button>
+            <?php else: ?>
+                <a
+                    href="https://discord.com/oauth2/authorize?client_id=1429601793544945775&response_type=code&redirect_uri=https%3A%2F%2Fchaoscity.co.uk%2Fdiscord%2Fcallback.php&scope=identify+guilds.members.read">
+                    <button id="updateDiscordConnectionBtn" type="button">Add Connection</button>
+                </a>
+            <?php endif; ?>
         </div>
 
         <?php if ($user_class->aprotection > time()): ?>

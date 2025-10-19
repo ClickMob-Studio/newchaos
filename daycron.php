@@ -10,11 +10,11 @@ if (!isset($_GET['key']) || $_GET['key'] !== 'cron69') {
     die('Forbidden');
 }
 
-require_once __DIR__ . '/dbcon.php';
-require_once __DIR__ . '/classes.php';
-require_once __DIR__ . '/database/pdo_class.php';
-require_once __DIR__ . '/includes/functions.php';
-require_once __DIR__ . '/includes/cron_functions.php';
+require_once 'dbcon.php';
+require_once 'classes.php';
+require_once 'database/pdo_class.php';
+require_once 'includes/functions.php';
+require_once 'includes/cron_functions.php';
 
 $steps = [
     ['A: OTD awards', 'step_otd_awards'],
