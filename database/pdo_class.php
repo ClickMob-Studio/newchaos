@@ -54,6 +54,7 @@ class database
         $this->num_queries++;
         try {
             $this->stmt = $this->db->prepare($query);
+            $this->stmtExecuted = false;
         } catch (PDOException $e) {
             echo '<p><strong>QUERY ERROR</strong></p>' . $e->getMessage();
             error_log($e->getMessage() . ' - ' . $_SERVER['PHP_SELF'] . ' - ' . __FILE__, 0);
