@@ -6,11 +6,7 @@ $unlockedSkills = [];
 if (!empty($user_class->skills)) {
     $unlockedSkills = array_map('strval', $user_class->skills);
 } else {
-    $db->query("SELECT id FROM `skilltrees` LIMIT 1");
-    $db->execute();
-    $skilltreeId = $db->fetch_single();
-
-    claim_specialization($skilltreeId, $user_class->id);
+    claim_specialization(1, $user_class->id);
     $user_class = new User($user_class->id);
     $unlockedSkills = array_map('strval', $user_class->skills);
 }
@@ -108,6 +104,14 @@ if (!empty($user_class->skills)) {
     }
 </style>
 
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script>
+    if (typeof window.Popper === 'undefined' && typeof window.PopperCore !== 'undefined') {
+        window.Popper = window.PopperCore;
+    }
+
+    window.tippy = window.tippy || window['tippy'];
+</script>
 
 <!-- Tippy + Popper -->
 <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-away.css" />
@@ -122,14 +126,6 @@ if (!empty($user_class->skills)) {
 <script src="https://cdn.jsdelivr.net/npm/elkjs/lib/elk.bundled.js"></script>
 <script src="assets/js/cytoscape-elk.min.js"></script>
 
-<script src="https://unpkg.com/@popperjs/core@2"></script>
-<script>
-    if (typeof window.Popper === 'undefined' && typeof window.PopperCore !== 'undefined') {
-        window.Popper = window.PopperCore;
-    }
-
-    window.tippy = window.tippy || window['tippy'];
-</script>
 
 <div class="container">
     <br>
@@ -306,6 +302,10 @@ if (!empty($user_class->skills)) {
                 if (status === "error") {
                     console.error("Skill tree failed to load:", xhr.status, xhr.statusText);
                     $('#skilltree-wrapper').html('<p>Failed to load skill tree.</p>');
+                } else {
+                    $('#skilltree-wrapper script').each(function () {
+                        $.globalEval(this.text || this.textContent || this.innerHTML || '');
+                    });
                 }
             });
         </script>
