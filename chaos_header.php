@@ -696,6 +696,18 @@ $no2 = $db->num_rows();
             background: url('css/images/2025/halloween-background.png') top center/cover no-repeat #21201c !important;
             padding: 85px 0;
         }
+
+        .dcLeftNavContainer {
+            background: #1c0000 !important;
+        }
+
+        .dcNav a:hover {
+            background: #351515 !important;
+        }
+
+        .mainHeader {
+            background: #1c0000 !important;
+        }
     </style>
 </head>
 
