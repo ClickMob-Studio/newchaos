@@ -693,7 +693,7 @@ $no2 = $db->num_rows();
         body {
             font: 1.4rem "Montserrat", sans-serif;
             color: #fff;
-            background: url('css/images/2025/halloween-background.png') top center/cover no-repeat #21201c !important;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)), url('css/images/2025/halloween-background.png') top center/cover no-repeat #21201c !important;
             padding: 85px 0;
         }
 
