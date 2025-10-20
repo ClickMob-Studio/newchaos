@@ -56,7 +56,6 @@ include_once 'dbcon.php';
 include_once 'database/pdo_class.php';
 include_once "classes.php";
 include_once "codeparser.php";
-include_once "pdo.php";
 
 
 if (!isset($_SESSION['id'])) {

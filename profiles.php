@@ -1848,7 +1848,7 @@ $(document).ready(function() {
                                             echo $profile_class->id;
                                             ?>" /></td>
                                             <td><?php
-                                            if (isset($worked1) && $worked1['days'] == 0) {
+                                            if (!isset($worked1) || $worked1['days'] == 0) {
                                                 ?><input type="submit" name="permban" value="Ban" /><?php
                                             } else {
                                                 ?><input type="submit" name="permban" value="Ban" DISABLED /><?php

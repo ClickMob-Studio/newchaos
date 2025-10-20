@@ -8,7 +8,7 @@ if (!isset($_GET['abracadabra']) || $_GET['abracadabra'] !== 'open-sesame') {
 }
 
 require_once 'dbcon.php';
-require_once 'pdo.php';
+require_once 'database/pdo_class.php';
 require_once 'includes/functions.php';
 
 // Add new tables

@@ -4,7 +4,7 @@ require_once 'includes/functions.php';
 start_session_guarded();
 
 require_once 'dbcon.php';
-require_once 'pdo.php';
+require_once 'database/pdo_class.php';
 
 // IP address determination using standard if-else
 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
