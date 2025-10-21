@@ -78,6 +78,9 @@ include 'chaos_header.php';
 }
 .bp2-step.active{ border-color:var(--gold); }
 .bp2-step.past{ border-color:#2f534a; background:#10231b; color:#a6e5c3; }
+
+.bp2-track{ scroll-snap-type: x mandatory; }
+.bp2-tile{ scroll-snap-align: center; }
 </style>
 
 
@@ -87,7 +90,7 @@ include 'chaos_header.php';
   <!-- Spotlight -->
   <div class="bp2-spotlight">
     <div class="bp2-art">
-      <img id="bp2-art-img" src="" alt="">
+      <img id="bp2-art-img" src="" alt="" draggable="false">
     </div>
     <div class="bp2-info">
       <div class="bp2-path">
@@ -161,7 +164,7 @@ function tileTemplate(r, idx){
   return `
     <div class="bp2-tile ${state}" role="listitem" data-id="${r.id}" data-index="${idx}">
       <div class="bp2-thumb">
-        <img src="${r.img}" alt="${r.title}">
+        <img src="${r.img}" alt="${r.title}" draggable="false">
         <span class="bp2-badge">FREE</span>
         <span class="bp2-lv">Lv ${r.level}</span>
         <span class="bp2-state ${state}">${r.claimed ? 'Claimed' : eligible(r) ? 'Ready' : 'Locked'}</span>
