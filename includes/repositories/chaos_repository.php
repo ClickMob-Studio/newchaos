@@ -1,11 +1,11 @@
 <?php
 
-require_once './../../dbcon.php';
-require_once './../../classes.php';
-require_once './../../database/pdo_class.php';
-require_once '../cache.php';
-require_once '../functions.php';
-require_once '../dto/chaos_dto.php';
+require_once __DIR__ . '/../../dbcon.php';
+require_once __DIR__ . '/../../classes.php';
+require_once __DIR__ . '/../../database/pdo_class.php';
+require_once __DIR__ . '/../cache.php';
+require_once __DIR__ . '/../functions.php';
+require_once __DIR__ . '/../dto/chaos_dto.php';
 
 class ChaosRepository
 {
