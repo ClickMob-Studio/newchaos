@@ -193,6 +193,12 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         <a class="nav-link px-4 py-lg-5<?php echo $linkClasses; ?>" aria-current="page"
                             href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-4 py-lg-5" href="chaos.php">
+                            <img src="css/images/2025/chaos_souls_outlined.png" style="">
+                            <span><?= $chaos_user->soulsCurrent ?></span>
+                        </a>
+                    </li>
                 <?php endforeach; ?>
 
                 <?php foreach ($leftLinks as $link): ?>
