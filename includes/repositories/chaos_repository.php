@@ -1,8 +1,8 @@
 <?php
 
-require_once '/../../dbcon.php';
-require_once '/../../classes.php';
-require_once '/../../database/pdo_class.php';
+require_once './../../dbcon.php';
+require_once './../../classes.php';
+require_once './../../database/pdo_class.php';
 require_once '../cache.php';
 require_once '../functions.php';
 require_once '../dto/chaos_dto.php';
