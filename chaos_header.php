@@ -1528,7 +1528,7 @@ $no2 = $db->num_rows();
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center">
                                             <img src="css/images/2025/chaos_souls.png" class="mx-auto"
-                                                style="width:16px;height:16px;" />
+                                                style="width:20px;height:20px;" />
                                         </div>
                                         <div class="col-10 d-flex align-items-center souls"><a href="store.php"
                                                 style="text-decoration: none;">
