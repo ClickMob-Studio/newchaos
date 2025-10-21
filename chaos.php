@@ -176,81 +176,76 @@ function renderTrack(){
 }
 renderTrack();
 
-/* ---- Single rail under tiles ---- */
+/* ---- Single rail under tiles (fixed) ---- */
 function layoutRail(){
   // Ensure fill ref
   if (!els.railFill) els.railFill = els.rail.querySelector('.bp2-rail-fill');
 
-  // Remove old steps
-  els.rail.querySelectorAll('.bp2-step').forEach(n=>n.remove());
+  // Clear old steps
+  els.rail.querySelectorAll('.bp2-step').forEach(n => n.remove());
 
-  // Collect tile centers (relative to track)
+  // Collect tile centers (in TRACK coords)
   const tiles = Array.from(els.track.querySelectorAll('.bp2-tile'));
   if (!tiles.length) return;
-  const centers = tiles.map(t => t.offsetLeft + t.offsetWidth/2);
+  const centers = tiles.map(t => t.offsetLeft + t.offsetWidth / 2);
 
-  // Rail spans from first to last center (with small padding)
-  const left = centers[0], right = centers[centers.length-1];
-  const railLeft = left, railRight = right;
-  els.rail.style.left = railLeft + 'px';
+  // Rail spans from first to last center; store left/right in TRACK coords
+  const railLeft  = centers[0];
+  const railRight = centers[centers.length - 1];
+
+  // Place the rail by pinning its left/right inside the track
+  els.rail.style.left  = railLeft + 'px';
   els.rail.style.right = (els.track.scrollWidth - railRight) + 'px';
 
-  // Steps (badge per tile, centered)
+  // ---- Step badges: position in RAIL coords (subtract railLeft) ----
   centers.forEach((cx, i) => {
     const step = document.createElement('div');
     step.className = 'bp2-step';
-    step.textContent = rewards[i].level;   // label is the level index
-    step.style.left = cx + 'px';
+    step.textContent = rewards[i].level;      // level label
+    step.style.left = (cx - railLeft) + 'px'; // <<< key fix
 
-    // style by progress
     if (player.level > rewards[i].level) step.classList.add('past');
     else if (player.level === rewards[i].level) step.classList.add('active');
 
     els.rail.appendChild(step);
   });
 
-  // Fill width: from first center to current progress point
+  // ---- Fill width: from rail start to current progress ----
   const firstLevel = rewards[0].level;
-  const lastLevel  = rewards[rewards.length-1].level;
+  const lastLevel  = rewards[rewards.length - 1].level;
 
-  // convert player progress to a float level (e.g., 17.375)
-  const levelFloat = Math.min(
-    lastLevel,
-    Math.max(firstLevel,
-      player.level + Math.min(1, Math.max(0, player.xpIntoLevel / Math.max(1, player.xpForLevel)))
-    )
-  );
+  // Float level (e.g., 17.375)
+  const frac = Math.min(1, Math.max(0, player.xpIntoLevel / Math.max(1, player.xpForLevel)));
+  const levelFloat = Math.min(lastLevel, Math.max(firstLevel, player.level + frac));
 
-  // find two surrounding centers to interpolate
+  // Map a level to an X in TRACK coords by interpolating between nearest steps
   function xAtLevel(L){
-    // exact match?
-    const idx = rewards.findIndex(r => r.level === L);
-    if (idx !== -1) return centers[idx];
+    const exactIdx = rewards.findIndex(r => r.level === L);
+    if (exactIdx !== -1) return centers[exactIdx];
 
-    // between two known levels
-    let lowerIdx = -1, upperIdx = -1;
-    for (let i=0;i<rewards.length-1;i++){
-      if (rewards[i].level <= L && L <= rewards[i+1].level){ lowerIdx = i; upperIdx = i+1; break; }
+    let lo = -1, hi = -1;
+    for (let i = 0; i < rewards.length - 1; i++){
+      if (rewards[i].level <= L && L <= rewards[i+1].level){ lo = i; hi = i + 1; break; }
     }
-    if (lowerIdx === -1){ // before first or after last
-      return (L < firstLevel) ? centers[0] : centers[centers.length-1];
-    }
-    const L0 = rewards[lowerIdx].level;
-    const L1 = rewards[upperIdx].level;
+    if (lo === -1) return (L < firstLevel) ? centers[0] : centers[centers.length - 1];
+
+    const L0 = rewards[lo].level, L1 = rewards[hi].level;
     const t = (L - L0) / (L1 - L0);
-    return centers[lowerIdx] + t*(centers[upperIdx]-centers[lowerIdx]);
+    return centers[lo] + t * (centers[hi] - centers[lo]);
   }
 
-  const xFirst = centers[0];
-  const xNow   = xAtLevel(levelFloat);
+  const xNow = xAtLevel(levelFloat); // TRACK coords
 
-  const railWidthPx = (els.rail.getBoundingClientRect().width);
-  const fillPct = Math.max(0, Math.min(100, ((xNow - xFirst) / (railRight - railLeft)) * 100));
+  // Convert to % of rail length (use railLeft/railRight); guard zero-length
+  const denom = Math.max(1, (railRight - railLeft));
+  const fillPct = Math.max(0, Math.min(100, ((xNow - railLeft) / denom) * 100));
+
   els.railFill.style.width = fillPct + '%';
 }
 
 // initial layout + reflow on resize/content changes
 layoutRail();
+window.addEventListener('load', layoutRail);
 new ResizeObserver(layoutRail).observe(els.track);
 
 /* ---- Spotlight & selection (unchanged, uses current tile) ---- */
