@@ -176,33 +176,38 @@ function renderTrack(){
 }
 renderTrack();
 
-/* ---- Single rail under tiles (fixed) ---- */
+/* ---- Single rail under tiles (robust left + width) ---- */
 function layoutRail(){
-  // Ensure fill ref
   if (!els.railFill) els.railFill = els.rail.querySelector('.bp2-rail-fill');
 
   // Clear old steps
   els.rail.querySelectorAll('.bp2-step').forEach(n => n.remove());
 
-  // Collect tile centers (in TRACK coords)
+  // Collect tile centers (relative to the track's padding box)
   const tiles = Array.from(els.track.querySelectorAll('.bp2-tile'));
   if (!tiles.length) return;
+
   const centers = tiles.map(t => t.offsetLeft + t.offsetWidth / 2);
 
-  // Rail spans from first to last center; store left/right in TRACK coords
-  const railLeft  = centers[0];
-  const railRight = centers[centers.length - 1];
+  // Compute rail geometry in TRACK coords
+  const railLeftPx  = centers[0];
+  const railRightPx = centers[centers.length - 1];
+  let railWidthPx   = Math.max(1, railRightPx - railLeftPx);  // guard zero
 
-  // Place the rail by pinning its left/right inside the track
-  els.rail.style.left  = railLeft + 'px';
-  els.rail.style.right = (els.track.scrollWidth - railRight) + 'px';
+  // When there is only one tile, give the rail a minimal visible width
+  if (centers.length === 1) railWidthPx = 80;
 
-  // ---- Step badges: position in RAIL coords (subtract railLeft) ----
+  // Place/sizing: use left + width (avoid right calc issues)
+  els.rail.style.left  = railLeftPx + 'px';
+  els.rail.style.right = 'auto';
+  els.rail.style.width = railWidthPx + 'px';
+
+  // Step badges (place in RAIL coords => subtract railLeftPx)
   centers.forEach((cx, i) => {
     const step = document.createElement('div');
     step.className = 'bp2-step';
-    step.textContent = rewards[i].level;      // level label
-    step.style.left = (cx - railLeft) + 'px'; // <<< key fix
+    step.textContent = rewards[i].level;
+    step.style.left = (cx - railLeftPx) + 'px';
 
     if (player.level > rewards[i].level) step.classList.add('past');
     else if (player.level === rewards[i].level) step.classList.add('active');
@@ -214,11 +219,9 @@ function layoutRail(){
   const firstLevel = rewards[0].level;
   const lastLevel  = rewards[rewards.length - 1].level;
 
-  // Float level (e.g., 17.375)
   const frac = Math.min(1, Math.max(0, player.xpIntoLevel / Math.max(1, player.xpForLevel)));
   const levelFloat = Math.min(lastLevel, Math.max(firstLevel, player.level + frac));
 
-  // Map a level to an X in TRACK coords by interpolating between nearest steps
   function xAtLevel(L){
     const exactIdx = rewards.findIndex(r => r.level === L);
     if (exactIdx !== -1) return centers[exactIdx];
@@ -227,18 +230,18 @@ function layoutRail(){
     for (let i = 0; i < rewards.length - 1; i++){
       if (rewards[i].level <= L && L <= rewards[i+1].level){ lo = i; hi = i + 1; break; }
     }
-    if (lo === -1) return (L < firstLevel) ? centers[0] : centers[centers.length - 1];
-
+    if (lo === -1){
+      return (L < firstLevel) ? centers[0] : centers[centers.length - 1];
+    }
     const L0 = rewards[lo].level, L1 = rewards[hi].level;
     const t = (L - L0) / (L1 - L0);
     return centers[lo] + t * (centers[hi] - centers[lo]);
   }
 
-  const xNow = xAtLevel(levelFloat); // TRACK coords
-
-  // Convert to % of rail length (use railLeft/railRight); guard zero-length
-  const denom = Math.max(1, (railRight - railLeft));
-  const fillPct = Math.max(0, Math.min(100, ((xNow - railLeft) / denom) * 100));
+  const xNowTrack = xAtLevel(levelFloat);                // track coords
+  const fillPx     = Math.max(0, Math.min(railWidthPx,   // clamp to rail
+                       (xNowTrack - railLeftPx)));
+  const fillPct    = (fillPx / railWidthPx) * 100;
 
   els.railFill.style.width = fillPct + '%';
 }
