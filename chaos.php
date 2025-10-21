@@ -29,7 +29,7 @@ include 'chaos_header.php';
 .bp2-track-wrap{display:grid; grid-template-columns: 44px 1fr 44px; align-items:center; gap:10px; margin-top:18px}
 .bp2-nav{width:44px; height:44px; border-radius:10px; border:0; background:var(--surface2); color:var(--text); cursor:pointer}
 .bp2-track-viewport{overflow:hidden}
-.bp2-track{display:flex; gap:18px; align-items:flex-start; overflow-x:auto; padding:8px; scroll-behavior:smooth}
+.bp2-track{display:flex; gap:18px; align-items:flex-start; overflow-x:auto; overflow-y: hidden; padding:8px; scroll-behavior:smooth; padding-bottom: 40px;}
 .bp2-track::-webkit-scrollbar{height:10px}
 .bp2-track::-webkit-scrollbar-thumb{background:var(--surface2); border-radius:999px}
 
@@ -49,10 +49,10 @@ include 'chaos_header.php';
   position:absolute;
   left:0; right:0;
   height:12px;
-  bottom:-6px;              /* sits just under tiles; tweak to taste */
-  background:#202636;       /* unfilled gray */
+  bottom:12px;
+  background:#202636;
   border-radius:999px;
-  pointer-events:none;      /* clicks pass through */
+  pointer-events:none;
 }
 .bp2-rail-fill{
   position:absolute;
