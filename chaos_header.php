@@ -63,6 +63,9 @@ include_once 'dbcon.php';
 include_once 'database/pdo_class.php';
 include_once "classes.php";
 include_once "codeparser.php";
+include_once "includes/repositories/chaos_repository.php";
+
+$chaos_repository = new ChaosRepository($db);
 
 if (empty($ignoreslashes)) {
     foreach ($_POST as $k => $v) {
@@ -104,6 +107,7 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
 }
 $uid = $_SESSION['id'];
 $user_class = new User($uid);
+$chaos_user = $chaos_repository->getUserEventState($user_class->id);
 
 $_SESSION['username'] = $user_class->username;
 
@@ -1214,6 +1218,12 @@ $no2 = $db->num_rows();
                 </div>
             </div>
             <div class="col-3">
+                <div class="text-center">
+                    <span class="badge bg-danger mb-points"><?= shorthandNumber($chaos_user->soulsCurrent); ?></span>
+                    <p>Souls</p>
+                </div>
+            </div>
+            <div class="col-3">
                 <div class="d-flex">
                     <p class="text-center">Level:</p>
                     <div class="level" style="margin-left:4px;"><?= $user_class->level; ?></div>
@@ -1513,6 +1523,17 @@ $no2 = $db->num_rows();
                                         <div class="col-10 d-flex align-items-center credits"><a href="store.php"
                                                 style="text-decoration: none;">
                                                 <?= $user_class->is_stats_abbreviated ? shorthandNumber($user_class->credits) : prettynum($user_class->credits); ?>
+                                            </a></div>
+                                    </div>
+                                    <div class="row my-1 g-0">
+                                        <div class="col-2 d-flex align-items-center">
+                                            <img src="css/images/2025/chaos_souls.png" class="mx-auto"
+                                                style="width:16px;height:16px;" />
+                                            <i class="mx-auto fab fa-medium-m"></i>
+                                        </div>
+                                        <div class="col-10 d-flex align-items-center souls"><a href="store.php"
+                                                style="text-decoration: none;">
+                                                <?= $user_class->is_stats_abbreviated ? shorthandNumber($chaos_user->soulsCurrent) : prettynum($chaos_user->soulsCurrent); ?>
                                             </a></div>
                                     </div>
                                 </div>

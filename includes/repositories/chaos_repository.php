@@ -5,6 +5,7 @@ require_once '../../classes.php';
 require_once '../../database/pdo_class.php';
 require_once '../cache.php';
 require_once '../functions.php';
+require_once '../dto/chaos_dto.php';
 
 class ChaosRepository
 {
@@ -24,27 +25,26 @@ class ChaosRepository
         }
     }
 
-    public function getUserEventState(int $userId): array
+    public function getUserEventState(int $userId): ChaosUser
     {
-        $this->db->query("
-            SELECT user_id, souls_current, souls_collected, souls_spent,
-                   lantern_equipped, curse_level, curse_exp, updated_at
-            FROM chaos_event_user
-            WHERE user_id = ?
-            LIMIT 1
-        ");
+        $this->db->query("SELECT user_id, souls_current, souls_collected, souls_spent,
+                             lantern_equipped, curse_level, curse_exp, updated_at
+                      FROM chaos_event_user WHERE user_id = ? LIMIT 1");
         $this->db->execute([$userId]);
         $row = $this->db->fetch_row(true);
-        return $row ?: [
-            'user_id' => $userId,
-            'souls_current' => 0,
-            'souls_collected' => 0,
-            'souls_spent' => 0,
-            'lantern_equipped' => null,
-            'curse_level' => 0,
-            'curse_exp' => 0,
-            'updated_at' => null,
-        ];
+        if (!$row) {
+            $row = [
+                'user_id' => $userId,
+                'souls_current' => 0,
+                'souls_collected' => 0,
+                'souls_spent' => 0,
+                'lantern_equipped' => null,
+                'curse_level' => 0,
+                'curse_exp' => 0,
+                'updated_at' => null
+            ];
+        }
+        return ChaosUser::fromRow($row);
     }
 
     public function getSoulsLastHour(int $userId): int
@@ -59,7 +59,7 @@ class ChaosRepository
         return (int) ($row['s'] ?? 0);
     }
 
-    public function awardSouls(int $userId, int $delta, string $reason, ?string $refId = null): array
+    public function awardSouls(int $userId, int $delta, string $reason, ?string $refId = null): ChaosUser
     {
         if ($delta === 0) {
             return $this->getUserEventState($userId);
@@ -234,40 +234,50 @@ class ChaosRepository
      * CHAOS PASS API
      * ========================= */
 
-    public function getPassState(int $userId): array
+    public function getPassState(int $userId): ChaosPassState
     {
+        // user + premium flag
         $this->db->query("
-            SELECT
-            ceu.curse_level, ceu.curse_exp,
-            COALESCE(cpu.is_premium, 0) AS is_premium
-            FROM chaos_event_user ceu
-            LEFT JOIN chaos_pass_user cpu ON cpu.user_id = ceu.user_id
-            WHERE ceu.user_id = ?
-            LIMIT 1
-        ");
+        SELECT ceu.curse_level, ceu.curse_exp, COALESCE(cpu.is_premium, 0) AS is_premium
+        FROM chaos_event_user ceu
+        LEFT JOIN chaos_pass_user cpu ON cpu.user_id = ceu.user_id
+        WHERE ceu.user_id = ?
+        LIMIT 1
+    ");
         $this->db->execute([$userId]);
         $u = $this->db->fetch_row(true) ?: ['curse_level' => 0, 'curse_exp' => 0, 'is_premium' => 0];
 
-        $this->db->query("
-            SELECT curse_req_exp
-            FROM curse_levels
-            WHERE level = ?
-            LIMIT 1
-        ");
-        $this->db->execute([(int) $u['curse_level'] + 1]);
+        $level = (int) $u['curse_level'];
+        $exp = (int) $u['curse_exp'];
+        $isPremium = ((int) $u['is_premium'] === 1);
+
+        // next level requirement (null if max)
+        $this->db->query("SELECT curse_req_exp FROM curse_levels WHERE level = ? LIMIT 1");
+        $this->db->execute([$level + 1]);
         $next = $this->db->fetch_row(true);
-        $nextReq = (int) ($next['curse_req_exp'] ?? 0);
+        $nextReq = isset($next['curse_req_exp']) ? (int) $next['curse_req_exp'] : null;
+        $atMax = ($nextReq === null);
 
-        $claimable = $this->getClaimablePassIds($userId, (int) $u['curse_level'], (bool) $u['is_premium']);
+        // progress calculation (clamp exp to requirement)
+        $progressPct = 100;
+        if (!$atMax) {
+            $den = max(1, $nextReq);
+            $num = max(0, min($exp, $den)); // clamp
+            $progressPct = (int) min(100, round(($num / $den) * 100));
+        }
 
-        return [
-            'curse_level' => (int) $u['curse_level'],
-            'curse_exp' => (int) $u['curse_exp'],
-            'is_premium' => (int) $u['is_premium'] === 1,
-            'next_req_exp' => $nextReq,
-            'progress_pct' => $nextReq > 0 ? min(100, (int) round(($u['curse_exp'] / $nextReq) * 100)) : 100,
-            'claimable_ids' => $claimable,
-        ];
+        // claimables as int[]
+        $claimable = array_map('intval', $this->getClaimablePassIds($userId, $level, $isPremium));
+
+        return new ChaosPassState(
+            curseLevel: $level,
+            curseExp: $exp,
+            isPremium: $isPremium,
+            nextReqExp: $nextReq,
+            progressPct: $progressPct,
+            atMaxLevel: $atMax,
+            claimableIds: $claimable
+        );
     }
 
     public function claimPassReward(int $userId, int $passId): array
