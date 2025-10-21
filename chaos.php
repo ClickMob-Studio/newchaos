@@ -29,7 +29,7 @@ include 'chaos_header.php';
 .bp2-track-wrap{display:grid; grid-template-columns: 44px 1fr 44px; align-items:center; gap:10px; margin-top:18px}
 .bp2-nav{width:44px; height:44px; border-radius:10px; border:0; background:var(--surface2); color:var(--text); cursor:pointer}
 .bp2-track-viewport{overflow:hidden}
-.bp2-track{display:flex; gap:18px; align-items:flex-start; overflow-x:auto; overflow-y: hidden; padding:8px; scroll-behavior:smooth; padding-bottom: 40px;}
+.bp2-track{display:flex; gap:18px; align-items:flex-start; overflow-x: hidden; overflow-y: hidden; padding:8px; scroll-behavior:smooth; padding-bottom: 40px;}
 .bp2-track::-webkit-scrollbar{height:10px}
 .bp2-track::-webkit-scrollbar-thumb{background:var(--surface2); border-radius:999px}
 
@@ -277,6 +277,7 @@ els.track.addEventListener('click', e=>{
   if (!tile) return;
   selected = parseInt(tile.dataset.index,10);
   updateSpotlight(selected);
+  scrollTileIntoView(selected);
 });
 
 /* Claim (same as before) */
@@ -305,6 +306,13 @@ els.claim.addEventListener('click', async ()=>{
     layoutRail(); // refresh fill + step states
   }
 });
+
+function scrollTileIntoView(index, behavior = 'smooth'){
+  const tiles = Array.from(els.track.querySelectorAll('.bp2-tile'));
+  const node = tiles[index];
+  if (!node) return;
+  node.scrollIntoView({ behavior, block: 'nearest', inline: 'center' });
+}
 
 /* Arrow nav */
 function scrollByTile(dir){
