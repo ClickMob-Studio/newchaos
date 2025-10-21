@@ -168,7 +168,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
 <nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav">
     <div class="container-fluid scrollNav">
         <a class="navbar-brand" href="index.php">
-            <img src="css/images/2025/halloween-logo.png" alt="Chaos City - Mafia PBBG" class="mainLogo mx-5">
+            <img src="css/images/2025/halloween-logo.png" alt="Chaos City - Mafia PBBG" class="mainLogo">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -194,9 +194,10 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                             href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
                     </li>
                 <?php endforeach; ?>
-                <li class="nav-item">
-                    <a class="nav-link px-4 py-lg-5" href="chaos.php">
-                        <img src="css/images/2025/chaos_souls_outlined.png" style="width:36px;height:36px;" />
+
+                <li class="nav-item my-auto">
+                    <a class="flex nav-link px-4 py-lg-5" href="chaos.php">
+                        <img src="css/images/2025/chaos_souls_outlined.png" style="width:32px;height:32px;" />
                         <span><?= $chaos_user->soulsCurrent ?></span>
                     </a>
                 </li>
