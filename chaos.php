@@ -43,18 +43,41 @@ include 'chaos_header.php';
 .bp2-state.locked{background:#1f2636; color:#8fa0bf}
 .bp2-state.ready{background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#07141a}
 
-.bp2-progress{height:8px; border-radius:999px; background:#202636; overflow:hidden}
-.bp2-progress > i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width .3s ease}
-.bp2-tile.selected .bp2-thumb{outline-color:var(--gold)}
-.bp2-tile.claimed .bp2-thumb{outline-color:rgba(88,214,141,.5)}
-
-@media (max-width: 980px){
-  .bp2-spotlight{grid-template-columns:1fr}
-  .bp2-art img{aspect-ratio:16/9}
+.bp2-progress{ display:none; }
+.bp2-track{ position:relative; }
+.bp2-rail{
+  position:absolute;
+  left:0; right:0;
+  height:12px;
+  bottom:-6px;              /* sits just under tiles; tweak to taste */
+  background:#202636;       /* unfilled gray */
+  border-radius:999px;
+  pointer-events:none;      /* clicks pass through */
 }
-@media (max-width: 460px){
-  .bp2-tile{width:120px; min-width:120px}
+.bp2-rail-fill{
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:0%;
+  display:block;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border-radius:999px;
+  transition:width .35s ease;
 }
+.bp2-step{
+  position:absolute;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:30px; height:30px;
+  border-radius:999px;
+  display:grid; place-items:center;
+  font-size:.8rem; font-weight:800;
+  background:#0b101a;
+  color:#cad3e6;
+  border:2px solid #2a3246;
+  box-shadow:0 4px 10px rgba(0,0,0,.35);
+}
+.bp2-step.active{ border-color:var(--gold); }
+.bp2-step.past{ border-color:#2f534a; background:#10231b; color:#a6e5c3; }
 </style>
 
 
@@ -83,16 +106,20 @@ include 'chaos_header.php';
 
   <!-- Track -->
   <div class="bp2-track-wrap">
-    <button class="bp2-nav" id="bp2-prev" aria-label="Scroll left">❮</button>
+  <button class="bp2-nav" id="bp2-prev" aria-label="Scroll left">❮</button>
 
-    <div class="bp2-track-viewport">
-      <div id="bp2-track" class="bp2-track" role="list" aria-label="Rewards track">
-        <!-- tiles injected -->
+  <div class="bp2-track-viewport">
+    <div id="bp2-track" class="bp2-track" role="list" aria-label="Rewards track">
+      <!-- tiles injected -->
+      <div id="bp2-rail" class="bp2-rail">
+        <i class="bp2-rail-fill"></i>
+        <!-- step markers injected -->
       </div>
     </div>
-
-    <button class="bp2-nav" id="bp2-next" aria-label="Scroll right">❯</button>
   </div>
+
+  <button class="bp2-nav" id="bp2-next" aria-label="Scroll right">❯</button>
+</div>
 </section>
 
 
@@ -111,9 +138,10 @@ const rewards = [
   { id: 105, level:20, title:"Arcane Singed", desc:"Champion skin", img:"https://picsum.photos/seed/e/720", claimed:false }
 ];
 /* ========================================== */
-
 const els = {
   track: document.getElementById('bp2-track'),
+  rail: document.getElementById('bp2-rail'),
+  railFill: null, // set after build
   artImg: document.getElementById('bp2-art-img'),
   title: document.getElementById('bp2-title'),
   desc: document.getElementById('bp2-desc'),
@@ -127,17 +155,9 @@ const els = {
 
 function fmt(n){ return n.toLocaleString(); }
 function eligible(r){ return player.level >= r.level && !r.claimed; }
-function fillForTile(index){
-  const r = rewards[index];
-  if (player.level > r.level) return 100;
-  if (player.level < r.level) return 0;
-  // player is on this tile's level → partial by current XP
-  return Math.max(0, Math.min(100, Math.round((player.xpIntoLevel / player.xpForLevel) * 100)));
-}
 
 function tileTemplate(r, idx){
   const state = r.claimed ? 'claimed' : eligible(r) ? 'ready' : 'locked';
-  const fill = fillForTile(idx);
   return `
     <div class="bp2-tile ${state}" role="listitem" data-id="${r.id}" data-index="${idx}">
       <div class="bp2-thumb">
@@ -146,16 +166,94 @@ function tileTemplate(r, idx){
         <span class="bp2-lv">Lv ${r.level}</span>
         <span class="bp2-state ${state}">${r.claimed ? 'Claimed' : eligible(r) ? 'Ready' : 'Locked'}</span>
       </div>
-      <div class="bp2-progress"><i style="width:${fill}%"></i></div>
     </div>
   `;
 }
 
 function renderTrack(){
-  els.track.innerHTML = rewards.map((r,i)=>tileTemplate(r,i)).join('');
+  els.track.querySelectorAll('.bp2-tile').forEach(n=>n.remove());
+  els.track.insertAdjacentHTML('afterbegin', rewards.map(tileTemplate).join(''));
 }
 renderTrack();
 
+/* ---- Single rail under tiles ---- */
+function layoutRail(){
+  // Ensure fill ref
+  if (!els.railFill) els.railFill = els.rail.querySelector('.bp2-rail-fill');
+
+  // Remove old steps
+  els.rail.querySelectorAll('.bp2-step').forEach(n=>n.remove());
+
+  // Collect tile centers (relative to track)
+  const tiles = Array.from(els.track.querySelectorAll('.bp2-tile'));
+  if (!tiles.length) return;
+  const centers = tiles.map(t => t.offsetLeft + t.offsetWidth/2);
+
+  // Rail spans from first to last center (with small padding)
+  const left = centers[0], right = centers[centers.length-1];
+  const railLeft = left, railRight = right;
+  els.rail.style.left = railLeft + 'px';
+  els.rail.style.right = (els.track.scrollWidth - railRight) + 'px';
+
+  // Steps (badge per tile, centered)
+  centers.forEach((cx, i) => {
+    const step = document.createElement('div');
+    step.className = 'bp2-step';
+    step.textContent = rewards[i].level;   // label is the level index
+    step.style.left = cx + 'px';
+
+    // style by progress
+    if (player.level > rewards[i].level) step.classList.add('past');
+    else if (player.level === rewards[i].level) step.classList.add('active');
+
+    els.rail.appendChild(step);
+  });
+
+  // Fill width: from first center to current progress point
+  const firstLevel = rewards[0].level;
+  const lastLevel  = rewards[rewards.length-1].level;
+
+  // convert player progress to a float level (e.g., 17.375)
+  const levelFloat = Math.min(
+    lastLevel,
+    Math.max(firstLevel,
+      player.level + Math.min(1, Math.max(0, player.xpIntoLevel / Math.max(1, player.xpForLevel)))
+    )
+  );
+
+  // find two surrounding centers to interpolate
+  function xAtLevel(L){
+    // exact match?
+    const idx = rewards.findIndex(r => r.level === L);
+    if (idx !== -1) return centers[idx];
+
+    // between two known levels
+    let lowerIdx = -1, upperIdx = -1;
+    for (let i=0;i<rewards.length-1;i++){
+      if (rewards[i].level <= L && L <= rewards[i+1].level){ lowerIdx = i; upperIdx = i+1; break; }
+    }
+    if (lowerIdx === -1){ // before first or after last
+      return (L < firstLevel) ? centers[0] : centers[centers.length-1];
+    }
+    const L0 = rewards[lowerIdx].level;
+    const L1 = rewards[upperIdx].level;
+    const t = (L - L0) / (L1 - L0);
+    return centers[lowerIdx] + t*(centers[upperIdx]-centers[lowerIdx]);
+  }
+
+  const xFirst = centers[0];
+  const xNow   = xAtLevel(levelFloat);
+
+  const railWidthPx = (els.rail.getBoundingClientRect().width);
+  const fillPct = Math.max(0, Math.min(100, ((xNow - xFirst) / (railRight - railLeft)) * 100));
+  els.railFill.style.width = fillPct + '%';
+}
+
+// initial layout + reflow on resize/content changes
+layoutRail();
+new ResizeObserver(layoutRail).observe(els.track);
+
+/* ---- Spotlight & selection (unchanged, uses current tile) ---- */
 function updateSpotlight(selectedIndex){
   const r = rewards[selectedIndex];
   document.querySelectorAll('.bp2-tile').forEach(t=>t.classList.remove('selected'));
@@ -168,11 +266,9 @@ function updateSpotlight(selectedIndex){
   els.desc.textContent = r.desc;
   els.lvl.textContent = `Level ${player.level}`;
   els.xp.textContent = `${fmt(player.xpIntoLevel)} / ${fmt(player.xpForLevel)} XP`;
-
   els.claim.disabled = !eligible(r);
   els.claim.dataset.rewardId = r.id;
 }
-
 let selected = Math.max(0, rewards.findIndex(r=>r.level >= player.level));
 if (selected === -1) selected = rewards.length - 1;
 updateSpotlight(selected);
@@ -185,14 +281,12 @@ els.track.addEventListener('click', e=>{
   updateSpotlight(selected);
 });
 
-/* Claim from spotlight */
+/* Claim (same as before) */
 els.claim.addEventListener('click', async ()=>{
   const r = rewards[selected];
   if (!eligible(r)) return;
-
   els.claim.disabled = true;
   els.flash.textContent = 'Claiming…';
-
   try{
     const res = await fetch('/claim_reward.php', {
       method:'POST',
@@ -201,34 +295,27 @@ els.claim.addEventListener('click', async ()=>{
     });
     if (!res.ok) throw new Error('Server rejected');
 
-    // success → mark claimed, re-render tile + spotlight
     r.claimed = true;
-    const tile = els.track.querySelector(`.bp2-tile[data-index="${selected}"]`);
-    if (tile){
-      tile.classList.remove('ready','locked'); tile.classList.add('claimed');
-      tile.querySelector('.bp2-state').textContent = 'Claimed';
-      tile.querySelector('.bp2-state').className = 'bp2-state claimed';
-      tile.querySelector('.bp2-progress > i').style.width = '100%';
-    }
     updateSpotlight(selected);
     els.flash.textContent = `Claimed: ${r.title}`;
   }catch(err){
     els.flash.style.color = 'var(--danger)';
-    els.flash.textContent = 'Could not claim. Try again.';
+    els.flash.textContent = 'Could not claim.';
     els.claim.disabled = false;
-    setTimeout(()=>{ els.flash.style.color = 'var(--ok)'; els.flash.textContent=''; }, 1600);
+    setTimeout(()=>{ els.flash.style.color = 'var(--ok)'; els.flash.textContent=''; }, 1400);
+  }finally{
+    layoutRail(); // refresh fill + step states
   }
 });
 
-/* Arrows scroll one tile at a time */
+/* Arrow nav */
 function scrollByTile(dir){
   const tiles = Array.from(els.track.querySelectorAll('.bp2-tile'));
   if (!tiles.length) return;
   let idx = selected + dir;
   idx = Math.max(0, Math.min(tiles.length-1, idx));
   tiles[idx].scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
-  selected = idx;
-  updateSpotlight(selected);
+  selected = idx; updateSpotlight(selected);
 }
 els.prev.addEventListener('click', ()=>scrollByTile(-1));
 els.next.addEventListener('click', ()=>scrollByTile(1));
