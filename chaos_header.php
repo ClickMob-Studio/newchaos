@@ -1529,7 +1529,6 @@ $no2 = $db->num_rows();
                                         <div class="col-2 d-flex align-items-center">
                                             <img src="css/images/2025/chaos_souls.png" class="mx-auto"
                                                 style="width:16px;height:16px;" />
-                                            <i class="mx-auto fab fa-medium-m"></i>
                                         </div>
                                         <div class="col-10 d-flex align-items-center souls"><a href="store.php"
                                                 style="text-decoration: none;">
