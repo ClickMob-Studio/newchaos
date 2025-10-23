@@ -3104,6 +3104,10 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     if ($cached !== null) {
         $decoded = json_decode($cached, true);
         if (is_array($decoded) && isset($decoded['id'])) {
+            if (isset($decoded['progress']) && !is_array($decoded['progress'])) {
+                $tmp = json_decode($decoded['progress'], true);
+                $decoded['progress'] = is_array($tmp) ? $tmp : [];
+            }
             return $decoded;
         }
     }

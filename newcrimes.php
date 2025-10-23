@@ -31,7 +31,9 @@ if ($tempItemUse['ghost_vacuum_time'] < time()) {
 }
 
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
-if (!empty($currentQuestSeason['id'])) {
+if (empty($currentQuestSeason['id'])) {
+    $filter_ids[] = 52;
+} else {
     $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
@@ -45,9 +47,9 @@ if (!empty($currentQuestSeason['id'])) {
 
     $prog = (isset($progress['whitecollar_fraud']))
         ? (int) $progress['whitecollar_fraud']
-        : 0;
+        : null;
 
-    if ($req === null || $prog >= $req) {
+    if ($req === null || $prog === null || $prog >= $req) {
         $filter_ids[] = 52;
     }
 }
