@@ -4745,19 +4745,19 @@ function cleanOldDBEntries()
     global $db;
 
     $total = 0;
-    $timestamp = time() - (31 * 24 * 60 * 60);
+    $timestamp = time() - (21 * 24 * 60 * 60);
 
     $db->startTrans();
     try {
-        $db->query("DELETE FROM `active_raids` WHERE `summoned_at` < DATE_SUB(NOW(), INTERVAL 31 DAY)");
+        $db->query("DELETE FROM `active_raids` WHERE `summoned_at` < DATE_SUB(NOW(), INTERVAL 14 DAY)");
         $db->execute();
         $total += $db->affected_rows();
 
-        $db->query("DELETE FROM `raid_participants` WHERE `joined_at` < DATE_SUB(NOW(), INTERVAL 31 DAY)");
+        $db->query("DELETE FROM `raid_participants` WHERE `joined_at` < DATE_SUB(NOW(), INTERVAL 14 DAY)");
         $db->execute();
         $total += $db->affected_rows();
 
-        $db->query("DELETE FROM `raid_battle_logs` WHERE `timestamp` < DATE_SUB(NOW(), INTERVAL 31 DAY)");
+        $db->query("DELETE FROM `raid_battle_logs` WHERE `timestamp` < DATE_SUB(NOW(), INTERVAL 14 DAY)");
         $db->execute();
         $total += $db->affected_rows();
 
@@ -4812,6 +4812,8 @@ function cleanOldDBEntries()
         $db->query("DELETE FROM `missions` where  `timestamp` < $timestamp AND `completed` = 'successful'");
         $db->execute();
         $total += $db->affected_rows();
+
+        $db->endTrans();
     } catch (Throwable $e) {
         $db->cancelTransaction();
 

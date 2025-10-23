@@ -29,7 +29,7 @@ include 'chaos_header.php';
 
     .bp2-spotlight {
         display: grid;
-        grid-template-columns: 380px 1fr;
+        grid-template-columns: 300px 1fr;
         gap: 24px;
         align-items: stretch;
     }
