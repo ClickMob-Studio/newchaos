@@ -18,7 +18,7 @@ if (isset($_POST['flush_cache'])) {
 
 if (isset($_POST['flush_db'])) {
     $total = cleanOldDBEntries();
-    if ($total > 0) {
+    if ($total >= 0) {
         echo '<div class="dcPanel p-2 mb-4 d-flex align-items-center justify-content-center"><p>Removed ' . number_format($total) . ' old database entries.</p></div>';
     } else {
         echo '<div class="dcPanel p-2 mb-4 d-flex align-items-center justify-content-center"><p>Error cleaning old database entries.</p></div>';
