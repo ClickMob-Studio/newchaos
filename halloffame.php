@@ -74,7 +74,7 @@ $rows = $db->fetch_row(); // array of users
     <div class='pad'>
 
         <div class="contenthead floaty">
-            <form method="get" class="hof-filters" style="margin-bottom:12px; text-align:center;">
+            <form method="get" class="hof-filters" style="margin-bottom:12px;">
                 <label for="cityid" style="margin-right:8px;"><strong>City:</strong></label>
                 <select name="cityid" id="cityid" onchange="this.form.submit()" style="min-width:200px;">
                     <option value="0" <?php echo $selectedCityId === 0 ? ' selected' : ''; ?>>All cities</option>
