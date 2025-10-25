@@ -1,5 +1,15 @@
 <?php
-include 'header.php'; ?>
+include 'header.php';
+
+$db->query("SELECT * FROM cities");
+$db->execute();
+$cities = $db->fetch_row();
+
+$view = (isset($view) && $view != "") ? $view : 'level';
+if (!in_array($view, ['level', 'strength', 'defense', 'speed', 'agility', 'money', 'points', 'total', 'rmdays', 'bank', 'crimes', 'battlewon', 'battlelost', 'muggedmoney', 'posts', 'backalleywins', 'relationshipdays'])) {
+    $view = 'level';
+}
+?>
 
 <div class='box_top'>Hall Of Fame</div>
 <div class='box_middle'>
@@ -12,14 +22,11 @@ include 'header.php'; ?>
                     <td align="center">
                         <form method="get">
                             <input type="hidden" name="view" value="<?php
-                            if (isset($_GET['view'])) {
-                                echo $_GET['view'];
+                            if (isset($view)) {
+                                echo $view;
                             }
                             ?>" />
                             <?php
-                            $db->query("SELECT * FROM cities");
-                            $db->execute();
-                            $cities = $db->fetch_row();
                             foreach ($cities as $row) {
                                 ?>
                                 <option value='<?php
@@ -40,85 +47,85 @@ include 'header.php'; ?>
                             <select name='view' onchange='this.form.submit()'>
                                 <option value='level'>Select...</option>
                                 <option value='level' <?php
-                                if (isset($_GET['view']) && $_GET['view'] == "level") {
+                                if (isset($view) && $view == "level") {
                                     echo " selected";
                                 }
                                 ?>>Level</option>
                                 <option value='strength' <?php
-                                if (isset($_GET['view']) && $_GET['view'] == "strength") {
+                                if (isset($view) && $view == "strength") {
                                     echo " selected";
                                 }
                                 ?>>Strength</option>
                                 <option value='defense' <?php
-                                if (isset($_GET['view']) && $_GET['view'] == "defense") {
+                                if (isset($view) && $view == "defense") {
                                     echo " selected";
                                 }
                                 ?>>Defense</option>
                                 <option value='speed' <?php
-                                if (isset($_GET['view']) && $_GET['view'] == "speed") {
+                                if (isset($view) && $view == "speed") {
                                     echo " selected";
                                 }
                                 ?>>Speed</option>
                                 <option value='agility' <?php
-                                if (isset($_GET['view']) && $_GET['view'] == "agility") {
+                                if (isset($view) && $view == "agility") {
                                     echo " selected";
                                 }
                                 ?>>Agility</option>
                                 <option value='money' <?php
-                                if (isset($_GET['view']) && $_GET['view'] == "money") {
+                                if (isset($view) && $view == "money") {
                                     echo " selected";
                                 }
                                 ?>>Money</option>
                                 <option value='points' <?php
-                                if (isset($_GET['view']) && $_GET['view'] == "points") {
+                                if (isset($view) && $view == "points") {
                                     echo " selected";
                                 }
                                 ?>>Points</option>
                                 <option value='total' <?php
-                                if (isset($_GET['view']) && $_GET['view'] == "total") {
+                                if (isset($view) && $view == "total") {
                                     echo " selected";
                                 }
                                 ?>>Total</option>
                                 <option value='rmdays' <?php
-                                if (isset($_GET['view']) && $_GET['view'] == "rmdays") {
+                                if (isset($view) && $view == "rmdays") {
                                     echo " selected";
                                 }
                                 ?>>RM Days</option>
                                 <option value='bank' <?php
-                                if (isset($_GET['view']) && $_GET['view'] == "bank") {
+                                if (isset($view) && $view == "bank") {
                                     echo " selected";
                                 }
                                 ?>>Bank</option>
-                                <option value='crimes' <?php if (isset($_GET['view']) && $_GET['view'] == "crimes") {
+                                <option value='crimes' <?php if (isset($view) && $view == "crimes") {
                                     echo " selected";
                                 }
                                 ?>>Crimes Done</option>
 
-                                <option value='battlewon' <?php if (isset($_GET['view']) && $_GET['view'] == "battlewon") {
+                                <option value='battlewon' <?php if (isset($view) && $view == "battlewon") {
                                     echo " selected";
                                 }
                                 ?>>Kills</option>
-                                <option value='battlelost' <?php if (isset($_GET['view']) && $_GET['view'] == "battlelost") {
+                                <option value='battlelost' <?php if (isset($view) && $view == "battlelost") {
                                     echo " selected";
                                 }
                                 ?>>Deaths</option>
 
-                                <option value='muggedmoney' <?php if (isset($_GET['view']) && $_GET['view'] == "muggedmoney") {
+                                <option value='muggedmoney' <?php if (isset($view) && $view == "muggedmoney") {
                                     echo " selected";
                                 }
                                 ?>>
                                     Highest Muggers</option>
 
 
-                                <option value='posts' <?php if (isset($_GET['view']) && $_GET['view'] == "posts") {
+                                <option value='posts' <?php if (isset($view) && $view == "posts") {
                                     echo " selected";
                                 }
                                 ?>>Forum Posts</option>
-                                <option value='backalleywins' <?php if (isset($_GET['view']) && $_GET['view'] == "backalleywins") {
+                                <option value='backalleywins' <?php if (isset($view) && $view == "backalleywins") {
                                     echo " selected";
                                 }
                                 ?>>Back Alley Wins</option>
-                                <option value='relationshipdays' <?php if (isset($_GET['view']) && $_GET['view'] == "relationshipdays") {
+                                <option value='relationshipdays' <?php if (isset($view) && $view == "relationshipdays") {
                                     echo " selected";
                                 }
                                 ?>>Time Married</option>
@@ -139,7 +146,7 @@ include 'header.php'; ?>
                     </tr>
 
                     <?php
-                    $view = (isset($_GET['view']) && $_GET['view'] != "") ? $_GET['view'] : 'level';
+                    $view = (isset($view) && $view != "") ? $view : 'level';
                     if ($view == 'crimes') {
                         $view = 'crimesucceeded';
                     }
