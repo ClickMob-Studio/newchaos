@@ -88,6 +88,7 @@ $rows = $db->fetch_row();
                     <?php endif; ?>
                 </select>
 
+                <br />
                 <label for="view" style="margin:0 8px 0 0;"><strong>Metric:</strong></label>
                 <select name="view" id="view" onchange="this.form.submit()" style="min-width:200px;">
                     <?php foreach ($allowedMetrics as $key => $cfg): ?>
