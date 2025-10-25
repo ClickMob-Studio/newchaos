@@ -87,7 +87,7 @@ $rows = $db->fetch_row(); // array of users
                     <?php endif; ?>
                 </select>
 
-                <label for="view" style="margin:0 8px 0 16px;"><strong>Metric:</strong></label>
+                <label for="view" style="margin:0 8px 0 0;"><strong>Metric:</strong></label>
                 <select name="view" id="view" onchange="this.form.submit()" style="min-width:200px;">
                     <?php foreach ($allowedMetrics as $key => $cfg): ?>
                         <option value="<?php echo h($key); ?>" <?php echo ($view === $key) ? ' selected' : ''; ?>>
