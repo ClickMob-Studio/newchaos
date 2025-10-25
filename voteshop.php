@@ -8,15 +8,23 @@ $pts = array(
 
 );
 if (isset($_GET['spend'])) {
-	foreach ($pts as $pt)
-		if ($_GET['spend'] == $pt[0])
-			points($pt[1], $pt[2]);
-	foreach ($rys as $ry)
-		if ($_GET['spend'] == $ry[0])
-			points($ry[1], $ry[2]);
-	foreach ($money as $mo)
-		if ($_GET['spend'] == $mo[0])
-			money($mo[1], $mo[2]);
+	if (isset($pts) && is_array($pts)) {
+		foreach ($pts as $pt)
+			if ($_GET['spend'] == $pt[0])
+				points($pt[1], $pt[2]);
+	}
+
+	if (isset($rys) && is_array($rys)) {
+		foreach ($rys as $ry)
+			if ($_GET['spend'] == $ry[0])
+				points($ry[1], $ry[2]);
+	}
+
+	if (isset($money) && is_array($money)) {
+		foreach ($money as $mo)
+			if ($_GET['spend'] == $mo[0])
+				money($mo[1], $mo[2]);
+	}
 }
 genHead("<h4><center>Vote Shop - You currently have <span style='color:#3ab997;font-weight:bold;'>" . prettynum($user_class->votetokens) . "</span> Vote Tokens</center></h4>");
 ?>

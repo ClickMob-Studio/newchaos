@@ -349,6 +349,7 @@ include 'chaos_header.php';
         xpIntoLevel: 750,    // XP inside this level
         xpForLevel: 2000     // XP needed to finish this level
     };
+
     const rewards = [
         { id: 101, level: 16, title: "Blue Shards", desc: "100", img: "https://picsum.photos/seed/a/720", claimed: true },
         { id: 102, level: 17, title: "Lantern Ember", desc: "+2 sp/h", img: "https://picsum.photos/seed/b/720", claimed: false },
@@ -356,6 +357,7 @@ include 'chaos_header.php';
         { id: 104, level: 19, title: "Icon – Rogue", desc: "Free", img: "https://picsum.photos/seed/d/720", claimed: false },
         { id: 105, level: 20, title: "Arcane Singed", desc: "Champion skin", img: "https://picsum.photos/seed/e/720", claimed: false }
     ];
+
     /* ========================================== */
     const els = {
         track: document.getElementById('bp2-track'),
