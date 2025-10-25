@@ -52,21 +52,19 @@ $selectedCityId = array_key_exists($selectedCityId, $cityLookup) ? $selectedCity
 
 $sql = "SELECT *
         FROM `grpgusers` gu
-        WHERE (SELECT COUNT(*) FROM bans b WHERE b.id = gu.id AND b.type IN ('perm','freeze')) = 0
+        WHERE (SELECT COUNT(*) FROM `bans` b WHERE b.`id` = gu.`id` AND b.`type` IN ('perm','freeze')) = 0
           AND gu.`admin` = '0'
           AND gu.`ban/freeze` = '0'";
 
 if ($selectedCityId > 0) {
-    $sql .= " AND gu.`cityid` = :cityid";
+    $sql .= " AND gu.`city` = " . (int) $selectedCityId;
 }
 
 $sql .= " ORDER BY `{$orderByColumn}` DESC{$secondarySort} LIMIT 50";
+
 $db->query($sql);
-if ($selectedCityId > 0) {
-    $db->bind(':cityid', $selectedCityId);
-}
 $db->execute();
-$rows = $db->fetch_row(); // array of users
+$rows = $db->fetch_row();
 
 ?>
 <div class='box_top'>Hall Of Fame</div>
