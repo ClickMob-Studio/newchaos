@@ -80,6 +80,9 @@ $rows = $db->fetch_row(); // array of users
                     <option value="0" <?php echo $selectedCityId === 0 ? ' selected' : ''; ?>>All cities</option>
                     <?php if (is_array($cities)): ?>
                         <?php foreach ($cities as $row): ?>
+                            <?php if ($row['id'] == 43) {
+                                continue;
+                            } ?>
                             <option value="<?php echo (int) $row['id']; ?>" <?php echo ($selectedCityId === (int) $row['id']) ? ' selected' : ''; ?>>
                                 <?php echo h($row['name']); ?>
                             </option>
