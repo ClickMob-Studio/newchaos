@@ -45,7 +45,8 @@ if (isset($_GET['complete_all'])) {
     }
 
     $newChallengesClaimed = serialize($challengesClaimed);
-    $db->query("UPDATE bp_category_user SET points = points + " . $newPrize . ", challenge_ids_serialized = '" . $newChallengesClaimed . "' WHERE id = " . $bpCategoryUser['id']);
+    $db->query("UPDATE bp_category_user SET points = points + ?, challenge_ids_serialized = ? WHERE id = ?");
+    $db->execute([$newPrize, $newChallengesClaimed, $bpCategoryUser['id']]);
     $db->execute();
 
     $resMes = 'You have successfully completed all eligible challenges.';
