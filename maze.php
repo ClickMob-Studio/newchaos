@@ -370,7 +370,7 @@ include 'header.php';
                 ' . item_popup('<img src="css/images/NewGameImages/doubleexp.png" width="50" height="50" alt="Emerald Stone">', 208, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/exoticbooster.png" width="50" height="50" alt="Sapphire">', 209, '#ffd700') . '
+                ' . item_popup('<img src="css/images/NewGameImages/exoticbooster.png" width="50" height="50" alt="Sapphire">', 230, '#ffd700') . '
             </div>
         </div>
         <br />
