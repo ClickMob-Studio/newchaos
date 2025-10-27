@@ -62,8 +62,6 @@ include 'header.php';
         }
 
         if (isset($_GET['buy'])) {
-            Send_Event(2, $_GET['buy'] . ' - ' . $user_class->credits, 2);
-
             if ($_GET['buy'] == "sec")
                 diefun("Are you sure you want to buy a Security System? <br><a href='rmstore.php?buy=secyes'>Continue</a><br /><a href='rmstore.php'>No thanks!</a>");
             if ($_GET['buy'] == "7daygrady")
@@ -108,6 +106,8 @@ include 'header.php';
 
                     Send_Event(1, $user_class->formattedname . " bought 14 Day Colour Gradient Name");
                     Send_Event(2, $user_class->formattedname . " bought 14 Day Colour Gradient Name");
+
+                    invalidateFormattedName($user_class->id);
 
                     echo Message("You spent 50 GOLD for the 14 Day Colour Gradient Name. To use it, visit your details page.");
                 } else {
@@ -310,10 +310,6 @@ include 'header.php';
                     echo Message("You don't have enough credits. You can buy some at the upgrade store.");
                 }
             }
-
-
-
-
 
             if ($_GET['buy'] == "vip7") {
                 if ($user_class->credits >= 30) {
@@ -721,8 +717,10 @@ include 'header.php';
                     Send_Event(1, $user_class->formattedname . " bought Image Name");
                     Send_Event(2, $user_class->formattedname . " bought Image Name");
 
+                    invalidateFormattedName($user_class->id);
+
                     echo Message("You spent 50 GOLD for Image Name");
-                    // Redirect to preferences.php after the message
+
                     header("Location: settings.php");
                     exit(); // Ensure no further code is executed after redirect
                 } else {
@@ -1987,11 +1985,11 @@ function refd($creds)
 {
     global $db, $user_class;
     $pts = $creds * 10;
-    $db->query("SELECT * FROM referrals WHERE referred = ?");
+    $db->query("SELECT * FROM referrals WHERE referred = ? LIMIT 1");
     $db->execute(array(
         $user_class->id
     ));
-    $ref = $db->fetch_array(true);
+    $ref = $db->fetch_row(true);
     if (!empty($ref)) {
         $refid = $ref['referrer'];
         $db->query("UPDATE grpgusers SET points = points + $pts WHERE id = ?");

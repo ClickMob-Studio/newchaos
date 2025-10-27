@@ -4144,7 +4144,7 @@ function getScheduledEvent($type = 'gym')
     $db->query("SELECT * FROM scheduledevents WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
     $db->execute([$type, $now, $now]);
     $event = $db->fetch_row(true);
-    if ($event) {
+    if (isset($event) && is_array($event) && !empty($event)) {
         $timetolive = $event['end'] - $now;
         if ($timetolive > 0) {
             $cache->setEx("scheduled_event_" . $type, $timetolive, json_encode($event));

@@ -305,6 +305,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'imagename') {
             "text" => "You have updated your image name",
         ));
 
+        invalidateFormattedName($user_class->id);
+
     } else {
         echo json_encode(array(
             'text' => 'You did not provide an image name',
