@@ -19,7 +19,7 @@ $worked = Get_Item(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
         body {
             font: 1.4rem 'Montserrat', sans-serif;
             color: #fff;
-            background: url(/asset/img/background.png) top center / cover no-repeat #21201c;
+            background: url(/assets/images/background.png) top center / cover no-repeat #21201c;
             margin: 15px;
         }
 
@@ -196,7 +196,8 @@ $worked = Get_Item(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
                     <tr>
                         <td class='textm'>Name: </td>
                         <td class='textr'>
-                            <?php echo isset($worked['itemname']) ? $worked['itemname'] : 'Item not found'; ?></td>
+                            <?php echo isset($worked['itemname']) ? $worked['itemname'] : 'Item not found'; ?>
+                        </td>
 
                     </tr>
                     <tr>
@@ -240,7 +241,8 @@ $worked = Get_Item(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
                     <tr>
                         <td class='textm' valign='top'>Gang vault: </td>
                         <td class='textr'>
-                            <?php echo (isset($worked['shareable']) && $worked['shareable'] ? 'Yes' : 'No') ?></td>
+                            <?php echo (isset($worked['shareable']) && $worked['shareable'] ? 'Yes' : 'No') ?>
+                        </td>
                     </tr>
                     <tr>
                         <td class='textm' valign='top'>Tradeable on Market: </td>

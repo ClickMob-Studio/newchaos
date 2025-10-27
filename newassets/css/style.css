@@ -7,7 +7,7 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(/asset/css/fonts/impact.ttf) format("truetype");
+  src: url(/assets/fonts/impact.ttf) format("truetype");
 }
 
 html,
@@ -19,7 +19,7 @@ body {
 body {
   font: 1.4rem "Montserrat", sans-serif;
   color: #fff;
-  background: url(/asset/img/background.png) top center/cover no-repeat #21201c;
+  background: url(/assets/images/background.png) top center/cover no-repeat #21201c;
   padding: 85px 0;
 }
 
@@ -155,10 +155,9 @@ table {
 
 .dcBannerButtonsContainer {
   padding: 10px 0 0 0;
-  background: url(/asset/img/man1.png) left -60px top 0px/330px no-repeat;
+  background: url(/assets/images/man1.png) left -60px top 0px/330px no-repeat;
   height: 100%;
   display: flex;
-  /* justify-content: flex-end; */
   align-items: flex-end;
   flex-direction: column;
 }

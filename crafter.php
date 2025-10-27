@@ -2,7 +2,7 @@
 include 'header.php'; // Make sure this file contains the database connection $conn
 ?>
 <h1>Crafter</h1>
-<link rel="stylesheet" href="asset/css/crafter.css">
+<link rel="stylesheet" href="assets/css/crafter.css">
 <?php
 // Function to retrieve item details from the database
 

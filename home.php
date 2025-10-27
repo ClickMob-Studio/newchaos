@@ -41,7 +41,7 @@ $_SESSION['cap'] = $rand;
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
    <link rel="preconnect" href="https://fonts.gstatic.com">
    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-   <link rel="stylesheet" href="asset/css/lstyle.css?v=1">
+   <link rel="stylesheet" href="assets/css/lstyle.css?v=1">
    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
    </script>
@@ -57,12 +57,10 @@ $_SESSION['cap'] = $rand;
 </script>
 
 <body>
-   <img class="dcMascot d-none d-lg-block" src="/asset/img/man1.png">
-   <!-- <img class="dcMascot d-none d-lg-block" src="/asset/pumpkinman.png"> -->
+   <img class="dcMascot d-none d-lg-block" src="/assets/images/man1.png">
    <div class="row h-100 m-0">
       <div class="col-12 col-lg-4 offset-lg-2 loginPanel text-center">
-         <img class="m-5" src="/asset/img/logo1.png" style="max-width:200px">
-         <!-- <img class="m-5" src="/asset/halloween.png" style="max-width:200px"> -->
+         <img class="m-5" src="/assets/images/logo1.png" style="max-width:200px">
          <div>
             <div class="d-inline-block">
                <p class="highlightWelcome text-start m-0">Welcome to</p>
