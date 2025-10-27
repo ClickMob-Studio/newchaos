@@ -269,13 +269,40 @@ include 'header.php';
 
     </div>
     
-     <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 100%;">
+     <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 93.5%;">
     <br>
-    <button class="direction-button" onclick="sendDirection(\'North\')">North</button><br><br>
-    <button class="direction-button" onclick="sendDirection(\'West\')">West</button>
-    <button class="direction-button" onclick="sendDirection(\'Search\')">Search</button>
-    <button class="direction-button" onclick="sendDirection(\'East\')">East</button><br><br>
-    <button class="direction-button" onclick="sendDirection(\'South\')">South</button>
+     <div class="compass-nav" style="display: grid; grid-template-areas: \'north north north\' \'west search east\' \'south south south\'; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 15px; justify-items: center; align-items: center;">
+         <button class="direction-button compass-arrow north" style="grid-area: north; flex-direction: column;" onclick="sendDirection(\'North\')" aria-label="Go North">
+             <span>N</span>
+             <svg width="40" height="40" viewBox="0 0 40 40" style="transform: rotate(0deg);">
+                 <polygon points="20,5 35,35 5,35" fill="#ffffff" stroke="#000000" stroke-width="2" />
+             </svg>
+         </button>
+         <button class="direction-button compass-arrow west" style="grid-area: west; flex-direction: row;" onclick="sendDirection(\'West\')" aria-label="Go West">
+             <span>W</span>
+             <svg width="40" height="40" viewBox="0 0 40 40" style="transform: rotate(-90deg);">
+                 <polygon points="20,5 35,35 5,35" fill="#ffffff" stroke="#000000" stroke-width="2" />
+             </svg>
+         </button>
+         <button class="direction-button compass-search" style="grid-area: search;" onclick="sendDirection(\'Search\')" aria-label="Search">
+             <svg width="40" height="40" viewBox="0 0 40 40">
+                 <circle cx="18" cy="18" r="10" stroke="#ff6600" stroke-width="3" fill="none" />
+                 <line x1="28" y1="28" x2="38" y2="38" stroke="#ff6600" stroke-width="3" />
+             </svg>
+         </button>
+         <button class="direction-button compass-arrow east" style="grid-area: east; flex-direction: row;" onclick="sendDirection(\'East\')" aria-label="Go East">
+             <svg width="40" height="40" viewBox="0 0 40 40" style="transform: rotate(90deg);">
+                 <polygon points="20,5 35,35 5,35" fill="#ffffff" stroke="#000000" stroke-width="2" />
+             </svg>
+             <span>E</span>
+         </button>
+         <button class="direction-button compass-arrow south" style="grid-area: south; flex-direction: column;" onclick="sendDirection(\'South\')" aria-label="Go South">
+             <svg width="40" height="40" viewBox="0 0 40 40" style="transform: rotate(180deg);">
+                 <polygon points="20,5 35,35 5,35" fill="#ffffff" stroke="#000000" stroke-width="2" />
+             </svg>
+             <span>S</span>
+         </button>
+     </div>
 </div>
 
 <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px;">
@@ -446,6 +473,55 @@ include 'header.php';
   border-top: none;
  
   color: #000; /* Text color for the content */
+}
+
+.direction-button {
+    padding: 12px 24px;
+}
+
+.direction-button:focus {
+    outline: none;
+}
+
+.compass-nav {
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+.compass-arrow, .compass-search {
+    background: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: #ffffff;
+    min-height: 50px;
+}
+
+.compass-search {
+    background: #ff6600;
+    color: white;
+    width: 60px;
+    height: 50px;
+    transform: translateX(-5px); /* fix alignment */
+}
+
+.compass-arrow span {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 5px;
+}
+.compass-arrow, .compass-search {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>";
 
