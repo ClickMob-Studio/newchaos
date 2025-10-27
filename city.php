@@ -578,7 +578,7 @@ if (isset($currentQuestSeason['id'])) {
                         if (!$baotd || $baotd['baotd'] == 0) {
                             echo "Nobody<br /><br />";
                         } else {
-                            echo "<br />" . formatName($baotd['userid']) . "<br /><br />Back alleys: " . prettynum($baotd['baotd']) . " Mobsters.<br /><br />Your back alleys: " . prettynum($ofthes['baotd']) . " Mobsters<br /><br />";
+                            echo "<br />" . formatName($baotd['userid']) . "<br /><br />" . prettynum($baotd['baotd']) . " Back Alley Runs.<br /><br />Your back alleys: " . prettynum($ofthes['baotd']) . "<br /><br />";
                         }
                         ?>
                         <h3>Reward: 10,000 Points</h3>
