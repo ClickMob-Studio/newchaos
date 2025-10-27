@@ -337,42 +337,10 @@ if ($willcredit == 2) {
         }
     }
 }
+
 DBi::$conn->query("UPDATE `pagamentos` SET `type`='{$t}', `time`='{$timesent}', `RmoneyA`='" . $targetUser->realmoney . "', `pointsA`='" . $targetUser->points . "', 	`moneyA`='" . $targetUser->bank . "', `itemsA`='" . $worked2['qtd'] . "', `runnersA`='" . $targetUser->hookers . "', `amountM`='" . $payment_amount . "', `refAmount`='" . $pagamento20 . "', `PSamount`='" . $pagamento80 . "' WHERE id_pagamento=" . $id_pagamento);
 DBi::$conn->query("UPDATE `pagamentos` SET `refId1`='{$idref1}', `refId2`='{$idref2}',`refId3`='{$idref3}' WHERE id_pagamento=" . $id_pagamento);
 
-/*
-$smtpfromname = 'PrisonStruggle.Com Auto Mailer'; // name the email comes from (ie; admin, jeff, webmaster, YourSite.Com NoReply)
-$smtpfromaddress = 'noreply@prisonstruggle.com'; // email account to relay the mail through
-
-$pop = new POP3();
-$pop->Authorise('mail.prisonstruggle.com', 110, 30, 'noreply@prisonstruggle.com', 'xyzxyz', 1);
-$mail = new PHPMailer();
-$mail->IsSMTP();
-$mail->SMTPDebug = 0;
-$mail->IsHTML(false);
-$mail->From = $smtpfromaddress;
-$mail->FromName = $smtpfromname;
-$mail->Subject =WALLIE_MAILSUBJECT;
-$body = $targetUserName." payed you a total of $OriginalTransferAmount Dollar!:<br>
-Details:<Br>
-ShoppingCartID = $ShoppingCartId <Br>
-Date = $TransDate <Br>
-Time = $TransTime <Br>
-Testmode = $TestMode <Br>
-OriginalTransferAmount = $OriginalTransferAmount <Br>
-TransactionCosts = $TransactionCosts <Br>
-TotalAmount = $TotalAmount <Br>
-TransferAmount = $TransferAmount <Br>
-CurrencyCode = $CurrencyCode <Br>
-Sincerely,<Br>
-Your Wallie transaction management script
-";
-
-$mail->AltBody = str_replace('<br>', '\n\r', $body);
-$mail->MsgHTML($body);
-$mail->AddAddress("telmo.cardoso@gmail.com", "Telmo");
-$mail->Send();
-*/
 // process payment
 if ($pack == '250' or $pack == '260' or $pack == '270' or $pack == '280') {
     $targetUser->Notify(PAYMENT_SOMEONECONTACT, 'Donation');

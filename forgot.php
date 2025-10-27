@@ -102,40 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $row = $db->fetch_row(true);
     $token = generateRandomToken();
 
-    // $mailer = new \PHPMailer\PHPMailer\PHPMailer();
-    // $mailer->getSentMIMEMEssage();
-    // $mailer->Host = 'smtp-relay.brevo.com';
-    // $mailer->SMTPAuth = true;
-    // $mailer->Username = '89f561001@smtp-brevo.com';
-    // $mailer->Password = 'xsmtpsib-605b20664deb58e72b99bddfe5fbd862ff7d3de68ac2d14cddce929ff52b017f-PZKRYTxzyws73B8V';
-    // $mailer->SMTPSecure = 'tls';
-    // $mailer->Port = 587;
-
-    // $email = $row['email'];
-    // $userid = $row['id'];
-
-    // $mailer->setFrom('noreply@chaoscity.co.uk', 'ChaosCity');
-    // $mailer->addAddress($email);
-    // $mailer->Subject = 'Chaos City - Password Reset';
-    // $mailer->Body = "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>";
-
-    // $mailer->SMTPDebug = 3;
-    // $mailer->Debugoutput = "html";
-
-    // $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
-    // $db->execute([$token, $row['email'], $username]);
-
-    // if (!$mailer->send()) {
-    //     $_SESSION['failmessage'] = "Failed to send email. Please try again.";
-    //     header("Location: forgot.php");
-    // } else {
-    //     $_SESSION['failmessage'] = "Password reset instructions have been sent to " . $email;
-    //     header("Location: forgot.php");
-    // }
-    // exit();
-
-
-
     $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
     $apisecret = '15326068ed7ef53039e03ca05662bde2';
     $mj = new \Mailjet\Client($apikey, $apisecret);
