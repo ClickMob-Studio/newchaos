@@ -561,25 +561,24 @@ if (isset($currentQuestSeason['id'])) {
                 </div>
             </div>
 
-            <!-- Buster of the Day -->
-            <!-- Adding offset to center this box on mobile -->
+            <!-- Back Alleys of the Day -->
             <div class="col-6 col-md-4 mb-4">
                 <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    <h4 class="text-center" style="color: orange;">Buster of the Day</h4>
+                    <h4 class="text-center" style="color: orange;">Back Alleys of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT userid, botd FROM ofthes WHERE botd > 0 AND userid NOT IN ($id_list) ORDER BY botd DESC LIMIT 1");
+                        $db->query("SELECT userid, baotd FROM ofthes WHERE botd > 0 AND userid NOT IN ($id_list) ORDER BY botd DESC LIMIT 1");
                         $db->execute();
-                        $botd = $db->fetch_row(true);
+                        $baotd = $db->fetch_row(true);
 
                         $db->query("SELECT * FROM ofthes WHERE userid = ?");
                         $db->execute([$user_class->id]);
                         $ofthes = $db->fetch_row(true);
 
-                        if (!$botd || $botd['botd'] == 0) {
+                        if (!$baotd || $baotd['baotd'] == 0) {
                             echo "Nobody<br /><br />";
                         } else {
-                            echo "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
+                            echo "<br />" . formatName($baotd['userid']) . "<br /><br />Back alleys: " . prettynum($baotd['baotd']) . " Mobsters.<br /><br />Your back alleys: " . prettynum($ofthes['baotd']) . " Mobsters<br /><br />";
                         }
                         ?>
                         <h3>Reward: 10,000 Points</h3>
