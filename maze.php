@@ -260,7 +260,7 @@ include 'header.php';
         echo '
     <div class="contenthead floaty" style="width: 100%;">
 
-        <div class="contenthead floaty" style="width: 88%;"> 
+        <div class="contenthead floaty" style="width: 100%;"> 
     <p>Here you can find Money,Points, Items and Gold whilst randomly searching.
     Below is the potential items you can find when searching, Displaying all different rarity types</p>
     <br>
@@ -269,13 +269,40 @@ include 'header.php';
 
     </div>
     
-     <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 88%;">
+     <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 93.5%;">
     <br>
-    <button class="direction-button" onclick="sendDirection(\'North\')">North</button><br><br>
-    <button class="direction-button" onclick="sendDirection(\'West\')">West</button>
-    <button class="direction-button" onclick="sendDirection(\'Search\')">Search</button>
-    <button class="direction-button" onclick="sendDirection(\'East\')">East</button><br><br>
-    <button class="direction-button" onclick="sendDirection(\'South\')">South</button>
+     <div class="compass-nav" style="display: grid; grid-template-areas: \'north north north\' \'west search east\' \'south south south\'; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 15px; justify-items: center; align-items: center;">
+         <button class="direction-button compass-arrow north" style="grid-area: north; flex-direction: column;" onclick="sendDirection(\'North\')" aria-label="Go North">
+             <span>N</span>
+             <svg width="40" height="40" viewBox="0 0 40 40" style="transform: rotate(0deg);">
+                 <polygon points="20,5 35,35 5,35" fill="#ffffff" stroke="#000000" stroke-width="2" />
+             </svg>
+         </button>
+         <button class="direction-button compass-arrow west" style="grid-area: west; flex-direction: row;" onclick="sendDirection(\'West\')" aria-label="Go West">
+             <span>W</span>
+             <svg width="40" height="40" viewBox="0 0 40 40" style="transform: rotate(-90deg);">
+                 <polygon points="20,5 35,35 5,35" fill="#ffffff" stroke="#000000" stroke-width="2" />
+             </svg>
+         </button>
+         <button class="direction-button compass-search" style="grid-area: search;" onclick="sendDirection(\'Search\')" aria-label="Search">
+             <svg width="40" height="40" viewBox="0 0 40 40">
+                 <circle cx="18" cy="18" r="10" stroke="#ff6600" stroke-width="3" fill="none" />
+                 <line x1="28" y1="28" x2="38" y2="38" stroke="#ff6600" stroke-width="3" />
+             </svg>
+         </button>
+         <button class="direction-button compass-arrow east" style="grid-area: east; flex-direction: row;" onclick="sendDirection(\'East\')" aria-label="Go East">
+             <svg width="40" height="40" viewBox="0 0 40 40" style="transform: rotate(90deg);">
+                 <polygon points="20,5 35,35 5,35" fill="#ffffff" stroke="#000000" stroke-width="2" />
+             </svg>
+             <span>E</span>
+         </button>
+         <button class="direction-button compass-arrow south" style="grid-area: south; flex-direction: column;" onclick="sendDirection(\'South\')" aria-label="Go South">
+             <svg width="40" height="40" viewBox="0 0 40 40" style="transform: rotate(180deg);">
+                 <polygon points="20,5 35,35 5,35" fill="#ffffff" stroke="#000000" stroke-width="2" />
+             </svg>
+             <span>S</span>
+         </button>
+     </div>
 </div>
 
 <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px;">
@@ -287,25 +314,25 @@ include 'header.php';
     <div class="spinner" style="display: none;">
         <div class="loader"></div>
     </div>
-</div>
+</div>';
 
-<div style="justify-content: center; gap: 20px;"> <!-- Flex container for both tables -->
+        echo '<div style="justify-content: center; gap: 20px;"> <!-- Flex container for both tables -->
 
     <!-- First table for Common items -->
     <div class="contenthead floaty common" style="padding: 20px; margin-bottom: 20px; border-radius: 8px;">
         <h1><font color=blue>Common Items</font></h1>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                <img src="/diamondstone.png" width="50" height="50" alt="Diamond Stone">
+                ' . item_popup('<img src="/diamondstone.png" width="50" height="50" alt="Diamond Stone">', 209, '#7eff11') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                <img src="/ruby.jpg" width="50" height="50" alt="Ruby">
+                ' . item_popup('<img src="/ruby.jpg" width="50" height="50" alt="Ruby">', 210, '#7eff11') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                <img src="/emeraldstone.png" width="50" height="50" alt="Emerald Stone">
+                ' . item_popup('<img src="/emeraldstone.png" width="50" height="50" alt="Emerald Stone">', 211, '#7eff11') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                <img src="/sapphire.png" width="50" height="50" alt="Sapphire">
+                ' . item_popup('<img src="/sapphire.png" width="50" height="50" alt="Sapphire">', 212, '#7eff11') . '
             </div>
         </div>
     </div>
@@ -313,87 +340,76 @@ include 'header.php';
     <!-- Second table for Uncommon items -->
     <div class="contenthead floaty uncommon" style="padding: 20px; margin-bottom: 20px; border-radius: 8px;">
         <h1><font color=green>Uncommon Items</font></h1>
-        <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Similar setup for Uncommon items -->
-            <!-- Uncommon item images go here, similar to the common items section -->
-            <!-- Example: -->
-             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                <img src="/diamondstone22.png" width="50" height="50" alt="Diamond Stone">
+        <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
+            <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
+                ' . item_popup('<img src="/diamondstone22.png" width="50" height="50" alt="Diamond Stone">', 225, '#00ff00') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                <img src="/ruby2.png" width="50" height="50" alt="Ruby">
+                ' . item_popup('<img src="/ruby2.png" width="50" height="50" alt="Ruby">', 226, '#00ff00') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                <img src="/emeraldstone2.png" width="50" height="50" alt="Emerald Stone">
+                ' . item_popup('<img src="/emeraldstone2.png" width="50" height="50" alt="Emerald Stone">', 227, '#00ff00') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                <img src="/sapphirestone2.png" width="50" height="50" alt="Sapphire">
+                ' . item_popup('<img src="/sapphirestone2.png" width="50" height="50" alt="Sapphire">', 228, '#00ff00') . '
             </div>
         </div>
     </div>
-</div>
-<div style="justify-content: center; gap: 20px;"> <!-- Flex container for both tables -->
 
-    <!-- First table for Common items -->
+    <!-- Third table for Rare items -->
     <div class="contenthead floaty rare" style="padding: 20px; margin-bottom: 20px; border-radius: 8px;">
         <h1><font color=gold>Rare Item Finds</font></h1>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                <img src="css/images/NewGameImages/mugprotection.png" width="50" height="50" alt="Diamond Stone">
+                ' . item_popup('<img src="css/images/NewGameImages/mugprotection.png" width="50" height="50" alt="Diamond Stone">', 206, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                <img src="css/images/NewGameImages/attackprotection.png" width="50" height="50" alt="Ruby">
+                ' . item_popup('<img src="css/images/NewGameImages/attackprotection.png" width="50" height="50" alt="Ruby">', 207, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                <img src="css/images/NewGameImages/doubleexp.png" width="50" height="50" alt="Emerald Stone">
+                ' . item_popup('<img src="css/images/NewGameImages/doubleexp.png" width="50" height="50" alt="Emerald Stone">', 208, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                <img src="css/images/NewGameImages/exoticbooster.png" width="50" height="50" alt="Sapphire">
+                ' . item_popup('<img src="css/images/NewGameImages/exoticbooster.png" width="50" height="50" alt="Exotic Booster">', 230, '#ffd700') . '
+
             </div>
         </div>
         <br />
-         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
-         <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                <img src="css/images/NewGameImages/metal.png" width="50" height="50" alt="Metal">
+        <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
+            <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
+                ' . item_popup('<img src="css/images/NewGameImages/metal.png" width="50" height="50" alt="Metal">', 273, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                <img src="css/images/NewGameImages/wood.png" width="50" height="50" alt="Wood">
+                ' . item_popup('<img src="css/images/NewGameImages/wood.png" width="50" height="50" alt="Wood">', 275, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                <img src="css/images/NewGameImages/leather.png" width="50" height="50" alt="Leather">
+                ' . item_popup('<img src="css/images/NewGameImages/leather.png" width="50" height="50" alt="Leather">', 274, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                <img src="css/images/NewGameImages/cpu.png" width="50" height="50" alt="CPU">
+                ' . item_popup('<img src="css/images/NewGameImages/cpu.png" width="50" height="50" alt="CPU">', 318, '#ffd700') . '
             </div>
-         </div>
-         <br />
-         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
-         <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                <img src="css/images/NewGameImages/plastic.png" width="50" height="50" alt="Plastic">
+        </div>
+        <br />
+        <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
+            <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
+                ' . item_popup('<img src="css/images/NewGameImages/plastic.png" width="50" height="50" alt="Plastic">', 319, '#ffd700') . '
             </div>
-         </div>
-    </div>
-
-    <!-- Second table for Uncommon items -->
-    <div class="contenthead floaty super-rare" style="padding: 20px; margin-bottom: 20px; border-radius: 8px;">
-        <h1><font color=red>Super Rare Finds</font></h1>
-        <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Similar setup for Uncommon items -->
-            <!-- Uncommon item images go here, similar to the common items section -->
-            <!-- Example: -->
-             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); border-radius: 8px;">
-                <img src="css/images/NewGameImages/heroicbooster.png" width="50" height="50" alt="Diamond Stone">
-            </div>
-           
-            <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); border-radius: 8px;">
-                <img src="images/raidspeedup.png" width="50" height="50" alt="Emerald Stone">
-            </div>
-            
         </div>
     </div>
-</div>
 
-
- 
-';
+    <!-- Fourth table for Super Rare items -->
+    <div class="contenthead floaty super-rare" style="padding: 20px; margin-bottom: 20px; border-radius: 8px;">
+        <h1><font color=red>Super Rare Finds</font></h1>
+        <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
+            <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); border-radius: 8px;">
+                ' . item_popup('<img src="css/images/NewGameImages/heroicbooster.png" width="50" height="50" alt="Heroic Booster">', 231, '#ff0000') . '
+            </div>
+            <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); border-radius: 8px;">
+                ' . item_popup('<img src="images/raidspeedup.png" width="50" height="50" alt="Raid Speedup">', 194, '#ff0000') . '
+            </div>
+        </div>
+    </div>
+</div>';
 
 
 
@@ -459,6 +475,55 @@ include 'header.php';
  
   color: #000; /* Text color for the content */
 }
+
+.direction-button {
+    padding: 12px 24px;
+}
+
+.direction-button:focus {
+    outline: none;
+}
+
+.compass-nav {
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+.compass-arrow, .compass-search {
+    background: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: #ffffff;
+    min-height: 50px;
+}
+
+.compass-search {
+    background: #ff6600;
+    color: white;
+    width: 60px;
+    height: 50px;
+    transform: translateX(-5px); /* fix alignment */
+}
+
+.compass-arrow span {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 5px;
+}
+.compass-arrow, .compass-search {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 </style>";
 
         echo "<div class='tab'>
@@ -492,7 +557,7 @@ include 'header.php';
         $logs2 = $db->fetch_row();
 
         echo "<table id='usertables'>";
-        echo "<tr><th>timestamp</th><th>User</th><th>Description</th></tr>";
+        echo "<tr><th>Timestamp</th><th>User</th><th>Description</th></tr>";
         foreach ($logs2 as $log) {
             $username = formatName($log['user_id']);
             $timeAgo = howlongago($log['timestamp']);
