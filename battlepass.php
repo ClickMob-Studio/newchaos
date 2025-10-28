@@ -29,6 +29,33 @@ $challengesClaimed = !empty($bpCategoryUser['challenge_ids_serialized'])
     ? unserialize($bpCategoryUser['challenge_ids_serialized'])
     : [];
 
+if (isset($_GET['complete_all'])) {
+    $newPrize = 0;
+
+    foreach ($bpCategoryChallenges as $challenge) {
+        if ($challenge['is_premium'] > 0 && $bpCategoryUser['is_premium'] < 1) {
+            continue;
+        }
+        if ($bpCategoryUser[$challenge['type']] >= $challenge['amount']) {
+            if (!in_array($challenge['id'], $challengesClaimed)) {
+                $challengesClaimed[] = $challenge['id'];
+                $newPrize += $challenge['prize'];
+            }
+        }
+    }
+
+    $newChallengesClaimed = serialize($challengesClaimed);
+    $db->query("UPDATE bp_category_user SET points = points + ?, challenge_ids_serialized = ? WHERE id = ?");
+    $db->execute([$newPrize, $newChallengesClaimed, $bpCategoryUser['id']]);
+    $db->execute();
+
+    $resMes = 'You have successfully completed all eligible challenges.';
+
+    // remove ?complete_all argument to avoid "refresh => complete all again"
+    header('Location: battlepass.php' . (isset($overrideId) ? '?override_id=' . $overrideId : ''));
+    exit;
+}
+
 if (isset($_GET['claim_challenge']) && (int) $_GET['claim_challenge']) {
     $claimChallengeId = (int) $_GET['claim_challenge'];
 
@@ -58,6 +85,10 @@ if (isset($_GET['claim_challenge']) && (int) $_GET['claim_challenge']) {
     } else {
         diefun('You have not completed this challenge yet.');
     }
+
+    // remove ?claim_challenge argument to avoid "refresh => claim again"
+    header('Location: battlepass.php' . (isset($overrideId) ? '?override_id=' . $overrideId : ''));
+    exit;
 }
 
 if (isset($_GET['claim_prize']) && (int) $_GET['claim_prize']) {
@@ -208,6 +239,9 @@ if (isset($_GET['claim_prize']) && (int) $_GET['claim_prize']) {
                 <?php endif; ?>
                 <tr>
                     <td>
+                        <div class="row mb-3">
+                            <a href="battlepass.php?complete_all=1" class="btn btn-primary">(Complete All)</a>
+                        </div>
                         <div class="row">
                             <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
                                 <?php
