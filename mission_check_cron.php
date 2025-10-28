@@ -10,7 +10,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-//$db->query("SELECT * FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE missions.crimes >= mission.crimes AND completed = 'no' AND userid = 174 LIMIT 1");
 $db->query("SELECT *, ms.id as missionid, m.crimes as reqCrimes, m.kills as reqKills, m.busts as reqBusts, m.mugs as reqMugs, m.backalleys as reqBackalleys, m.raids as reqRaids, ms.crimes as cCrimes, ms.kills as cKills, ms.mugs as cMugs, ms.backalleys as cBackalleys, ms.raids as cRaids, ms.busts as cBusts, m.exp_level AS mExpLevel FROM missions ms LEFT JOIN mission m ON ms.mid = m.id WHERE completed = 'no'");
 $db->execute();
 

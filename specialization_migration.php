@@ -7,6 +7,12 @@ if (!isset($_GET['abracadabra']) || $_GET['abracadabra'] !== 'open-sesame') {
     die('Access denied');
 }
 
+include_once 'header.php';
+
+if ($user_class->admin != 1) {
+    die('Access denied');
+}
+
 require_once 'dbcon.php';
 require_once 'database/pdo_class.php';
 require_once 'includes/functions.php';

@@ -1,7 +1,0 @@
-Array
-(
-    [direction] => East
-    [description] => <strong style='color:red;'>Attempted to break into a car and got arrested.</strong>
-    [turnsLeft] => You have 26 turns left to search the streets.
-    [searchResult] => <p><strong>Search Result:</strong><br>You walked East.<br><strong style='color:red;'>Attempted to break into a car and got arrested.</strong></p>
-)

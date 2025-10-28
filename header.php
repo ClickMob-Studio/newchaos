@@ -707,7 +707,7 @@ $no2 = $db->num_rows();
         <div class="row mx-auto mainHeaderContent d-none d-md-block">
             <?php
 
-            require 'navbar1.php'; ?>
+            require 'navbar.php'; ?>
         </div>
 
     </header>
