@@ -23,7 +23,7 @@ include 'header.php'; ?>
             die();
         }
         if (isset($_GET['user']) && $_GET['x'] == 1) {
-            $db->query("SELECT * FROM gangapps WHERE gangid = ? AND applicatn = ?");
+            $db->query("SELECT * FROM gangapps WHERE gangid = ? AND applicant = ?");
             $db->execute([$gang, $_GET['user']]);
             $result = $db->fetch_row();
             if (!empty($result)) {
