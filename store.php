@@ -1640,7 +1640,8 @@ if (!empty($bpCategory)) {
 
                 <h4>Example</h4>
                 <h4 class="gradient-text">Gradient NAME</h4>
-                <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/css/images/goldbars.png"></img> 50</font>
+                <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/css/images/goldbars.png" style="width:16px">
+                        50</font>
                 </h4>
 
             </td>
