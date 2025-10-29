@@ -323,16 +323,16 @@ include 'header.php';
         <h1><font color=blue>Common Items</font></h1>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="/diamondstone.png" width="50" height="50" alt="Diamond Stone">', 209, '#7eff11') . '
+                ' . item_popup('<img src="css/images/items/common_diamond.png" width="50" height="50" alt="Diamond (Common)">', 209, '#7eff11') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="/ruby.jpg" width="50" height="50" alt="Ruby">', 210, '#7eff11') . '
+                ' . item_popup('<img src="css/images/items/common_ruby.jpg" width="50" height="50" alt="Ruby">', 210, '#7eff11') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="/emeraldstone.png" width="50" height="50" alt="Emerald Stone">', 211, '#7eff11') . '
+                ' . item_popup('<img src="css/images/items/common_emerald.png" width="50" height="50" alt="Emerald Stone">', 211, '#7eff11') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="/sapphire.png" width="50" height="50" alt="Sapphire">', 212, '#7eff11') . '
+                ' . item_popup('<img src="css/images/items/common_sapphire.png" width="50" height="50" alt="Sapphire">', 212, '#7eff11') . '
             </div>
         </div>
     </div>
@@ -342,16 +342,16 @@ include 'header.php';
         <h1><font color=green>Uncommon Items</font></h1>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="/diamondstone22.png" width="50" height="50" alt="Diamond Stone">', 225, '#00ff00') . '
+                ' . item_popup('<img src="css/images/items/uncommon_diamond.png" width="50" height="50" alt="Diamond Stone">', 225, '#00ff00') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="/ruby2.png" width="50" height="50" alt="Ruby">', 226, '#00ff00') . '
+                ' . item_popup('<img src="css/images/items/uncommon_ruby.png" width="50" height="50" alt="Ruby">', 226, '#00ff00') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="/emeraldstone2.png" width="50" height="50" alt="Emerald Stone">', 227, '#00ff00') . '
+                ' . item_popup('<img src="css/images/items/uncommon_emerald.png" width="50" height="50" alt="Emerald Stone">', 227, '#00ff00') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="/sapphirestone2.png" width="50" height="50" alt="Sapphire">', 228, '#00ff00') . '
+                ' . item_popup('<img src="css/images/items/uncommon_sapphire.png" width="50" height="50" alt="Sapphire">', 228, '#00ff00') . '
             </div>
         </div>
     </div>
