@@ -105,17 +105,22 @@ if (isset($_GET['itemid']) && (int) $_GET['itemid']) {
 
 $indexedRows = array();
 if (isset($_GET['itemid']) && (int) $_GET['itemid']) {
-    $indexedRows = $rows;
+    $indexedRows = [];
+    foreach ($rows as $r) {
+        $r['count'] = count($rows);
+        $indexedRows[] = $r;
+    }
 } else {
+    $indexedRows = [];
     foreach ($rows as $row) {
-        if (!isset($indexedRows[$row['itemid']])) {
-            $indexedRows[$row['itemid']] = $row;
-            $indexedRows[$row['itemid']]['count'] = 1;
+        $id = $row['itemid'];
+        if (!isset($indexedRows[$id])) {
+            $row['count'] = 1;
+            $indexedRows[$id] = $row;
         } else {
-            $indexedRows[$row['itemid']]['count']++;
+            $indexedRows[$id]['count']++;
         }
     }
-
 }
 
 $db->query('SELECT * FROM items ORDER BY itemname');
