@@ -103,15 +103,13 @@ if (isset($_GET['itemid']) && (int) $_GET['itemid']) {
     $rows = $db->fetch_row();
 }
 
-$indexedRows = array();
+$indexedRows = [];
 if (isset($_GET['itemid']) && (int) $_GET['itemid']) {
-    $indexedRows = [];
     foreach ($rows as $r) {
         $r['count'] = count($rows);
         $indexedRows[] = $r;
     }
 } else {
-    $indexedRows = [];
     foreach ($rows as $row) {
         $id = $row['itemid'];
         if (!isset($indexedRows[$id])) {
