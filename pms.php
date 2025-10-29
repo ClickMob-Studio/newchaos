@@ -1,6 +1,26 @@
 <?php
 include 'header.php';
+
+function baseSubject(string $s): string
+{
+    $s = preg_replace('/^(?:(?:re|fw|fwd)\s*:\s*)+/i', '', $s ?? '');
+    $s = trim(preg_replace('/\s+/u', ' ', $s));
+    return $s === '' ? 'No Subject' : $s;
+}
+
+/** HTML-escape for safe output (attributes/text). */
+function h(?string $s): string
+{
+    return htmlspecialchars($s ?? '', ENT_QUOTES, 'UTF-8');
+}
+
+function legacyUnslash(string $s): string
+{
+    return strpos($s, '\\') !== false ? stripslashes($s) : $s;
+}
+
 ?>
+
 <div class='box_top'>MailBox</div>
 <div class='box_middle'>
     <div class='pad'>
@@ -123,14 +143,19 @@ include 'header.php';
             $parent = $_POST['parent'] != 0
                 ? (int) $_POST['parent']
                 : (time() + rand(100, 999));
-            $subject = str_replace(" ", "", $_POST['subject']);
-            $subject = strip_tags($subject);
-            if (empty($subject)) {
-                $subject = "No Subject";
+
+            $subjectRaw = $_POST['subject'] ?? '';
+            $subjectRaw = legacyUnslash($subjectRaw);
+            $subject = baseSubject(strip_tags($subjectRaw));
+            if (isset($_GET['reply'])) {
+                $subject = 'RE: ' . $subject;
             }
-            $_POST['msgtext'] = str_replace('"', '', $_POST['msgtext']);
-            $msgtext = strip_tags($_POST['msgtext']);
-            $msgtext = nl2br($msgtext);
+
+            $msgRaw = $_POST['msgtext'] ?? '';
+            $msgText = trim($msgRaw);
+            $msgText = strip_tags($msgText);
+            $msgText = nl2br($msgText);
+
             $db->query("SELECT blocker FROM ignorelist WHERE blocker = ? AND blocked = ? LIMIT 1");
             $db->execute(array(
                 $to,
@@ -230,6 +255,8 @@ include 'header.php';
             foreach ($rows as $row) {
                 if ($row['to'] == $user_class->id) {
                     $from_user_class = new User($row['from']);
+                    $subject = ($row['subject'] == "") ? "No Subject" : legacyUnslash($row['subject']);
+                    $subject = baseSubject($subject);
                     $subject = ($row['subject'] == "") ? "No Subject" : $row['subject'];
                     if ($row['check'] == 1 && $row['viewed'] == 1) {
                         $bold = "<b>";
@@ -258,7 +285,7 @@ include 'header.php';
                     echo "
 
                     <tr style='height:30px;'>
-                        <td width='30%'>$bold<a href='viewpm.php?id={$row['id']}'>$subject</a>$bold2</td>
+                        <td width='30%'>$bold<a href='viewpm.php?id={$row['id']}'>" . h($subject) . "</a>$bold2</td>
                         <td width='30%'>$namee</td>
                         <td width='30%'>" . date("d F, Y g:ia", $row['timesent']) . "</td>
                         <td width='3%'><a href='?view=inbox&star={$row['id']}'><img src='/images/star{$fill}.png' height='20px;' /></a></td>
@@ -344,9 +371,12 @@ include 'header.php';
                     <div class="row mb-3">
                         <label for="subject" class="col-sm-2 col-form-label"><b>Subject:</b></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control custom-input" id="subject" name="subject"
-                                value="<?php echo (isset($_GET['reply']) ? 'RE: ' . $row['subject'] : ''); ?>"
-                                maxlength="125">
+                            <input type="text" class="form-control custom-input" id="subject" name="subject" value="<?php
+                            if (isset($_GET['reply'])) {
+                                $orig = isset($row['subject']) ? legacyUnslash($row['subject']) : '';
+                                echo h('RE: ' . baseSubject($orig));
+                            }
+                            ?>" maxlength="125">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -407,9 +437,13 @@ include 'header.php';
             $rows = $db->fetch_row();
             foreach ($rows as $row) {
                 if ($row['from'] == $user_class->id) {
+                    $subj = ($row['subject'] == "") ? "No Subject" : legacyUnslash($row['subject']);
+                    $subj = baseSubject($subj);
+
                     echo "
                             <tr>
                                 <td width='42%'><a href='viewsent.php?id={$row['id']}'>", ($row['subject'] == "") ? "No Subject" : $row['subject'], "</a></td>
+                                <td width='42%'><a href='viewsent.php?id={$row['id']}'>" . h($subj) . "</a></td>
                                 <td width='27%'>" . formatName($row['to']) . "</td>
                                 <td width='31%'>" . date("d F, Y g:ia", $row['timesent']) . "</td>
                             </tr>";
