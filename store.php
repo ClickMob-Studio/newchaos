@@ -950,8 +950,8 @@ include 'header.php';
         <?php
 
         // Display information
-        echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/css/images/goldbars.png"></img><font color=red><b>10</font></center>';
-        echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/css/images/goldbars.png"></img>' . $user_class->credits . ' </size></center></span><br />';
+        echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/css/images/goldbars.png" style="width:16px" /><font color=red><b>10</font></center>';
+        echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/css/images/goldbars.png" style="width:16px">' . $user_class->credits . ' </size></center></span><br />';
 
         echo '<center>';
         ?>
@@ -959,7 +959,7 @@ include 'header.php';
             <font color='white'>For a donation of $<span id="donationAmount">0</span>, you will receive
                 <b id="creditsAmount" style="text-decoration: line-through;color:gray;">0 </b>
                 <b id="newCreditsAmount" style="color:red;"></b>
-                <img src="https://chaoscity.co.uk/css/images/goldbars.png"></img>
+                <img src="https://chaoscity.co.uk/css/images/goldbars.png" style="width:16px">
             </font>
         </span>
 
@@ -1220,7 +1220,8 @@ include 'header.php';
                             </ul>
                         <?php endif; ?>
 
-                        <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/css/images/goldbars.png"></img>
+                        <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/css/images/goldbars.png"
+                                    style="width:16px">
                                 <?php echo $limitedPack['gold_cost'] ?></font>
                         </h4>
                     </td>
@@ -1354,7 +1355,8 @@ include 'header.php';
                 <li>[x5] 1 Hour Mug Protection</li>
             </ul>
             <h4>Purchase now for only<br><a href="store.php?buy=MP5"><button class="gold-button"><img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png"></img>100</button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" style="width:16px">100</button></a>
+            </h4>
         </div>
 
         <!-- Limited Edition Pack 2 -->
@@ -1368,7 +1370,8 @@ include 'header.php';
                 <li>1 Hour Double EXP Pill</li>
             </ul>
             <h4>Purchase now for only<br><a href="store.php?buy=doubleexp"><button class="gold-button"><img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png"></img>50</button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" style="width:16px">50</button></a>
+            </h4>
         </div>
 
         <!-- Limited Edition Pack 3 -->
@@ -1382,7 +1385,8 @@ include 'header.php';
                 <li>[x5] 1 Hour Attack Protection</li>
             </ul>
             <h4>Purchase now for only<br><a href="store.php?buy=AP5"><button class="gold-button"><img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png"></img>100</button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" style="width:16px">100</button></a>
+            </h4>
         </div>
 
         <!-- Limited Edition Pack 4 -->
@@ -1395,7 +1399,8 @@ include 'header.php';
                 <li>1 Police Badge</li>
             </ul>
             <h4>Purchase now for only<br><a href="store.php?buy=PB1"><button class="gold-button"><img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png"></img>100</button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" style="width:16px">100</button></a>
+            </h4>
         </div>
 
     </div>
@@ -1415,7 +1420,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Mug Protection">
 
             <h4>Purchase now for only<br><a href="store.php?buy=vip7"><button class="gold-button">30 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 2 -->
@@ -1424,7 +1430,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Double Exp">
 
             <h4>Purchase now for only<br><a href="store.php?buy=vip15"><button class="gold-button">50 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 3 -->
@@ -1433,7 +1440,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Attack Protection">
 
             <h4>Purchase now for only<br><a href="store.php?buy=vip30"><button class="gold-button">80 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
 
 
@@ -1458,7 +1466,8 @@ include 'header.php';
             <p>Unlock 30 mins of the 10x Super Gym, allowing you to complete trains 10x quicker.</p>
 
             <h4>Purchase now for only<br><a href="store.php?buy=qol10gym"><button class="gold-button">30 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
 
         <!-- 15x Crimes -->
@@ -1467,7 +1476,8 @@ include 'header.php';
             <p>Unlock 30 mins of the 75x Crimes, allowing you to complete crimes 75x quicker.</p>
 
             <h4>Purchase now for only<br><a href="store.php?buy=qol75crimes"><button class="gold-button">30 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
 
         <!-- Super Crime -->
@@ -1495,7 +1505,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/mission-pass.png" height="100" alt="Mission Pass">
 
             <h4>Purchase now for only<br><a href="store.php?buy=1missionpass"><button class="gold-button">30 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
 
         <!-- 1 x Research Token -->
@@ -1504,7 +1515,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/research-token.png" height="100" alt="Research Token">
 
             <h4>Purchase now for only<br><a href="store.php?buy=1researchtoken"><button class="gold-button">50 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
 
         <!-- 1 x Gang Double EXP -->
@@ -1513,7 +1525,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/gang-dep.png" height="100" alt="Gang Double EXP">
 
             <h4>Purchase now for only<br><a href="store.php?buy=1gangdoubleexp"><button class="gold-button">200 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
     </div>
     <br>
@@ -1525,7 +1538,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/gym-protein-bar.png" height="100" alt="Protein Bar">
 
             <h4>Purchase now for only<br><a href="store.php?buy=5proteinbar"><button class="gold-button">30 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
 
         <div class="vip-package">
@@ -1533,7 +1547,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/gym-super-pills.png" height="100" alt="Gym Super Pills">
 
             <h4>Purchase now for only<br><a href="store.php?buy=5gymsuperpills"><button class="gold-button">30 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
 
         <div class="vip-package">
@@ -1541,7 +1556,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/nerve-vial.png" height="100" alt="Nerve Vial">
 
             <h4>Purchase now for only<br><a href="store.php?buy=1nervevial"><button class="gold-button">50 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
 
         <div class="vip-package">
@@ -1549,7 +1565,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/raid-pass.png" height="100" alt="Raid Pass">
 
             <h4>Purchase now for only<br><a href="store.php?buy=10raidpass"><button class="gold-button">50 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
     </div>
     <br />
@@ -1561,7 +1578,8 @@ include 'header.php';
             <img src="/css/images/NewGameImages/double-gym-injection.png" height="100" alt="Double Gym Injection">
 
             <h4>Purchase now for only<br><a href="store.php?buy=1doublegym"><button class="gold-button">200 <img
-                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"></button></a></h4>
+                            src="https://chaoscity.co.uk/css/images/goldbars.png" alt="Gold bar"
+                            style="width:16px"></button></a></h4>
         </div>
     </div>
 </div>
@@ -1593,7 +1611,8 @@ if (!empty($bpCategory)) {
                         <small style="font-size: .5em;">NOTE: THIS PURCHASE ONLY APPLIES TO THE CURRENT MONTHS BATTLE
                             PASS.</small>
                     </p>
-                    <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/css/images/goldbars.png"></img> 300</font>
+                    <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/css/images/goldbars.png" style="width:16px">
+                            300</font>
                     </h4>
 
                 </td>
@@ -1648,7 +1667,8 @@ if (!empty($bpCategory)) {
                 <h4>Example</h4> <img
                     src="https://cdn.discordapp.com/attachments/1225698401732268114/1229718368899301456/PSX_20240416_020108.png?ex=6630b37a&is=661e3e7a&hm=7701a12b7c977cc41049878c2536a7c8e8ecc874a9550715bb63514d49b96f63&"
                     style="max-width:95px; max-height:50px;"><br />
-                <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/css/images/goldbars.png"></img> 500</font>
+                <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/css/images/goldbars.png" style="width:16px">
+                        500</font>
                 </h4>
 
             </td>
