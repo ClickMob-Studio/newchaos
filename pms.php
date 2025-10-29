@@ -152,9 +152,9 @@ function legacyUnslash(string $s): string
             }
 
             $msgRaw = $_POST['msgtext'] ?? '';
-            $msgText = trim($msgRaw);
-            $msgText = strip_tags($msgText);
-            $msgText = nl2br($msgText);
+            $msgtext = trim($msgRaw);
+            $msgtext = strip_tags($msgtext);
+            $msgtext = nl2br($msgtext);
 
             $db->query("SELECT blocker FROM ignorelist WHERE blocker = ? AND blocked = ? LIMIT 1");
             $db->execute(array(
