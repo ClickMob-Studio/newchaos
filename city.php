@@ -567,7 +567,7 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center" style="color: orange;">Back Alleys of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT userid, baotd FROM ofthes WHERE botd > 0 AND userid NOT IN ($id_list) ORDER BY botd DESC LIMIT 1");
+                        $db->query("SELECT userid, baotd FROM ofthes WHERE baotd > 0 AND userid NOT IN ($id_list) ORDER BY baotd DESC LIMIT 1");
                         $db->execute();
                         $baotd = $db->fetch_row(true);
 
