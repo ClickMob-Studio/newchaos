@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($result['rewards']) {
                     $_SESSION['flash'] = ['ok', 'Claimed ' . count($result['rewards']) . ' rewards', $result['rewards']];
                 } else {
-                    $locked = count($res['premium_locked'] ?? []);
+                    $locked = count($result['premium_locked'] ?? []);
                     $msg = 'Nothing to claim right now.';
                     if ($locked)
                         $msg .= ' (' . $locked . ' premium locked)';
@@ -1123,25 +1123,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="bp3-track">
         <?php foreach ($passRows as $row):
             $tier = (int) ($row['curse_level'] ?? 0);
-            $req = (int) $row['curse_exp_req'];
-            $claimed = in_array((int) $row['id'], $claimedIds, true);
-            $prem = (int) $row['is_premium'] === 1;
+            $req = (int) ($row['curse_exp_req'] ?? 0);
+            $id = (int) ($row['id']);
+            $prem = (int) ($row['is_premium'] ?? 0) === 1;
+            $claimed = in_array($id, $claimedIds, true);
 
+            // --- Unlocks are strictly level-based
             $reached = ($currentLevel >= $tier);
             $claimable = $reached && !$claimed && (!$prem || $isPremium);
 
-            $remaining = 0;
-            if (!$reached) {
-                $remaining = max(0, $req - ($reqAt($currentLevel) + $currentExp));
-            }
+            // --- Progress bar:
+            // Segment = [reqAt(currentLevel), reqAt(currentLevel+1))
+            $segStart = $reqAt($currentLevel);
+            $segEnd = $reqAt($currentLevel + 1);
+            $segTotal = max(1, $segEnd - $segStart);
 
             if ($reached) {
                 $tilePct = 100;
             } elseif ($tier === $currentLevel + 1) {
-                $segTotal = max(1, $req - $reqAt($currentLevel));
+                // progress within the current segment ONLY for the immediate next tier
                 $tilePct = (int) min(99, round(($currentExp / $segTotal) * 100));
             } else {
                 $tilePct = 0;
+            }
+
+            // --- Single “Requires … XP” line shows REMAINING to this tile:
+            // remaining = req(tier) - (req(currentLevel) + currentExp)
+            $remaining = 0;
+            if (!$reached) {
+                $remaining = max(0, $req - ($segStart + $currentExp));
             }
 
             $rewardLabel = rr_label($row);
@@ -1164,10 +1174,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="bp3-title"><?= h($row['name'] ?? $rewardLabel) ?></div>
 
                 <div class="bp3-req">
-                    <?php if (!$reached): ?>
-                        Requires <strong><?= number_format($remaining) ?></strong> XP
-                    <?php else: ?>
+                    <?php if ($reached): ?>
                         <strong>Unlocked</strong>
+                    <?php else: ?>
+                        Requires <strong><?= number_format($remaining) ?></strong> XP
                     <?php endif; ?>
                 </div>
 
@@ -1184,8 +1194,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <form method="post" action="">
                             <input type="hidden" name="csrf" value="<?= h($_SESSION['csrf']) ?>">
                             <input type="hidden" name="action" value="claim_one">
-                            <input type="hidden" name="pass_id" value="<?= (int) $row['id'] ?>">
-                            <button class="bp3-claim" <?= $claimable ? '' : 'disabled' ?>>Claim</button>
+                            <input type="hidden" name="pass_id" value="<?= $id ?>">
+                            <button class="bp3-claim">Claim</button>
                         </form>
                     <?php endif; ?>
                 </div>

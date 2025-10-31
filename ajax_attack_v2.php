@@ -720,10 +720,8 @@ if ($winner_class->gang != 0 && $db->num_rows()) {
             $active,
             $row['warid']
         ));
-        //print "<br />You have also gained $active gang war points for your gang.";
     }
 }
-//$user_class->stamina -= 1;
 
 $theirhp = ($theirhp > $attack_person->puremaxhp) ? $attack_person->puremaxhp : $theirhp;
 $yourhp = ($yourhp > $user_class->puremaxhp) ? $user_class->puremaxhp : $yourhp;
