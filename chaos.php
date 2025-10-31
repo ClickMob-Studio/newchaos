@@ -1123,35 +1123,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="bp3-track">
         <?php foreach ($passRows as $row):
             $tier = (int) ($row['curse_level'] ?? 0);
-            $req = (int) ($row['curse_exp_req'] ?? 0);
-            $id = (int) ($row['id']);
+            $req = $reqAt($tier);                      // cumulative requirement for this tier
+            $id = (int) $row['id'];
             $prem = (int) ($row['is_premium'] ?? 0) === 1;
             $claimed = in_array($id, $claimedIds, true);
 
-            // --- Unlocks are strictly level-based
+            // Unlocks are level-based
             $reached = ($currentLevel >= $tier);
             $claimable = $reached && !$claimed && (!$prem || $isPremium);
 
-            // --- Progress bar:
-            // Segment = [reqAt(currentLevel), reqAt(currentLevel+1))
-            $segStart = $reqAt($currentLevel);
-            $segEnd = $reqAt($currentLevel + 1);
-            $segTotal = max(1, $segEnd - $segStart);
+            // Remaining to this tier (0 if reached)
+            $remaining = $reached ? 0 : max(0, $req - ($curReq + $currentExp));
 
+            // Progress bar:
             if ($reached) {
                 $tilePct = 100;
             } elseif ($tier === $currentLevel + 1) {
-                // progress within the current segment ONLY for the immediate next tier
+                // progress within the current segment (curLevel -> curLevel+1)
                 $tilePct = (int) min(99, round(($currentExp / $segTotal) * 100));
             } else {
                 $tilePct = 0;
-            }
-
-            // --- Single “Requires … XP” line shows REMAINING to this tile:
-            // remaining = req(tier) - (req(currentLevel) + currentExp)
-            $remaining = 0;
-            if (!$reached) {
-                $remaining = max(0, $req - ($segStart + $currentExp));
             }
 
             $rewardLabel = rr_label($row);
