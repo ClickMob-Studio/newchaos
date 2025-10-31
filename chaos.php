@@ -1109,62 +1109,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="bp3-track">
         <?php
-        // --- normalize XP requirements to cumulative (handles both per-level and cumulative data)
-        $cumByLevel = [];
-        $last = null;
-        $looksCumulative = true;
-        foreach ($passRows as $r) {
-            $lvl = (int) $r['curse_level'];
-            $req = (int) $r['curse_exp_req'];
-            if ($last !== null && $req < $last) {
-                $looksCumulative = false;
-            }
-            $last = $req;
-        }
-
-        if ($looksCumulative) {
-            foreach ($passRows as $r) {
-                $cumByLevel[(int) $r['curse_level']] = (int) $r['curse_exp_req'];
-            }
-        } else {
-            $running = 0;
-            foreach ($passRows as $r) {
-                $running += (int) $r['curse_exp_req']; // treat values as per-level deltas
-                $cumByLevel[(int) $r['curse_level']] = $running;
-            }
-        }
-
-        $reqAt = function (int $lvl) use ($cumByLevel) {
-            return $cumByLevel[$lvl] ?? 0;
-        };
-
         $currentLevel = (int) ($state['curse_level'] ?? 0);
         $currentExp = (int) ($state['curse_exp'] ?? 0);
-        $curReq = $reqAt($currentLevel);
+        $claimedIds = $chaosRepository->getChaosPassClaims($user_class->id);
+
+        // build a map of exp required for each level
+        $reqByLevel = [];
+        foreach ($passRows as $r) {
+            $reqByLevel[(int) $r['curse_level']] = (int) $r['curse_exp_req'];
+        }
+
+        // helper
+        $reqAt = fn(int $lvl) => $reqByLevel[$lvl] ?? 0;
+
+        // exp needed for NEXT level (segment width)
         $nextReq = $reqAt($currentLevel + 1);
-        $segTotal = max(1, $nextReq - $curReq);
+        $segTotal = max(1, $nextReq);
 
         foreach ($passRows as $row):
-            $tier = (int) ($row['curse_level'] ?? 0);
-            $req = $reqAt($tier); // cumulative XP required for this tier
+            $tier = (int) $row['curse_level'];
+            $req = (int) $row['curse_exp_req'];   // xp needed for this tier
             $id = (int) $row['id'];
-            $prem = (int) ($row['is_premium'] ?? 0) === 1;
+            $prem = (int) $row['is_premium'] === 1;
             $claimed = in_array($id, $claimedIds, true);
 
-            // --- Unlocks are strictly level-based
+            // Unlock = reached or passed this level
             $reached = ($currentLevel >= $tier);
             $claimable = $reached && !$claimed && (!$prem || $isPremium);
 
-            // --- Remaining XP to unlock this tier
-            $remaining = $reached ? 0 : max(0, $req - ($curReq + $currentExp));
-
-            // --- Progress bar fill logic
-            if ($reached) {
+            // progress for the NEXT level only
+            if ($tier === $currentLevel + 1) {
+                $tilePct = (int) min(100, round(($currentExp / $req) * 100));
+                $remaining = max(0, $req - $currentExp);
+            } elseif ($reached) {
                 $tilePct = 100;
-            } elseif ($tier === $currentLevel + 1) {
-                $tilePct = (int) min(99, round(($currentExp / $segTotal) * 100));
+                $remaining = 0;
             } else {
                 $tilePct = 0;
+                $remaining = $req;
             }
 
             $rewardLabel = rr_label($row);
@@ -1181,7 +1163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <span class="pill free">FREE</span>
                         <?php endif; ?>
                     </div>
-                    <div class="bp3-level">Lv <?= $tier ?: '&mdash;' ?></div>
+                    <div class="bp3-level">Lv <?= $tier ?></div>
                 </div>
 
                 <div class="bp3-title"><?= h($row['name'] ?? $rewardLabel) ?></div>
