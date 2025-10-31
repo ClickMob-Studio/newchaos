@@ -1105,16 +1105,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="hidden" name="action" value="claim_all">
             <button class="bp3-claimall" type="submit">Claim All Available Rewards</button>
         </form>
-
-        <div class="bp3-sub">
-            <?php if ($nextReq === null): ?>
-                <span>Max tier reached</span>
-            <?php else: ?>
-                <span><?= number_format($userExp - $prevReq) ?></span>
-                <span>/</span>
-                <span><?= number_format($nextReq - $prevReq) ?> XP</span>
-            <?php endif; ?>
-        </div>
     </div>
 
     <?php
