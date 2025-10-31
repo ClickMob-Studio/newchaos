@@ -5,6 +5,10 @@ if ($_GET['key'] != 'cron94') {
     die();
 }
 
+// Chaos (Halloween Event)
+require_once 'includes/repositories/chaos_repository.php';
+$chaosRepository = new ChaosRepository();
+
 register_shutdown_function(function () {
     $e = error_get_last();
     if ($e && in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
@@ -332,6 +336,8 @@ try {
 
         // For each participant of the raid
         foreach ($participants as $participant) {
+            $chaosRepository->awardSouls($participant['user_id']);
+
             echo "Debug: Processing participant with ID: " . $participant['user_id'] . "\n";  // Debug line
             $formatted_name = formatName($participant['user_id']);
             echo "Debug: formatted_name = $formatted_name\n";

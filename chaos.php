@@ -1,6 +1,242 @@
 <?php
 
-include 'chaos_header.php';
+include 'header.php';
+include_once 'includes/repositories/chaos_repository.php';
+
+if (empty($_SESSION['csrf'])) {
+    $_SESSION['csrf'] = bin2hex(random_bytes(16));
+}
+
+$chaosRepository = new ChaosRepository($db);
+
+$state = $chaosRepository->getChaosUserState($user_class->id);
+$lanterns = $chaosRepository->getLanterns();
+$currentLantern = array_values(array_filter(
+    $lanterns,
+    fn($l) => (int) $l['id'] === (int) ($state['lantern_equipped'] ?? 0)
+))[0] ?? null;
+
+$currentRank = (int) ($currentLantern['rank'] ?? 0);
+$nextLantern = null;
+foreach ($lanterns as $l) {
+    if ($currentLantern === null) {
+        $nextLantern = $l;
+        break;
+    }
+    if ((int) $l['rank'] > $currentRank) {
+        $nextLantern = $l;
+        break;
+    }
+}
+
+$perHour = (int) ($currentLantern['souls_hour'] ?? 0);
+$lastHour = (int) $chaosRepository->getSoulsThisHour($user_class->id);
+
+$progressPct = $perHour > 0 ? min(100, (int) round(($lastHour / $perHour) * 100)) : 0;
+
+$now = time();
+$hourStart = strtotime(date('Y-m-d H:00:00'));
+$hourEnd = $hourStart + 3600;
+$secondsLeft = max(0, $hourEnd - $now);
+
+$haveSouls = (int) ($state['souls_current'] ?? 0);
+$price = (int) ($nextLantern['soul_price'] ?? 0);
+$canBuy = $nextLantern && $price > 0 && $haveSouls >= $price;
+$needPct = $price > 0 ? min(100, (int) round(($haveSouls / $price) * 100)) : 0;
+
+$passRows = $chaosRepository->getChaosPass();             // SELECT * ORDER BY curse_level ASC, id ASC
+$passUser = $chaosRepository->getChaosPassUser($user_class->id); // ['is_premium'=>0/1]
+$claimedIds = $chaosRepository->getChaosPassClaims($user_class->id);
+
+$isPremium = (int) ($passUser['is_premium'] ?? 0) === 1;
+$userExp = (int) ($state['curse_exp'] ?? 0);
+
+// Find the “current segment” (closest next threshold)
+$nextReq = null;
+$prevReq = 0;
+foreach ($passRows as $row) {
+    $req = (int) $row['curse_exp_req'];
+    if ($req > $userExp) {
+        $nextReq = $req;
+        break;
+    }
+    $prevReq = $req;
+}
+$segmentDen = $nextReq === null ? 1 : max(1, $nextReq - $prevReq);
+$segmentNum = $nextReq === null ? 1 : max(0, min($userExp - $prevReq, $segmentDen));
+$overallPct = (int) min(100, round(($segmentNum / $segmentDen) * 100));
+
+function rr_label(array $r): string
+{
+    $qty = (int) $r['reward_qty'];
+    $type = strtolower((string) $r['reward_type']);
+    if ($type === 'item') {
+        $it = Get_Item($r['reward_ref_id']);
+        return $it['itemname'] . " x{$r['reward_qty']}";
+    }
+    if ($type === 'exp')
+        return $qty . '% EXP';
+    if ($type === 'money')
+        return number_format($qty) . ' Money';
+    if ($type === 'points')
+        return number_format($qty) . ' Points';
+    return 'Reward';
+}
+
+function rr_image(array $r): string
+{
+    $type = strtolower((string) $r['reward_type']);
+    if ($type === 'item') {
+        $it = Get_Item($r['reward_ref_id']);
+        return $it['image'];
+    }
+    if ($type === 'exp')
+        return 'css/images/exp.png';
+    if ($type === 'money')
+        return 'css/images/money.png';
+    if ($type === 'points')
+        return 'css/images/points.png';
+
+    return '';
+}
+
+function h($s)
+{
+    return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8');
+}
+
+function back()
+{
+    header('Location: ' . strtok($_SERVER['REQUEST_URI'], '?'));
+    exit;
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!hash_equals($_SESSION['csrf'] ?? '', $_POST['csrf'] ?? '')) {
+        $_SESSION['flash'] = ['err', 'Session expired. Please try again.'];
+        back();
+    }
+
+    $action = $_POST['action'] ?? '';
+    $userId = $user_class->id;
+
+    try {
+        switch ($action) {
+            case 'claim_all': {
+                $result = $chaosRepository->claimAllAvailableRewards($userId);
+
+                if ($result['rewards']) {
+                    $_SESSION['flash'] = ['ok', 'Claimed ' . count($result['rewards']) . ' rewards', $result['rewards']];
+                } else {
+                    $locked = count($res['premium_locked'] ?? []);
+                    $msg = 'Nothing to claim right now.';
+                    if ($locked)
+                        $msg .= ' (' . $locked . ' premium locked)';
+                    $_SESSION['flash'] = ['info', $msg];
+                }
+                break;
+            }
+
+            case 'claim_one': {
+                $passId = (int) ($_POST['pass_id'] ?? 0);
+
+                $state = $chaosRepository->getChaosUserState($userId);
+                $passUser = $chaosRepository->getChaosPassUser($userId);
+                $isPremium = (int) ($passUser['is_premium'] ?? 0) === 1;
+
+                $rows = $chaosRepository->getChaosPass();
+                $row = null;
+                foreach ($rows as $r) {
+                    if ((int) $r['id'] === $passId) {
+                        $row = $r;
+                        break;
+                    }
+                }
+                if (!$row) {
+                    $_SESSION['flash'] = ['err', 'Tier not found'];
+                    back();
+                }
+
+                $tier = (int) ($row['curse_level'] ?? 0);
+                $currentLv = (int) ($state['curse_level'] ?? 0);
+
+                $reached = ($currentLv >= $tier);
+                $premiumOk = ((int) $row['is_premium'] === 0) || $isPremium;
+
+                $claimed = in_array($passId, $chaosRepository->getChaosPassClaims($userId), true);
+
+                if (!$reached) {
+                    $_SESSION['flash'] = ['info', 'Your curse power is too low to claim this reward'];
+                } elseif (!$premiumOk) {
+                    $_SESSION['flash'] = ['info', 'Premium is required to unlock this reward'];
+                } elseif ($claimed) {
+                    $_SESSION['flash'] = ['ok', 'You have already claimed this reward'];
+                } else {
+                    $db->query("INSERT IGNORE INTO chaos_pass_claims (user_id, pass_id) VALUES (?, ?)");
+                    $db->execute([$userId, $passId]);
+
+                    if ($db->affected_rows() > 0) {
+                        $rewarded = $chaosRepository->grantChaosReward($userId, $row);
+                        $chaosRepository->bustChaosPassClaimsCache($userId);
+
+                        $label = rr_label($row);
+                        $_SESSION['flash'] = ['ok', 'Reward claimed: ' . $rewarded];
+                    } else {
+                        $_SESSION['flash'] = ['info', 'Already claimed'];
+                    }
+                }
+                break;
+            }
+
+            case 'upgrade_premium': {
+                if ($user_class->credits < 500) {
+                    $_SESSION['flash'] = ['err', 'You do not have enough credits to upgrade to the premium pass.'];
+                    back();
+                    break;
+                }
+
+                perform_query("UPDATE grpgusers SET credits = credits - 500 WHERE id = ?", [$userId]);
+
+                $chaosRepository->upgradePassToPremium($userId);
+                $_SESSION['flash'] = ['ok', 'Premium activated!'];
+                break;
+            }
+
+            case 'buy_lantern': {
+                $lanternId = (int) ($_POST['lantern_id'] ?? 0);
+
+                if ($lanternId <= 0) {
+                    $_SESSION['flash'] = ['err', 'Invalid lantern selection.'];
+                    break;
+                }
+
+                try {
+                    $out = $chaosRepository->upgradeLanternWithSouls($userId, $lanternId);
+
+                    if (is_array($out) && !empty($out['ok'])) {
+                        $_SESSION['flash'] = ['ok', $out['message'] ?? 'Lantern upgraded!'];
+                    } else {
+                        $msg = is_string($out) ? $out : 'Could not upgrade lantern.';
+                        $_SESSION['flash'] = ['info', $msg];
+                    }
+                } catch (Throwable $e) {
+                    $_SESSION['flash'] = ['err', 'Upgrade failed. Please try again.'];
+                }
+
+                break;
+            }
+
+            default:
+                $_SESSION['flash'] = ['info', 'No action'];
+        }
+    } catch (Throwable $e) {
+        $_SESSION['flash'] = ['err', 'Something went wrong. Please try again.'];
+    }
+
+    back();
+}
+
 ?>
 
 <style>
@@ -19,533 +255,1003 @@ include 'chaos_header.php';
         --shadow: 0 10px 28px rgba(0, 0, 0, .4);
     }
 
-    .bp2 {
-        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url('css/images/2025/chaos_background.png') top center/cover no-repeat #21201c !important;
-        color: var(--text);
-        padding: 18px;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-    }
-
-    .bp2-spotlight {
-        display: grid;
-        grid-template-columns: 300px 1fr;
-        gap: 24px;
-        align-items: stretch;
-    }
-
-    .bp2-art {
-        background: linear-gradient(180deg, #0b1220, #0d1422);
+    .bp3 {
+        margin-top: 18px;
+        background: rgba(255, 255, 255, .03);
+        border: 1px solid rgba(255, 255, 255, .08);
         border-radius: 16px;
-        overflow: hidden;
-        box-shadow: var(--shadow)
-    }
-
-    .bp2-art img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        aspect-ratio: 16/10
-    }
-
-    .bp2-info {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 10px
-    }
-
-    .bp2-path {
-        display: flex;
-        gap: 14px;
-        align-items: baseline
-    }
-
-    .bp2-level {
-        font-weight: 800;
-        font-size: 1.25rem
-    }
-
-    .bp2-xp {
-        color: var(--muted)
-    }
-
-    .bp2-desc {
-        color: #c7cedd;
-        max-width: 60ch
-    }
-
-    .bp2-actions {
-        display: flex;
-        gap: 12px;
-        margin-top: 6px
-    }
-
-    .bp2-claim {
-        background: var(--accent);
-        color: #fff;
-        border: 0;
-        padding: .8rem 1.2rem;
-        border-radius: 12px;
-        font-weight: 800;
-        letter-spacing: .5px;
-        cursor: pointer
-    }
-
-    .bp2-claim[disabled] {
-        background: #2c3343;
-        color: #97a0b3;
-        cursor: not-allowed
-    }
-
-    .bp2-upgrade {
-        background: transparent;
-        color: #c8a96b;
-        border: 1px solid #59472b;
-        padding: .75rem 1rem;
-        border-radius: 12px;
-        font-weight: 700;
-        cursor: pointer
-    }
-
-    .bp2-flash {
-        min-height: 1.2em;
-        color: var(--ok);
-        font-weight: 600
-    }
-
-    .bp2-track-wrap {
-        display: grid;
-        grid-template-columns: 44px 1fr 44px;
-        align-items: center;
-        gap: 10px;
-        margin-top: 18px
-    }
-
-    .bp2-nav {
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
-        border: 0;
-        background: var(--surface2);
+        padding: 14px;
+        box-shadow: var(--shadow);
         color: var(--text);
-        cursor: pointer
     }
 
-    .bp2-track-viewport {
-        overflow: hidden
-    }
-
-    .bp2-track {
+    .bp3-head {
         display: flex;
-        gap: 18px;
-        align-items: flex-start;
-        overflow-x: hidden;
-        overflow-y: hidden;
-        padding: 8px;
-        scroll-behavior: smooth;
-        padding-bottom: 40px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
     }
 
-    .bp2-track::-webkit-scrollbar {
-        height: 10px
+    .bp3-head h3 {
+        margin: 0;
+        font-weight: 800;
     }
 
-    .bp2-track::-webkit-scrollbar-thumb {
-        background: var(--surface2);
-        border-radius: 999px
+    .bp3-progress {
+        position: relative;
+        height: 10px;
+        background: rgba(255, 255, 255, .08);
+        border-radius: 999px;
+        overflow: hidden;
     }
 
-    .bp2-tile {
-        width: 90px;
-        min-width: 90px;
+    .bp3-progress>i {
+        position: absolute;
+        inset: 0;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .bp3-sub {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: .9rem;
+        color: var(--muted);
+        margin-top: 6px;
+    }
+
+    .bp3-track {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+        margin-top: 14px;
+    }
+
+    .bp3-tile {
+        background: #221212;
+        border: 1px solid rgba(255, 255, 255, .10);
+        border-radius: 14px;
+        padding: 10px;
+        box-shadow: var(--shadow);
         display: flex;
         flex-direction: column;
         gap: 8px;
-        user-select: none
     }
 
-    .bp2-thumb {
+    .bp3-thumb {
         position: relative;
         border-radius: 12px;
         overflow: hidden;
-        background: var(--surface);
-        box-shadow: var(--shadow);
-        outline: 2px solid transparent;
-        transition: outline-color .18s
+        background: #331a1a;
+        aspect-ratio: 1 / 1;
+        display: grid;
+        place-items: center;
     }
 
-    .bp2-thumb img {
-        display: block;
+    .bp3-thumb img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        aspect-ratio: 1/1
+        display: block;
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
     }
 
-    .bp2-badge {
+    .bp3-badges {
         position: absolute;
         top: 8px;
         left: 8px;
-        font-size: .7rem;
-        padding: .2rem .45rem;
-        border-radius: 999px;
-        background: rgba(0, 0, 0, .45);
-        backdrop-filter: blur(2px)
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
     }
 
-    .bp2-lv {
+    .pill {
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, .14);
+        font-size: .75rem;
+        font-weight: 700;
+        background: rgba(255, 255, 255, .03);
+    }
+
+    .pill.premium {
+        background: rgba(255, 209, 90, .12);
+        border-color: rgba(255, 209, 90, .28);
+        color: #ffd15a
+    }
+
+    .pill.free {
+        background: rgba(61, 217, 182, .12);
+        border-color: rgba(61, 217, 182, .28);
+        color: #8cf0d9
+    }
+
+    .bp3-level {
         position: absolute;
         bottom: 8px;
         left: 8px;
         font-weight: 800;
+        font-size: .8rem;
         background: #0b101a;
         color: #cad3e6;
-        padding: .15rem .4rem;
+        padding: .2rem .45rem;
         border-radius: 8px;
-        font-size: .75rem
     }
 
-    .bp2-state {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        font-size: .7rem;
-        padding: .2rem .45rem;
-        border-radius: 999px;
+    .bp3-title {
+        font-size: .95rem;
+        font-weight: 800;
+        line-height: 1.2
+    }
+
+    .bp3-req {
+        font-size: .85rem;
+        color: var(--muted)
+    }
+
+    .bp3-req strong {
+        color: var(--text);
         font-weight: 800
     }
 
-    .bp2-state.claimed {
-        background: linear-gradient(90deg, var(--ok), #86e6bd);
-        color: #042613
+    .bp3-mini {
+        position: relative;
+        height: 7px;
+        background: rgba(255, 255, 255, .08);
+        border-radius: 999px;
+        overflow: hidden;
     }
 
-    .bp2-state.locked {
+    .bp3-mini>i {
+        position: absolute;
+        inset: 0;
+        width: 0%;
+        background: linear-gradient(90deg, #9b0707, #ffe400, #008b07);
+    }
+
+    .bp3-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 2px
+    }
+
+    .bp3-claim {
+        background: #6f1212;
+        color: #fff;
+        border: 0;
+        padding: .55rem .8rem;
+        border-radius: 10px;
+        font-weight: 800;
+        cursor: pointer;
+        font-size: .85rem;
+    }
+
+    .bp3-claim[disabled] {
+        background: #432c2c;
+        color: #97a0b3;
+        cursor: not-allowed
+    }
+
+    .bp3-state {
+        margin-left: auto;
+        font-size: .78rem;
+        font-weight: 800;
+        padding: .35rem .55rem;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .bp3-state.claimed {
+        background: linear-gradient(90deg, var(--ok), #86e6bd);
+        color: #062015;
+        border-color: transparent
+    }
+
+    .bp3-state.locked {
         background: #1f2636;
         color: #8fa0bf
     }
 
-    .bp2-state.ready {
+    .bp3-state.ready {
         background: linear-gradient(90deg, var(--accent), var(--accent2));
-        color: #07141a
+        color: #07141a;
+        border-color: transparent
     }
 
-    .bp2-progress {
-        display: none;
+    /* subtle motion */
+    .bp3-progress>i,
+    .bp3-mini>i {
+        transition: width .6s ease
     }
 
-    .bp2-track {
-        position: relative;
+    /* LANTERN */
+    .chaos-grid {
+        display: grid;
+        grid-template-areas:
+            "current stats"
+            "current curse";
+        grid-template-columns: 1.1fr 1fr;
+        gap: 18px;
+        align-items: start;
     }
 
-    .bp2-rail {
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 12px;
-        bottom: 12px;
-        background: #202636;
-        border-radius: 999px;
-        pointer-events: none;
+    @media (max-width: 960px) {
+        .chaos-grid {
+            grid-template-areas:
+                "current"
+                "stats"
+                "curse";
+            grid-template-columns: 1fr;
+        }
     }
 
-    .bp2-rail-fill {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 0%;
-        display: block;
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        border-radius: 999px;
-        transition: width .35s ease;
+    .card {
+        background: rgba(255, 255, 255, .03);
+        border: 1px solid rgba(255, 255, 255, .08);
+        border-radius: 16px;
+        padding: 14px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, .28);
     }
 
-    .bp2-step {
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 30px;
-        height: 30px;
-        border-radius: 999px;
+    .card.current {
+        grid-area: current;
+        text-align: center;
+    }
+
+    .card.stats {
+        grid-area: stats;
+    }
+
+    .card.stats+.card.stats {
+        grid-area: curse;
+    }
+
+    .lantern-image {
+        width: 260px;
+        height: 260px;
+        margin: 0 auto 10px;
         display: grid;
         place-items: center;
-        font-size: .8rem;
+        background: radial-gradient(ellipse at center, rgba(255, 255, 255, .08), rgba(0, 0, 0, 0));
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .lantern-image img {
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
+        filter: drop-shadow(0 10px 16px rgba(0, 0, 0, .35));
+    }
+
+    .lantern-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-top: 6px
+    }
+
+    .lantern-meta {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 8px;
+        flex-wrap: wrap
+    }
+
+    .pill {
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, .14);
+        font-size: .85rem;
+        font-weight: 700;
+        background: rgba(255, 255, 255, .03)
+    }
+
+    .pill.bonus {
+        background: rgba(255, 209, 90, .12);
+        border-color: rgba(255, 209, 90, .28)
+    }
+
+    .stat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 8px 0
+    }
+
+    .stat-label {
+        color: var(--cc-muted, #9aa3ad);
+        font-size: .9rem
+    }
+
+    .stat-value {
+        font-size: 1.2rem;
+        font-weight: 700
+    }
+
+    .muted {
+        color: var(--cc-muted, #9aa3ad);
+        margin: 0 4px
+    }
+
+    .progress {
+        position: relative;
+        height: 10px;
+        background: rgba(255, 255, 255, .08);
+        border-radius: 99px;
+        overflow: hidden;
+        margin: 8px 0 4px;
+    }
+
+    .progress-fill {
+        position: absolute;
+        inset: 0;
+        width: 0%;
+        background: linear-gradient(90deg, #ff9a00, #ffd15a);
+        width: 0%
+    }
+
+    .reset-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: .95rem;
+        margin-top: 2px
+    }
+
+    .divider {
+        height: 1px;
+        background: rgba(255, 255, 255, .08);
+        margin: 12px 0
+    }
+
+    /* Next Lantern */
+    .next-lantern {
+        grid-column: 1 / -1;
+    }
+
+    /* full width row under the grid */
+    @media (min-width: 961px) {
+        .next-lantern {
+            grid-column: 1 / -1;
+        }
+    }
+
+    .nl-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 8px
+    }
+
+    .nl-header h3 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 800
+    }
+
+    .nl-badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap
+    }
+
+    .nl-body {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 16px;
+        align-items: center
+    }
+
+    @media (max-width: 720px) {
+        .nl-body {
+            grid-template-columns: 1fr
+        }
+    }
+
+    .nl-image {
+        width: 220px;
+        height: 220px;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(ellipse at center, rgba(255, 255, 255, .08), rgba(0, 0, 0, 0));
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .nl-image img {
+        width: 180px;
+        height: 180px;
+        object-fit: contain;
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
+        filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .35));
+    }
+
+    .nl-info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px
+    }
+
+    .nl-title {
+        font-size: 1.05rem;
+        font-weight: 800
+    }
+
+    .nl-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+    }
+
+    .nl-label {
+        color: var(--cc-muted, #9aa3ad);
+        font-size: .9rem
+    }
+
+    .nl-value {
+        font-weight: 700;
+        font-size: 1.05rem
+    }
+
+    .nl-sub {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        font-size: .95rem;
+        margin-top: 2px
+    }
+
+    .nl-actions {
+        margin-top: 10px
+    }
+
+    .btn-upgrade {
+        font-size: .95rem;
         font-weight: 800;
-        background: #0b101a;
-        color: #cad3e6;
-        border: 2px solid #2a3246;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, .35);
+        border: none;
+        border-radius: 10px;
+        padding: 10px 14px;
+        background: linear-gradient(90deg, #ff7a18, #ffb347);
+        color: #1b0d00;
+        cursor: pointer;
+        box-shadow: 0 6px 16px rgba(255, 150, 0, .25);
     }
 
-    .bp2-step.active {
-        border-color: var(--gold);
+    .btn-upgrade[disabled] {
+        opacity: .6;
+        cursor: not-allowed;
+        box-shadow: none
     }
 
-    .bp2-step.past {
-        border-color: #2f534a;
-        background: #10231b;
-        color: #a6e5c3;
+    .bp3-progress-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
     }
 
-    .bp2-track {
-        scroll-snap-type: x mandatory;
+    .bp3-claimall-form {
+        align-self: flex-start;
     }
 
-    .bp2-tile {
-        scroll-snap-align: center;
+    .bp3-claimall {
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        color: #fff;
+        border: none;
+        font-weight: 700;
+        padding: 0.7rem 1.2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+        cursor: pointer;
+        transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .bp3-claimall:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, .4);
+    }
+
+    .bp3-claimall:disabled {
+        background: #2c3343;
+        color: #97a0b3;
+        cursor: not-allowed;
+    }
+
+    /* Flash */
+    .flash {
+        margin: 0px 0 16px;
+        border-radius: 12px;
+        padding: 10px 14px;
+        border: 1px solid rgba(255, 255, 255, .12);
+        background: rgba(255, 255, 255, .04);
+        box-shadow: var(--shadow);
+    }
+
+    .flash-ok {
+        border-color: rgba(88, 214, 141, .35);
+        background: rgba(88, 214, 141, .08);
+    }
+
+    .flash-err {
+        border-color: rgba(255, 107, 107, .35);
+        background: rgba(255, 107, 107, .08);
+    }
+
+    .flash-info {
+        border-color: rgba(122, 162, 255, .35);
+        background: rgba(122, 162, 255, .08);
+    }
+
+    .flash-title {
+        font-weight: 800;
+    }
+
+    .flash-list {
+        margin: 0;
+        padding-left: 18px;
+        line-height: 1.35;
+    }
+
+    /* Modal */
+    .cc-modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .cc-modal.show {
+        display: flex;
+    }
+
+    .cc-modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, .55);
+        backdrop-filter: blur(4px);
+    }
+
+    .cc-modal-card {
+        position: relative;
+        z-index: 1;
+        width: min(520px, 92vw);
+        background: rgb(16 7 7 / 67%);
+        border: 1px solid rgba(255, 255, 255, .16);
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: var(--shadow);
+        color: var(--text);
+    }
+
+    .cc-modal-card h3 {
+        margin: 0 0 8px;
+        font-size: 1.05rem;
+        font-weight: 800;
+    }
+
+    .cc-modal-card p {
+        margin: 0 0 12px;
+        color: var(--muted);
+    }
+
+    .cc-modal-card p strong {
+        color: #fbff68;
+    }
+
+    .cc-modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+
+    .cc-btn {
+        border: none;
+        border-radius: 12px;
+        padding: .6rem 1rem;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .cc-btn-primary {
+        background: linear-gradient(90deg, #ffb347, #ffd15a);
+        color: #201300;
+    }
+
+    .cc-btn-ghost {
+        background: transparent;
+        color: #cbd3e6;
+        border: 1px solid rgba(255, 255, 255, .18);
+    }
+
+    .cc-btn-primary:hover {
+        filter: brightness(1.05);
+    }
+
+    .cc-btn-ghost:hover {
+        background: rgba(255, 255, 255, .06);
     }
 </style>
 
+<!-- Message -->
+<?php if (!empty($_SESSION['flash'])):
+    [$type, $title, $lines] = [
+        $_SESSION['flash'][0] ?? 'ok',
+        $_SESSION['flash'][1] ?? '',
+        $_SESSION['flash'][2] ?? []
+    ];
+    unset($_SESSION['flash']); // clear it so it shows only once
+    $cls = match ($type) {
+        'ok' => 'flash-ok',
+        'err' => 'flash-err',
+        'info' => 'flash-info',
+        default => 'flash-ok'
+    };
+    ?>
+    <div class="flash <?= h($cls) ?>">
+        <?php if ($title): ?>
+            <div class="flash-title"><?= h($title) ?></div>
+        <?php endif; ?>
+        <?php if ($lines && is_array($lines)): ?>
+            <ul class="flash-list">
+                <?php foreach ($lines as $ln): ?>
+                    <li><?= h($ln) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+
+
+<!-- Lantern -->
+<div class="chaos-grid">
+    <!-- Current Lantern -->
+    <section class="card current">
+        <div class="lantern-image">
+            <img src="<?= h($currentLantern['image'] ?? '/assets/halloween/placeholder-lantern.png') ?>"
+                alt="<?= h($currentLantern['name'] ?? 'No lantern equipped') ?>" draggable="false" />
+        </div>
+        <div class="lantern-title">
+            <?= h($currentLantern['name'] ?? 'No lantern equipped') ?>
+        </div>
+
+        <?php if ($currentLantern): ?>
+            <div class="lantern-meta">
+                <span class="pill"><?= number_format((int) $currentLantern['souls_hour']) ?> Souls / hour</span>
+                <?php if (!empty($currentLantern['soul_bonus'])): ?>
+                    <span class="pill bonus">+<?= (int) $currentLantern['soul_bonus'] ?>% Bonus</span>
+                <?php else: ?>
+                    <span class="pill muted">No bonus</span>
+                <?php endif; ?>
+            </div>
+        <?php else: ?>
+            <div class="lantern-meta">
+                <span class="pill muted">No lantern equipped</span>
+            </div>
+        <?php endif; ?>
+    </section>
+
+    <!-- Souls & Hourly -->
+    <section class="card stats">
+        <div class="stat-row">
+            <div class="stat-label">Souls this hour</div>
+            <div class="stat-value">
+                <strong><?= number_format($lastHour) ?></strong>
+                <span class="muted">/</span>
+                <strong><?= number_format($perHour) ?></strong>
+            </div>
+        </div>
+        <div class="progress">
+            <div class="progress-fill" style="width: <?= $progressPct ?>%"></div>
+        </div>
+        <div class="reset-row">
+            <span class="muted">Resets in</span>
+            <span id="reset-countdown" data-seconds="<?= (int) $secondsLeft ?>">—:—</span>
+            <span class="muted">at <?= date('H:00') ?></span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="stat-row">
+            <div class="stat-label">Souls (current)</div>
+            <div class="stat-value"><?= number_format((int) floor($state['souls_current'] ?? 0)) ?></div>
+        </div>
+        <div class="stat-row">
+            <div class="stat-label">Souls (total collected)</div>
+            <div class="stat-value"><?= number_format((int) floor($state['souls_collected'] ?? 0)) ?></div>
+        </div>
+    </section>
+
+    <!-- Curse -->
+    <section class="card stats">
+        <div class="stat-row">
+            <div class="stat-label">Curse EXP</div>
+            <div class="stat-value">
+                <?= number_format((int) ($state['curse_exp'] ?? 0)) ?>
+            </div>
+        </div>
+        <div class="stat-row">
+            <div class="stat-label">Curse level</div>
+            <div class="stat-value">
+                <?= number_format((int) ($state['curse_level'] ?? 0)) ?>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Next Lantern -->
+<?php if ($nextLantern): ?>
+    <br />
+    <section class="card next-lantern">
+        <div class="nl-header">
+            <h3>Next Lantern</h3>
+            <div class="nl-badges">
+                <?php if (!empty($nextLantern['soul_bonus'])): ?>
+                    <span class="pill bonus">+<?= (int) $nextLantern['soul_bonus'] ?>% Souls</span>
+                <?php endif; ?>
+                <span class="pill"><?= number_format((int) $nextLantern['souls_hour']) ?> / hour</span>
+            </div>
+        </div>
+
+        <div class="nl-body">
+            <div class="nl-image">
+                <img src="<?= h($nextLantern['image'] ?? '/assets/halloween/placeholder-lantern.png') ?>"
+                    alt="<?= h($nextLantern['name'] ?? 'Next lantern') ?>" draggable="false" />
+            </div>
+
+            <div class="nl-info">
+                <div class="nl-title"><?= h($nextLantern['name'] ?? 'Next lantern') ?></div>
+
+                <div class="nl-row">
+                    <div class="nl-label">Cost</div>
+                    <div class="nl-value"><?= number_format($price) ?> Souls</div>
+                </div>
+
+                <div class="progress">
+                    <div class="progress-fill" style="width: <?= $needPct ?>%"></div>
+                </div>
+                <div class="nl-sub">
+                    <span><?= number_format($haveSouls) ?></span>
+                    <span class="muted">/</span>
+                    <span><?= number_format($price) ?></span>
+                    <span class="muted">Souls</span>
+                </div>
+
+                <form method="post" action="" class="nl-actions">
+                    <input type="hidden" name="csrf" value="<?= h($_SESSION['csrf']) ?>">
+                    <input type="hidden" name="action" value="buy_lantern">
+                    <input type="hidden" name="lantern_id" value="<?= (int) $nextLantern['id'] ?>">
+                    <button class="btn-upgrade" <?= $canBuy ? '' : 'disabled' ?>>Buy & Equip</button>
+                </form>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
 
 <br />
 
-<section class="bp2" aria-label="Battle Pass">
-    <!-- Spotlight -->
-    <div class="bp2-spotlight">
-        <div class="bp2-art">
-            <img id="bp2-art-img" src="" alt="" draggable="false">
+<section class="bp3" aria-label="Battle Pass">
+    <?php if (!$isPremium): ?>
+        <section class="bp3 premium-upgrade" style="margin-top:14px;">
+            <div class="premium-header">
+                <div class="premium-info">
+                    <h3>Premium Track</h3>
+                    <p class="premium-sub">
+                        Unlock even more rewards with the PREMIUM halloween pass!
+                    </p>
+                </div>
+
+                <?php $premiumPrice = 500; ?>
+                <form id="upgradePremiumForm" method="post" action="">
+                    <input type="hidden" name="csrf" value="<?= h($_SESSION['csrf'] ?? '') ?>">
+                    <input type="hidden" name="action" value="upgrade_premium">
+                    <button id="upgrade-open" class="btn-upgrade" type="button">Upgrade to Premium</button>
+                </form>
+
+                <!-- Modal -->
+                <div id="upgrade-modal" class="cc-modal" aria-hidden="true" role="dialog" aria-labelledby="upg-title"
+                    aria-modal="true">
+                    <div class="cc-modal-backdrop"></div>
+                    <div class="cc-modal-card">
+                        <h3 id="upg-title">Confirm Purchase</h3>
+                        <p>This will cost <strong><?= number_format($premiumPrice) ?> gold</strong> .<br />Are you sure you
+                            want to purchase the premium pass?</p>
+                        <div class="cc-modal-actions">
+                            <button id="upgrade-cancel" type="button" class="cc-btn cc-btn-ghost">Cancel</button>
+                            <button id="upgrade-confirm" type="button" class="cc-btn cc-btn-primary">Yes, purchase</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    <?php else: ?>
+        <section class="bp3 premium-active" style="margin-top:14px;">
+            <div class="premium-header">
+                <div class="premium-info">
+                    <h3>Premium Track</h3>
+                    <p class="premium-sub">Your Premium benefits are active — enjoy all premium rewards!</p>
+                </div>
+                <div class="premium-badge">
+                    <span class="pill premium">PREMIUM ACTIVE</span>
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <br />
+
+
+    <div class="bp3-head">
+        <h3>Battle Pass</h3>
+    </div>
+
+    <div class="bp3-progress-wrapper">
+        <form method="post" action="" class="bp3-claimall-form">
+            <input type="hidden" name="csrf" value="<?= h($_SESSION['csrf']) ?>">
+            <input type="hidden" name="action" value="claim_all">
+            <button class="bp3-claimall" type="submit">Claim All Available Rewards</button>
+        </form>
+
+        <div class="bp3-progress">
+            <i style="width: <?= $overallPct ?>%"></i>
         </div>
-        <div class="bp2-info">
-            <div class="bp2-path">
-                <span id="bp2-path-level" class="bp2-level">Level 1</span>
-                <span id="bp2-path-xp" class="bp2-xp">0 / 0 XP</span>
-            </div>
-            <h2 id="bp2-title"></h2>
-            <p id="bp2-desc" class="bp2-desc"></p>
-            <div class="bp2-actions">
-                <button id="bp2-claim" class="bp2-claim" disabled>CLAIM</button>
-                <button id="bp2-upgrade" class="bp2-upgrade" type="button">UPGRADE PASS</button>
-            </div>
-            <div id="bp2-flash" class="bp2-flash" aria-live="polite"></div>
+        <div class="bp3-sub">
+            <?php if ($nextReq === null): ?>
+                <span>Max tier reached</span>
+            <?php else: ?>
+                <span><?= number_format($userExp - $prevReq) ?></span>
+                <span>/</span>
+                <span><?= number_format($nextReq - $prevReq) ?> XP</span>
+            <?php endif; ?>
         </div>
     </div>
 
-    <!-- Track -->
-    <div class="bp2-track-wrap">
-        <button class="bp2-nav" id="bp2-prev" aria-label="Scroll left">❮</button>
+    <?php
+    $currentLevel = (int) ($state['curse_level'] ?? 0);
+    $currentExp = (int) ($state['curse_exp'] ?? 0);
 
-        <div class="bp2-track-viewport">
-            <div id="bp2-track" class="bp2-track" role="list" aria-label="Rewards track">
-                <!-- tiles injected -->
-                <div id="bp2-rail" class="bp2-rail">
-                    <i class="bp2-rail-fill"></i>
-                    <!-- step markers injected -->
+    $reqByLevel = [];
+    foreach ($passRows as $r) {
+        $reqByLevel[(int) $r['curse_level']] = (int) $r['curse_exp_req'];
+    }
+
+    $reqAt = function (int $lvl) use ($reqByLevel) {
+        return $reqByLevel[$lvl] ?? 0;
+    };
+    ?>
+    <div class="bp3-track">
+        <?php foreach ($passRows as $row):
+            $tier = (int) ($row['curse_level'] ?? 0);
+            $req = (int) $row['curse_exp_req'];
+            $claimed = in_array((int) $row['id'], $claimedIds, true);
+            $prem = (int) $row['is_premium'] === 1;
+
+            $reached = ($currentLevel >= $tier);
+            $claimable = $reached && !$claimed && (!$prem || $isPremium);
+
+            $remaining = 0;
+            if (!$reached) {
+                $remaining = max(0, $req - ($reqAt($currentLevel) + $currentExp));
+            }
+
+            if ($reached) {
+                $tilePct = 100;
+            } elseif ($tier === $currentLevel + 1) {
+                $segTotal = max(1, $req - $reqAt($currentLevel));
+                $tilePct = (int) min(99, round(($currentExp / $segTotal) * 100));
+            } else {
+                $tilePct = 0;
+            }
+
+            $rewardLabel = rr_label($row);
+            $img = rr_image($row) ?: '/assets/halloween/pass-placeholder.png';
+            ?>
+            <div class="bp3-tile">
+                <div class="bp3-thumb">
+                    <img src="<?= h($img) ?>" alt="<?= h($row['name'] ?? $rewardLabel) ?>" style="width:100px;height:100px;"
+                        draggable="false">
+                    <div class="bp3-badges">
+                        <?php if ($prem): ?>
+                            <span class="pill premium">PREMIUM</span>
+                        <?php else: ?>
+                            <span class="pill free">FREE</span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="bp3-level">Lv <?= $tier ?: '&mdash;' ?></div>
+                </div>
+
+                <div class="bp3-title"><?= h($row['name'] ?? $rewardLabel) ?></div>
+
+                <div class="bp3-req">
+                    <?php if (!$reached): ?>
+                        Requires <strong><?= number_format($remaining) ?></strong> XP
+                    <?php else: ?>
+                        <strong>Unlocked</strong>
+                    <?php endif; ?>
+                </div>
+
+                <div class="bp3-mini"><i style="width: <?= $tilePct ?>%"></i></div>
+
+                <div class="bp3-actions">
+                    <?php if ($claimed): ?>
+                        <button class="bp3-claim" disabled>Claimed</button>
+                    <?php elseif ($prem && !$isPremium): ?>
+                        <button class="bp3-claim" disabled>Premium Required</button>
+                    <?php elseif (!$reached): ?>
+                        <button class="bp3-claim" disabled>Locked</button>
+                    <?php else: ?>
+                        <form method="post" action="">
+                            <input type="hidden" name="csrf" value="<?= h($_SESSION['csrf']) ?>">
+                            <input type="hidden" name="action" value="claim_one">
+                            <input type="hidden" name="pass_id" value="<?= (int) $row['id'] ?>">
+                            <button class="bp3-claim" <?= $claimable ? '' : 'disabled' ?>>Claim</button>
+                        </form>
+                    <?php endif; ?>
                 </div>
             </div>
-        </div>
-
-        <button class="bp2-nav" id="bp2-next" aria-label="Scroll right">❯</button>
+        <?php endforeach; ?>
     </div>
 </section>
 
 
 <script>
-    /* ===== Replace with PHP-rendered JSON ===== */
-    const player = {
-        level: 17,           // current level
-        xpIntoLevel: 750,    // XP inside this level
-        xpForLevel: 2000     // XP needed to finish this level
-    };
-
-    const rewards = [
-        { id: 101, level: 16, title: "Blue Shards", desc: "100", img: "https://picsum.photos/seed/a/720", claimed: true },
-        { id: 102, level: 17, title: "Lantern Ember", desc: "+2 sp/h", img: "https://picsum.photos/seed/b/720", claimed: false },
-        { id: 103, level: 18, title: "Token Bundle", desc: "125", img: "https://picsum.photos/seed/c/720", claimed: false },
-        { id: 104, level: 19, title: "Icon – Rogue", desc: "Free", img: "https://picsum.photos/seed/d/720", claimed: false },
-        { id: 105, level: 20, title: "Arcane Singed", desc: "Champion skin", img: "https://picsum.photos/seed/e/720", claimed: false }
-    ];
-
-    /* ========================================== */
-    const els = {
-        track: document.getElementById('bp2-track'),
-        rail: document.getElementById('bp2-rail'),
-        railFill: null, // set after build
-        artImg: document.getElementById('bp2-art-img'),
-        title: document.getElementById('bp2-title'),
-        desc: document.getElementById('bp2-desc'),
-        lvl: document.getElementById('bp2-path-level'),
-        xp: document.getElementById('bp2-path-xp'),
-        claim: document.getElementById('bp2-claim'),
-        flash: document.getElementById('bp2-flash'),
-        prev: document.getElementById('bp2-prev'),
-        next: document.getElementById('bp2-next'),
-    };
-
-    function fmt(n) { return n.toLocaleString(); }
-    function eligible(r) { return player.level >= r.level && !r.claimed; }
-
-    function tileTemplate(r, idx) {
-        const state = r.claimed ? 'claimed' : eligible(r) ? 'ready' : 'locked';
-        return `
-    <div class="bp2-tile ${state}" role="listitem" data-id="${r.id}" data-index="${idx}">
-      <div class="bp2-thumb">
-        <img src="${r.img}" alt="${r.title}" draggable="false">
-        <span class="bp2-badge">FREE</span>
-        <span class="bp2-lv">Lv ${r.level}</span>
-        <span class="bp2-state ${state}">${r.claimed ? 'Claimed' : eligible(r) ? 'Ready' : 'Locked'}</span>
-      </div>
-    </div>
-  `;
-    }
-
-    function renderTrack() {
-        els.track.querySelectorAll('.bp2-tile').forEach(n => n.remove());
-        els.track.insertAdjacentHTML('afterbegin', rewards.map(tileTemplate).join(''));
-    }
-    renderTrack();
-
-    /* ---- Single rail under tiles (robust left + width) ---- */
-    function layoutRail() {
-        if (!els.railFill) els.railFill = els.rail.querySelector('.bp2-rail-fill');
-
-        // Clear old steps
-        els.rail.querySelectorAll('.bp2-step').forEach(n => n.remove());
-
-        // Collect tile centers (relative to the track's padding box)
-        const tiles = Array.from(els.track.querySelectorAll('.bp2-tile'));
-        if (!tiles.length) return;
-
-        const centers = tiles.map(t => t.offsetLeft + t.offsetWidth / 2);
-
-        // Compute rail geometry in TRACK coords
-        const railLeftPx = centers[0];
-        const railRightPx = centers[centers.length - 1];
-        let railWidthPx = Math.max(1, railRightPx - railLeftPx);  // guard zero
-
-        // When there is only one tile, give the rail a minimal visible width
-        if (centers.length === 1) railWidthPx = 80;
-
-        // Place/sizing: use left + width (avoid right calc issues)
-        els.rail.style.left = railLeftPx + 'px';
-        els.rail.style.right = 'auto';
-        els.rail.style.width = railWidthPx + 'px';
-
-        // Step badges (place in RAIL coords => subtract railLeftPx)
-        centers.forEach((cx, i) => {
-            const step = document.createElement('div');
-            step.className = 'bp2-step';
-            step.textContent = rewards[i].level;
-            step.style.left = (cx - railLeftPx) + 'px';
-
-            if (player.level > rewards[i].level) step.classList.add('past');
-            else if (player.level === rewards[i].level) step.classList.add('active');
-
-            els.rail.appendChild(step);
+    (function () {
+        requestAnimationFrame(function () {
+            var fills = document.querySelectorAll('.progress-fill');
+            fills.forEach(function (f) { f.style.transition = 'width .6s ease'; });
         });
 
-        // ---- Fill width: from rail start to current progress ----
-        const firstLevel = rewards[0].level;
-        const lastLevel = rewards[rewards.length - 1].level;
+        var el = document.getElementById('reset-countdown');
+        if (!el) return;
 
-        const frac = Math.min(1, Math.max(0, player.xpIntoLevel / Math.max(1, player.xpForLevel)));
-        const levelFloat = Math.min(lastLevel, Math.max(firstLevel, player.level + frac));
-
-        function xAtLevel(L) {
-            const exactIdx = rewards.findIndex(r => r.level === L);
-            if (exactIdx !== -1) return centers[exactIdx];
-
-            let lo = -1, hi = -1;
-            for (let i = 0; i < rewards.length - 1; i++) {
-                if (rewards[i].level <= L && L <= rewards[i + 1].level) { lo = i; hi = i + 1; break; }
-            }
-            if (lo === -1) {
-                return (L < firstLevel) ? centers[0] : centers[centers.length - 1];
-            }
-            const L0 = rewards[lo].level, L1 = rewards[hi].level;
-            const t = (L - L0) / (L1 - L0);
-            return centers[lo] + t * (centers[hi] - centers[lo]);
+        var seconds = parseInt(el.getAttribute('data-seconds') || '0', 10);
+        function fmt(t) {
+            var m = Math.floor(t / 60), s = t % 60;
+            return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
         }
-
-        const xNowTrack = xAtLevel(levelFloat);                // track coords
-        const fillPx = Math.max(0, Math.min(railWidthPx,   // clamp to rail
-            (xNowTrack - railLeftPx)));
-        const fillPct = (fillPx / railWidthPx) * 100;
-
-        els.railFill.style.width = fillPct + '%';
-    }
-
-    // initial layout + reflow on resize/content changes
-    layoutRail();
-    window.addEventListener('load', layoutRail);
-    new ResizeObserver(layoutRail).observe(els.track);
-
-    /* ---- Spotlight & selection (unchanged, uses current tile) ---- */
-    function updateSpotlight(selectedIndex) {
-        const r = rewards[selectedIndex];
-        document.querySelectorAll('.bp2-tile').forEach(t => t.classList.remove('selected'));
-        const node = els.track.querySelector(`.bp2-tile[data-index="${selectedIndex}"]`);
-        if (node) node.classList.add('selected');
-
-        els.artImg.src = r.img;
-        els.artImg.alt = r.title;
-        els.title.textContent = r.title;
-        els.desc.textContent = r.desc;
-        els.lvl.textContent = `Level ${player.level}`;
-        els.xp.textContent = `${fmt(player.xpIntoLevel)} / ${fmt(player.xpForLevel)} XP`;
-        els.claim.disabled = !eligible(r);
-        els.claim.dataset.rewardId = r.id;
-    }
-    let selected = Math.max(0, rewards.findIndex(r => r.level >= player.level));
-    if (selected === -1) selected = rewards.length - 1;
-    updateSpotlight(selected);
-
-    /* Click to select */
-    els.track.addEventListener('click', e => {
-        const tile = e.target.closest('.bp2-tile');
-        if (!tile) return;
-        selected = parseInt(tile.dataset.index, 10);
-        updateSpotlight(selected);
-        scrollTileIntoView(selected);
-    });
-
-    /* Claim (same as before) */
-    els.claim.addEventListener('click', async () => {
-        const r = rewards[selected];
-        if (!eligible(r)) return;
-        els.claim.disabled = true;
-        els.flash.textContent = 'Claiming…';
-        try {
-            const res = await fetch('/claim_reward.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ reward_id: r.id })
-            });
-            if (!res.ok) throw new Error('Server rejected');
-
-            r.claimed = true;
-            updateSpotlight(selected);
-            els.flash.textContent = `Claimed: ${r.title}`;
-        } catch (err) {
-            els.flash.style.color = 'var(--danger)';
-            els.flash.textContent = 'Could not claim.';
-            els.claim.disabled = false;
-            setTimeout(() => { els.flash.style.color = 'var(--ok)'; els.flash.textContent = ''; }, 1400);
-        } finally {
-            layoutRail(); // refresh fill + step states
+        function tick() {
+            if (seconds < 0) seconds = 0;
+            el.textContent = fmt(seconds);
+            if (seconds === 0) return;
+            seconds -= 1;
+            setTimeout(tick, 1000);
         }
-    });
+        tick();
+    })();
 
-    function scrollTileIntoView(index, behavior = 'smooth') {
-        const tiles = Array.from(els.track.querySelectorAll('.bp2-tile'));
-        const node = tiles[index];
-        if (!node) return;
-        node.scrollIntoView({ behavior, block: 'nearest', inline: 'center' });
-    }
+    (function () {
+        var openBtn = document.getElementById('upgrade-open');
+        var modal = document.getElementById('upgrade-modal');
+        var cancel = document.getElementById('upgrade-cancel');
+        var confirmBtn = document.getElementById('upgrade-confirm');
+        var form = document.getElementById('upgradePremiumForm');
 
-    /* Arrow nav */
-    function scrollByTile(dir) {
-        const tiles = Array.from(els.track.querySelectorAll('.bp2-tile'));
-        if (!tiles.length) return;
-        let idx = selected + dir;
-        idx = Math.max(0, Math.min(tiles.length - 1, idx));
-        tiles[idx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        selected = idx; updateSpotlight(selected);
-    }
-    els.prev.addEventListener('click', () => scrollByTile(-1));
-    els.next.addEventListener('click', () => scrollByTile(1));
+        if (!openBtn || !modal || !form) return;
+
+        function open() { modal.classList.add('show'); modal.setAttribute('aria-hidden', 'false'); }
+        function close() { modal.classList.remove('show'); modal.setAttribute('aria-hidden', 'true'); }
+
+        openBtn.addEventListener('click', open);
+        cancel && cancel.addEventListener('click', close);
+        confirmBtn && confirmBtn.addEventListener('click', function () { form.submit(); });
+
+        modal.addEventListener('click', function (e) { if (e.target === modal || e.target.classList.contains('cc-modal-backdrop')) close(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    })();
 </script>
 
 

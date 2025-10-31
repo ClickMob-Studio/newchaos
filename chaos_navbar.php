@@ -71,6 +71,11 @@ $leftLinks[] =
 	);
 $leftLinks[] =
 	array(
+		'name' => 'Chaos Event',
+		'url' => 'chaos.php',
+	);
+$leftLinks[] =
+	array(
 		'name' => 'Maze',
 		'url' => 'maze.php',
 	);

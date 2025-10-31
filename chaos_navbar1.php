@@ -71,6 +71,11 @@ $leftLinks[] =
     );
 $leftLinks[] =
     array(
+        'name' => 'Chaos Event',
+        'url' => 'chaos.php',
+    );
+$leftLinks[] =
+    array(
         'name' => 'Maze',
         'url' => 'maze.php',
     );
@@ -195,12 +200,12 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </li>
                 <?php endforeach; ?>
 
-                <li class="nav-item my-auto">
+                <!-- <li class="nav-item my-auto">
                     <a class="flex nav-link px-4 py-lg-5" href="chaos.php">
                         <img src="css/images/2025/chaos_souls_outlined.png" style="width:32px;height:32px;" />
-                        <span><?= $chaos_user->soulsCurrent ?></span>
+                        <span><?= ''; // $chaos_user->soulsCurrent ?></span>
                     </a>
-                </li>
+                </li> -->
 
                 <?php foreach ($leftLinks as $link): ?>
                     <li class="nav-item d-lg-none">

@@ -495,12 +495,6 @@ if ($theirhp <= 0) {
                 $db->query("DELETE FROM `attackladder` WHERE `spot` > 10");
                 $db->execute();
 
-                // if (($attackLadder[$winnerKey]['spot'] + 2) <= 10) {
-                //     for ($i = $attackLadder[$winnerKey]['spot'] + 2; $i <= 10; $i++) {
-
-                //     }
-                // }
-
                 Send_Event($attack_person->id, "[-_USERID_-] You've been knocked from your place in the Attack Ladder ", $attack_person->id);
             }
         } else if ($attackedKey !== false && $winnerKey === false) { // attacked person is on ladder but winner is not
@@ -562,6 +556,16 @@ if ($theirhp <= 0) {
             $expwon,
             $user_class->gang
         ));
+    }
+
+    // Chaos (Halloween Event)
+    include_once 'includes/repositories/chaos_repository.php';
+    $chaosRepository = new ChaosRepository();
+
+    // 25% chance to get a soul
+    $rnd = mt_rand(1, 4);
+    if ($rnd == 1) {
+        $chaosRepository->awardSouls($user_class->id, 1, 'attack');
     }
 
     contribute_mission('k');
@@ -720,6 +724,7 @@ if ($winner_class->gang != 0 && $db->num_rows()) {
     }
 }
 //$user_class->stamina -= 1;
+
 $theirhp = ($theirhp > $attack_person->puremaxhp) ? $attack_person->puremaxhp : $theirhp;
 $yourhp = ($yourhp > $user_class->puremaxhp) ? $user_class->puremaxhp : $yourhp;
 $db->query("UPDATE grpgusers SET hp = ? WHERE id = ?");

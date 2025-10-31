@@ -60,6 +60,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'username') {
         "text" => "You have updated your username, you will still need to use your login name which is your original username",
     ));
 
+    invalidateFormattedName($user_class->id);
 }
 if (isset($_POST['action']) && $_POST['action'] == 'email') {
     if (!isset($_POST['email'])) {
