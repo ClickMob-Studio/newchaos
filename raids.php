@@ -711,6 +711,8 @@ echo "</div>"; // Close active-raids-grid
                     echo "<p><strong>1 x Egg Key (Part 1), 1 x Egg Key (Part 2), and 100 tokens to summon:</strong></p>";
                 } else if ($boss['id'] == 26) {
                     echo "<p><strong>1 Building Pass to summon</strong></p>";
+                } else if ($boss['id'] == 29) {
+                    echo "<p><strong>1 x Halloween Candies to summon</strong></p>";
                 } else {
                     echo "<p><strong>Token cost to summon:</strong> $tokencost</p>";
                 }
