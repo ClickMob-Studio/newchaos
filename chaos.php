@@ -1107,24 +1107,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
-    <?php
-    $currentLevel = (int) ($state['curse_level'] ?? 0);
-    $currentExp = (int) ($state['curse_exp'] ?? 0);
-
-    $reqByLevel = [];
-    foreach ($passRows as $r) {
-        $reqByLevel[(int) $r['curse_level']] = (int) $r['curse_exp_req'];
-    }
-
-    $reqAt = function (int $lvl) use ($reqByLevel) {
-        return $reqByLevel[$lvl] ?? 0;
-    };
-    ?>
     <div class="bp3-track">
-        <?php foreach ($passRows as $row):
+        <?php
+        // --- normalize XP requirements to cumulative (handles both per-level and cumulative data)
+        $cumByLevel = [];
+        $last = null;
+        $looksCumulative = true;
+        foreach ($passRows as $r) {
+            $lvl = (int) $r['curse_level'];
+            $req = (int) $r['curse_exp_req'];
+            if ($last !== null && $req < $last) {
+                $looksCumulative = false;
+            }
+            $last = $req;
+        }
+
+        if ($looksCumulative) {
+            foreach ($passRows as $r) {
+                $cumByLevel[(int) $r['curse_level']] = (int) $r['curse_exp_req'];
+            }
+        } else {
+            $running = 0;
+            foreach ($passRows as $r) {
+                $running += (int) $r['curse_exp_req']; // treat values as per-level deltas
+                $cumByLevel[(int) $r['curse_level']] = $running;
+            }
+        }
+
+        $reqAt = function (int $lvl) use ($cumByLevel) {
+            return $cumByLevel[$lvl] ?? 0;
+        };
+
+        $currentLevel = (int) ($state['curse_level'] ?? 0);
+        $currentExp = (int) ($state['curse_exp'] ?? 0);
+        $curReq = $reqAt($currentLevel);
+        $nextReq = $reqAt($currentLevel + 1);
+        $segTotal = max(1, $nextReq - $curReq);
+
+        foreach ($passRows as $row):
             $tier = (int) ($row['curse_level'] ?? 0);
-            $req = (int) ($row['curse_exp_req'] ?? 0);
-            $id = (int) ($row['id']);
+            $req = $reqAt($tier); // cumulative XP required for this tier
+            $id = (int) $row['id'];
             $prem = (int) ($row['is_premium'] ?? 0) === 1;
             $claimed = in_array($id, $claimedIds, true);
 
@@ -1132,26 +1155,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $reached = ($currentLevel >= $tier);
             $claimable = $reached && !$claimed && (!$prem || $isPremium);
 
-            // --- Progress bar:
-            // Segment = [reqAt(currentLevel), reqAt(currentLevel+1))
-            $segStart = $reqAt($currentLevel);
-            $segEnd = $reqAt($currentLevel + 1);
-            $segTotal = max(1, $segEnd - $segStart);
+            // --- Remaining XP to unlock this tier
+            $remaining = $reached ? 0 : max(0, $req - ($curReq + $currentExp));
 
+            // --- Progress bar fill logic
             if ($reached) {
                 $tilePct = 100;
             } elseif ($tier === $currentLevel + 1) {
-                // progress within the current segment ONLY for the immediate next tier
                 $tilePct = (int) min(99, round(($currentExp / $segTotal) * 100));
             } else {
                 $tilePct = 0;
-            }
-
-            // --- Single “Requires … XP” line shows REMAINING to this tile:
-            // remaining = req(tier) - (req(currentLevel) + currentExp)
-            $remaining = 0;
-            if (!$reached) {
-                $remaining = max(0, $req - ($segStart + $currentExp));
             }
 
             $rewardLabel = rr_label($row);
@@ -1195,7 +1208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="hidden" name="csrf" value="<?= h($_SESSION['csrf']) ?>">
                             <input type="hidden" name="action" value="claim_one">
                             <input type="hidden" name="pass_id" value="<?= $id ?>">
-                            <button class="bp3-claim">Claim</button>
+                            <button class="bp3-claim" <?= $claimable ? '' : 'disabled' ?>>Claim</button>
                         </form>
                     <?php endif; ?>
                 </div>
