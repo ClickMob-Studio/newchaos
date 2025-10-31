@@ -747,7 +747,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     .bp3-claimall {
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        background: linear-gradient(90deg, #611010, #c13d3d);
         color: #fff;
         border: none;
         font-weight: 700;
@@ -1106,9 +1106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button class="bp3-claimall" type="submit">Claim All Available Rewards</button>
         </form>
 
-        <div class="bp3-progress">
-            <i style="width: <?= $overallPct ?>%"></i>
-        </div>
         <div class="bp3-sub">
             <?php if ($nextReq === null): ?>
                 <span>Max tier reached</span>
