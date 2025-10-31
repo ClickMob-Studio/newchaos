@@ -1961,7 +1961,7 @@ $no2 = $db->num_rows();
                         </style>
 
 
-                        <div class="dcPanel p-3" style="text-align:center" id="message-container">
+                        <div class="dcPanel p-3" style="text-align:center;margin-bottom: 12px;" id="message-container">
                             <ul id="messages"
                                 style="list-style-type: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0; margin: 0;">
                             </ul>
