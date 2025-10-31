@@ -124,14 +124,24 @@ class ChaosRepository
         }
 
         $soulsThisHour = $this->getSoulsThisHour($userId);
-        if ((int) $soulsThisHour >= $lantern['souls_hour']) {
+        $limit = (int) ($lantern['souls_hour'] ?? 0);
+        if ($limit <= 0)
+            return $state;
+
+        if ($soulsThisHour >= $limit) {
             return $state;
         }
 
-        $bonusPct = $lantern && isset($lantern['soul_bonus']) ? (int) $lantern['soul_bonus'] : 0;
-        $mult = 1 + max(0, $bonusPct) / 100;
+        $remaining = $limit - (int) $soulsThisHour;
 
-        $awarded = max(1, (int) ($baseQty * $mult));
+        $bonusPct = isset($lantern['soul_bonus']) ? (int) $lantern['soul_bonus'] : 0;
+        $mult = 1 + max(0, $bonusPct) / 100;
+        $awarded = max(1, $baseQty * $mult);
+        $grant = min($awarded, $remaining);
+
+        if ($grant <= 0) {
+            return $state;
+        }
 
         $state['souls_current'] = (int) $state['souls_current'] + $awarded;
         $state['souls_collected'] = (int) $state['souls_collected'] + $awarded;
