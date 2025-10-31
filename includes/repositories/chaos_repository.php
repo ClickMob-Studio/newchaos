@@ -123,6 +123,11 @@ class ChaosRepository
             }
         }
 
+        $soulsThisHour = $this->getSoulsThisHour($userId);
+        if ((int) $soulsThisHour >= $lantern['souls_hour']) {
+            return $state;
+        }
+
         $bonusPct = $lantern && isset($lantern['soul_bonus']) ? (int) $lantern['soul_bonus'] : 0;
         $mult = 1 + max(0, $bonusPct) / 100;
 
