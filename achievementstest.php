@@ -1,45 +1,45 @@
 <?php
 include 'header.php';
 $levelbadges = array(
-'12' => array(
+	'12' => array(
 		'needed' => 2000,
 		'payout' => 20000,
 		'img' => 'lvl2000',
 		'title' => 'Testing Leveler: Get to level 400'
 	),
-'11' => array(
+	'11' => array(
 		'needed' => 2000,
 		'payout' => 20000,
 		'img' => 'lvl2000',
 		'title' => 'Testing Leveler: Get to level 400'
 	),
-'10' => array(
+	'10' => array(
 		'needed' => 2000,
 		'payout' => 20000,
 		'img' => 'lvl2000',
 		'title' => 'Testing Leveler: Get to level 400'
 	),
-'9' => array(
+	'9' => array(
 		'needed' => 2000,
 		'payout' => 20000,
 		'img' => 'lvl2000',
 		'title' => 'Testing Leveler: Get to level 400'
 	),
-'8' => array(
+	'8' => array(
 		'needed' => 2000,
 		'payout' => 20000,
 		'img' => 'lvl2000',
 		'title' => 'Testing Leveler: Get to level 400'
 	),
-'7' => array(
+	'7' => array(
 		'needed' => 2000,
 		'payout' => 20000,
 		'img' => 'lvl2000',
 		'title' => 'Testing Leveler: Get to level 400'
 	),
 
-	
-'6' => array(
+
+	'6' => array(
 		'needed' => 400,
 		'payout' => 20000,
 		'img' => 'lvl400',
@@ -305,84 +305,107 @@ $bustbadge = array(
 	)
 );
 ?>
-<tr><td class="contentspacer"></td></tr><tr><td><center><b><i><u><font color=Blue>TheMafiaLife Achievements</font></u></i></b></center><br></td>
-</tr><tr><td class="contentcontent">
-         Achievements are granted for doing well or doing hilariously bad in certain parts of the game. You don't have to go anywhere to be granted these badges, just simply get to the target and you will be awarded with it automatically.
-    </td></tr>
-<tr><td class="contentspacer"></td></tr><tr><td class="contenthead"></br> </br><center><b><i><u><font color=cyan>Your Achievements</font></u></i></b></center></td></td>
-<tr><td class="contentcontent">
-        <?php if ($user_class->badge != 0) { ?>
-            <table width="100%" align="center">
-                <tr>
-                    <?php
-                    echo (isset($user_class->badge1)) ? "<td align='center'>" . $user_class->badge1 . "</td>" : "";
-                    echo (isset($user_class->badge2)) ? "<td align='center'>" . $user_class->badge2 . "</td>" : "";
-                    echo (isset($user_class->badge4)) ? "<td align='center'>" . $user_class->badge4 . "</td>" : "";
-                    echo (isset($user_class->badge5)) ? "<td align='center'>" . $user_class->badge5 . "</td>" : "";
-                    echo (isset($user_class->badge6)) ? "<td align='center'>" . $user_class->badge6 . "</td>" : "";
-                    echo (isset($user_class->badge7)) ? "<td align='center'>" . $user_class->badge7 . "</td>" : "";
-                    echo (isset($user_class->badge8)) ? "<td align='center'>" . $user_class->badge8 . "</td>" : "";
-                    ?>
-                </tr>
-            </table>
-            <?php
-        } else {
-            echo "You haven't achieved any achievements yet.";
-        }
-genHead("Collectible Achievements");
-$achs = array(
-	'Levels' => 'levelbadges',
-	'Crimes' => 'crimebadge',
-	'Stats' => 'statbadge',
-	'Kills' => 'battlebadge',
-	'Bank' => 'bankbadge',
-	'Mugs' => 'mugbadge',
-	'Busts' => 'bustbadge'
-);
-foreach($achs as $head => $var){
-	$cur = '';
-	echo'<table id="newtables" style="width:100%;table-layout:fixed;">';
-		echo'<tr>';
-			echo'<th colspan="6">' . $head . '</td>';
-
-		echo'</tr>';
-		echo'<tr>';
-	foreach(array_reverse($$var) as $ach){
-			echo'<td>';
-                echo'<div class="ach' . $ach['img'] . '" title="' . $ach['title'] . '">
-               <img src="css/images/'.$ach["img"].'.png"> </img>
-                </div><br />';
-		switch($var){
-			case 'levelbadges':
-				echo'Get to level ' . prettynum($ach['needed']) . '.';
-				break;
-			case 'statbadge':
-				echo'Gain ' . prettynum($ach['needed']) . ' in the gym.';
-				break;
-			case 'battlebadge':
-				echo'Win ' . prettynum($ach['needed']) . ' fights.';
-				break;
-			case 'bankbadge':
-				echo'Bank ' . prettynum($ach['needed'], 1) . '.';
-				break;
-			case 'mugbadge':
-				echo'Gain ' . prettynum($ach['needed']) . ' mugs.';
-				break;
-			case 'bustbadge':
-				echo'Gain ' . prettynum($ach['needed']) . ' busts.';
-				break;
-			case 'crimebadge':
-				echo'Successfully complete ' . prettynum($ach['needed']) . ' crimes.';
-				break;
+<tr>
+	<td class="contentspacer"></td>
+</tr>
+<tr>
+	<td>
+		<center><b><i><u>
+						<font color=Blue>TheMafiaLife Achievements</font>
+					</u></i></b></center><br>
+	</td>
+</tr>
+<tr>
+	<td class="contentcontent">
+		Achievements are granted for doing well or doing hilariously bad in certain parts of the game. You don't have to
+		go anywhere to be granted these badges, just simply get to the target and you will be awarded with it
+		automatically.
+	</td>
+</tr>
+<tr>
+	<td class="contentspacer"></td>
+</tr>
+<tr>
+	<td class="contenthead"></br> </br>
+		<center><b><i><u>
+						<font color=cyan>Your Achievements</font>
+					</u></i></b></center>
+	</td>
+	</td>
+<tr>
+	<td class="contentcontent">
+		<?php if ($user_class->badge != 0) { ?>
+			<table width="100%" align="center">
+				<tr>
+					<?php
+					echo (isset($user_class->badge1)) ? "<td align='center'>" . $user_class->badge1 . "</td>" : "";
+					echo (isset($user_class->badge2)) ? "<td align='center'>" . $user_class->badge2 . "</td>" : "";
+					echo (isset($user_class->badge4)) ? "<td align='center'>" . $user_class->badge4 . "</td>" : "";
+					echo (isset($user_class->badge5)) ? "<td align='center'>" . $user_class->badge5 . "</td>" : "";
+					echo (isset($user_class->badge6)) ? "<td align='center'>" . $user_class->badge6 . "</td>" : "";
+					echo (isset($user_class->badge7)) ? "<td align='center'>" . $user_class->badge7 . "</td>" : "";
+					echo (isset($user_class->badge8)) ? "<td align='center'>" . $user_class->badge8 . "</td>" : "";
+					?>
+				</tr>
+			</table>
+			<?php
+		} else {
+			echo "You haven't achieved any achievements yet.";
 		}
-			echo'</td>';
-		$cur .= '<th>' . prettynum($ach['payout']) . ' Points</th>';
-	}
-		echo'</tr>';
-		echo'<tr>';
+		genHead("Collectible Achievements");
+		$achs = array(
+			'Levels' => 'levelbadges',
+			'Crimes' => 'crimebadge',
+			'Stats' => 'statbadge',
+			'Kills' => 'battlebadge',
+			'Bank' => 'bankbadge',
+			'Mugs' => 'mugbadge',
+			'Busts' => 'bustbadge'
+		);
+		foreach ($achs as $head => $var) {
+			$cur = '';
+			echo '<table id="newtables" style="width:100%;table-layout:fixed;">';
+			echo '<tr>';
+			echo '<th colspan="6">' . $head . '</td>';
+
+			echo '</tr>';
+			echo '<tr>';
+			foreach (array_reverse($$var) as $ach) {
+				echo '<td>';
+				echo '<div class="ach' . $ach['img'] . '" title="' . $ach['title'] . '">
+               <img src="/css/images/' . $ach["img"] . '.png"> </img>
+                </div><br />';
+				switch ($var) {
+					case 'levelbadges':
+						echo 'Get to level ' . prettynum($ach['needed']) . '.';
+						break;
+					case 'statbadge':
+						echo 'Gain ' . prettynum($ach['needed']) . ' in the gym.';
+						break;
+					case 'battlebadge':
+						echo 'Win ' . prettynum($ach['needed']) . ' fights.';
+						break;
+					case 'bankbadge':
+						echo 'Bank ' . prettynum($ach['needed'], 1) . '.';
+						break;
+					case 'mugbadge':
+						echo 'Gain ' . prettynum($ach['needed']) . ' mugs.';
+						break;
+					case 'bustbadge':
+						echo 'Gain ' . prettynum($ach['needed']) . ' busts.';
+						break;
+					case 'crimebadge':
+						echo 'Successfully complete ' . prettynum($ach['needed']) . ' crimes.';
+						break;
+				}
+				echo '</td>';
+				$cur .= '<th>' . prettynum($ach['payout']) . ' Points</th>';
+			}
+			echo '</tr>';
+			echo '<tr>';
 			echo $cur;
-		echo'</tr></table>';
-}
-echo '</div>';
-include 'footer.php';
-?>
+			echo '</tr></table>';
+		}
+		echo '</div>';
+		include 'footer.php';
+		?>

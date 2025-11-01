@@ -56,19 +56,19 @@ if ($_GET['go'] == $goarray['0'] || $_GET['go'] == $goarray['1'] || $_GET['go'] 
             <table width="40%" align="center" cellspacing="0">
                 <tr>
                     <td align="center"></td>
-                    <td align="center"><a href="chase.php?go=up"><img src="images/up.gif" border="0" /></a></td>
+                    <td align="center"><a href="chase.php?go=up"><img src="/images/up.gif" border="0" /></a></td>
                     <td align="center"></td>
                 </tr>
                 <tr>
                     <td height="60px" valign="middle" align="center"><a href="chase.php?go=left"><img
-                                src="images/left.gif" border="0" /></a></td>
+                                src="/images/left.gif" border="0" /></a></td>
                     <td height="60px" valign="middle" align="center"></td>
                     <td height="60px" valign="middle" align="center"><a href="chase.php?go=right"><img
-                                src="images/right.gif" border="0" /></a></td>
+                                src="/images/right.gif" border="0" /></a></td>
                 </tr>
                 <tr>
                     <td align="center"></td>
-                    <td align="center"><a href="chase.php?go=down"><img src="images/down.gif" border="0" /></a></td>
+                    <td align="center"><a href="chase.php?go=down"><img src="/images/down.gif" border="0" /></a></td>
                     <td align="center"></td>
                 </tr>
             </table>

@@ -112,7 +112,7 @@ function BBCodeParse($str)
         $smiley_search[] = $index;
         if (empty($img[1]))
             $img[1] = $img[2] = 19;
-        $smiley_replace[] = '<img src="smileys/' . $img[0] . '" width="' . $img[1] . '" height="' . $img[2] . '" border="0" style="vertical-align: bottom;" alt="" />';
+        $smiley_replace[] = '<img src="/smileys/' . $img[0] . '" width="' . $img[1] . '" height="' . $img[2] . '" border="0" style="vertical-align: bottom;" alt="" />';
     }
     $str = preg_replace($format_search, $format_replace, $str);
 

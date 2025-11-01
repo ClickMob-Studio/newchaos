@@ -146,7 +146,7 @@ if (isset($currentQuestSeason['id'])) {
                     class="challenge-btn" style="text-decoration: underline;">Challenge</a>
 
             <?php else: ?>
-                <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Boss" class="vacant-throne">
+                <img src="/images/vacant.png" style="width: 100px; height: 100px;" alt="No Boss" class="vacant-throne">
                 <h4>VACANT</h4>
                 <p>Boss of <!_-cityname-_!></p>
                 <a href="?claim_king=claimnow" style="text-decoration: underline;">Claim</a>
@@ -187,7 +187,8 @@ if (isset($currentQuestSeason['id'])) {
                     class="challenge-btn" style="text-decoration: underline;">Challenge</a>
 
             <?php else: ?>
-                <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Under Boss" class="vacant-throne">
+                <img src="/images/vacant.png" style="width: 100px; height: 100px;" alt="No Under Boss"
+                    class="vacant-throne">
                 <h4>VACANT</h4>
                 <p>Under Boss of <!_-cityname-_!></p>
                 <a href="?claim_queen=claimnow" style="text-decoration: underline;">Claim</a>

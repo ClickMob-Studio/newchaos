@@ -1253,7 +1253,7 @@ include 'header.php';
                 <h5>5,000 Points</h5>
             </div>
             <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
+                <img src="/css/images/coin.png">
                 <span>50</span>
             </div>
             <div class="new-shop-item--buy">
@@ -1265,7 +1265,7 @@ include 'header.php';
                 <h5>10,000 Points</h5>
             </div>
             <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
+                <img src="/css/images/coin.png">
                 <span>100</span>
             </div>
             <div class="new-shop-item--buy">
@@ -1277,7 +1277,7 @@ include 'header.php';
                 <h5>25,000 Points</h5>
             </div>
             <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
+                <img src="/css/images/coin.png">
                 <span>200</span>
             </div>
             <div class="new-shop-item--buy">
@@ -1289,7 +1289,7 @@ include 'header.php';
                 <h5>50,000 Points</h5>
             </div>
             <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
+                <img src="/css/images/coin.png">
                 <span>370</span>
             </div>
             <div class="new-shop-item--buy">
@@ -1301,7 +1301,7 @@ include 'header.php';
                 <h5>200,000 Points</h5>
             </div>
             <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
+                <img src="/css/images/coin.png">
                 <span>750</span>
             </div>
             <div class="new-shop-item--buy">
@@ -1313,7 +1313,7 @@ include 'header.php';
                 <h5>900,000 Points</h5>
             </div>
             <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
+                <img src="/css/images/coin.png">
                 <span>2000</span>
             </div>
             <div class="new-shop-item--buy">
@@ -1325,7 +1325,7 @@ include 'header.php';
                 <h5>1,300,000 Points</h5>
             </div>
             <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
+                <img src="/css/images/coin.png">
                 <span>2500</span>
             </div>
             <div class="new-shop-item--buy">
@@ -1882,105 +1882,105 @@ echo '</div>';
 
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Point Pack</font></u><br>[5,000 points added to your account]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;100</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;100</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=1000">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Point Pack</font></u><br>[10,000 points added to your account]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;180</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;180</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=3500">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Point Pack</font></u><br>[25,000 points added to your account]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;340</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;340</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=12000">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Point Pack</font></u><br>[50,000 points added to your account]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;650</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;650</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=35000">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Point Pack</font></u><br>[125,000 points added to your account]</font></td>';
-// echo '<div><td id="dottedRow">&nbsp;&nbsp;<img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;1200</b></font></td>';
+// echo '<div><td id="dottedRow">&nbsp;&nbsp;<img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;1200</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=85000">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Point Pack</font></u><br>[300,000 points added to your account]</font></td>';
-// echo '<div><td id="dottedRow">&nbsp;&nbsp;<img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;2600</b></font></td>';
+// echo '<div><td id="dottedRow">&nbsp;&nbsp;<img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;2600</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=200000">[Buy Now]</a></td>';
 // echo '</tr>';
 
 
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>RM Pack(s)</font></u><br>[You will recieve 10x 30day RM packs]</td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;270</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;270</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=rm3010">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>RM Pack(s)</font></u><br>[You will recieve 10x 60day RM packs]</td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;540</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;540</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=rm6010">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>RM Pack(s)</font></u><br>[You will recieve 10x 90day RM packs]</td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;810</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;810</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=rm9010">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Image Name</u><br> Preview: <img src="images/twist.png"/></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;90</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;90</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=imgname">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Gradient name</u><br>Preview: <span style="color:#990A00;text-shadow: 0 0 10px #E80000;">S</span><span style="color:#A32900;text-shadow: 0 0 10px #EF2501;">m</span><span style="color:#AD4800;text-shadow: 0 0 10px #F74A02;">O</span><span style="color:#B86800;text-shadow: 0 0 10px #FF7003;">k</span><span style="color:#B86800;text-shadow: 0 0 10px #FF7003;">e</span><span style="color:#B87C2E;text-shadow: 0 0 10px #FF9342;">d</span><span style="color:#B9915D;text-shadow: 0 0 10px #FFB781;">O</span><span style="color:#B9A58B;text-shadow: 0 0 10px #FFDBC0;">n</span><span style="color:#BABABA;text-shadow: 0 0 10px #FFFFFF;">e</span></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;30</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;30</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=2gradientyes">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>1 Hour Mug Protection</font></u><br>[*When used you cannot be mugged for 1 hour*]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;20</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;20</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=MP">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>1 Hour Mug Protection x5</font></u><br>[*When used you cannot be mugged for 1 hour*]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;80</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;80</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=MP5">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>1 Hour Attack Protection</font></u><br>[*When used you cannot be attacked for 1 hour*]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;20</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;20</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=AP">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>1 Hour Attack Protection x5</font></u><br>[*When used you cannot be attacked for 1 hour*]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;80</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;&nbsp;&nbsp;80</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=AP5">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Double EXP</font></u><br>[*When used you will have 1 hour of Double EXP*]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;50</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;50</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=DE">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Double EXP x5</font></u><br>[*When used you will have 1 hour of Double EXP*]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;220</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;220</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=DE5">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Security System</font></u><br>[Security System for you and your spouse]</font></td>';
-// echo '<div><td id="dottedRow"><img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;100</b></font></td>';
+// echo '<div><td id="dottedRow"><img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;100</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=sec">[Buy Now]</a></td>';
 // echo '</tr>';
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>Custom Item set 80%</u></font><br>[Customise Name & Set a picture for all 3 modifiers]</font></td>';
-// echo '<div><td id="dottedRow">&nbsp;&nbsp;<img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;500</b></font></td>';
+// echo '<div><td id="dottedRow">&nbsp;&nbsp;<img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;500</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=custom">[Buy Now]</a></td>';
 // echo '</tr>';
 
 // echo '<tr style="text-align:center;height:50px;">';
 // echo '<td id="dottedRow1"><font color=yellow><u>+25 Nerve & Energy Boosters <font color=red>[NEW]</font></u></font><br>[1 of each Nerve and energy booster]</font></td>';
-// echo '<div><td id="dottedRow">&nbsp;&nbsp;<img src="css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;500</b></font></td>';
+// echo '<div><td id="dottedRow">&nbsp;&nbsp;<img src="/css/images/coin.png"><font size="3" color="yellow"><b>&nbsp;500</b></font></td>';
 // echo '<td id="dottedRow2"><a class="cta" href="?buy=boosters">[Buy Now]</a></td>';
 // echo '</tr>';
 

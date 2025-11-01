@@ -10,7 +10,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
             <div class="relative flex h-16 items-center justify-between">
                 <div class="flex flex-1 items-center md:justify-center md:items-stretch md:justify-start">
                     <div class="flex shrink-0 items-center text-2xl font-bold">
-                        <img src="assets/images/ChaosCity.png" alt="Logo" class="h-3 md:h-4 w-auto" />
+                        <img src="/assets/images/ChaosCity.png" alt="Logo" class="h-3 md:h-4 w-auto" />
                     </div>
                 </div>
                 <div
@@ -22,25 +22,25 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">VIP status
                             (<?php echo $user_class->rmdays > 1 ? 'VIP' : 'Not VIP'; ?>)</span>
-                        <img src="assets/images/VIPBadge.png" class="w-[20px] md:w-full" />
+                        <img src="/assets/images/VIPBadge.png" class="w-[20px] md:w-full" />
                     </button>
 
                     <button type="button" class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">View private messages</span>
-                        <img src="assets/images/icons/Mailbox.png" class="w-[20px] md:w-full" />
+                        <img src="/assets/images/icons/Mailbox.png" class="w-[20px] md:w-full" />
                     </button>
 
                     <button type="button" class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Inventory</span>
-                        <img src="assets/images/icons/Bag.png" class="w-[20px] md:w-full" />
+                        <img src="/assets/images/icons/Bag.png" class="w-[20px] md:w-full" />
                     </button>
 
                     <button type="button" class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Settings</span>
-                        <img src="assets/images/icons/Settings.png" class="w-[20px] md:w-full" />
+                        <img src="/assets/images/icons/Settings.png" class="w-[20px] md:w-full" />
                     </button>
 
                     <!-- Profile dropdown -->
@@ -88,51 +88,51 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
             <div class="justify-around flex h-12 items-center gap-x-4 overflow-scroll text-white whitespace-nowrap px-2"
                 style="scrollbar-width: none;">
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Home.svg" class="size-4">
+                    <img src="/assets/images/svg/Home.svg" class="size-4">
                     <a href="">Home</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Shop.svg" class="size-4">
+                    <img src="/assets/images/svg/Shop.svg" class="size-4">
                     <a href="">Store</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Spy.svg" class="size-4">
+                    <img src="/assets/images/svg/Spy.svg" class="size-4">
                     <a href="">Crimes</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Prison.svg" class="size-4">
+                    <img src="/assets/images/svg/Prison.svg" class="size-4">
                     <a href="">Jail</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Hospital 3.svg" class="size-4">
+                    <img src="/assets/images/svg/Hospital 3.svg" class="size-4">
                     <a href="">Hospital</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Barbell.svg" class="size-4">
+                    <img src="/assets/images/svg/Barbell.svg" class="size-4">
                     <a href="">Gym</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Bank Building.svg" class="size-4">
+                    <img src="/assets/images/svg/Bank Building.svg" class="size-4">
                     <a href="">Bank</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Building.svg" class="size-4">
+                    <img src="/assets/images/svg/Building.svg" class="size-4">
                     <a href="">Estate</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Pill.svg" class="size-4">
+                    <img src="/assets/images/svg/Pill.svg" class="size-4">
                     <a href="">Drugs</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Gang.svg" class="size-4">
+                    <img src="/assets/images/svg/Gang.svg" class="size-4">
                     <a href="">Gang</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Hammer.svg" class="size-4">
+                    <img src="/assets/images/svg/Hammer.svg" class="size-4">
                     <a href="">Crafting</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/images/svg/Parchment.svg" class="size-4">
+                    <img src="/assets/images/svg/Parchment.svg" class="size-4">
                     <a href="">Quests</a>
                 </div>
             </div>
@@ -150,7 +150,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         title="<?= number_format($user_class->money); ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Cash</span>
-                        <img src="assets/images/icons/Cash.png" />
+                        <img src="/assets/images/icons/Cash.png" />
                         <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->money); ?></span>
                     </span>
 
@@ -158,7 +158,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         title="<?= number_format($user_class->bank); ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Money in bank</span>
-                        <img src="assets/images/icons/Bank Building.png" />
+                        <img src="/assets/images/icons/Bank Building.png" />
                         <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->bank); ?></span>
                     </span>
 
@@ -166,7 +166,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         title="<?= number_format($user_class->points); ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Points</span>
-                        <img src="assets/images/icons/Diamond.png" />
+                        <img src="/assets/images/icons/Diamond.png" />
                         <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->points); ?></span>
                     </span>
 
@@ -174,7 +174,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         title="<?= number_format($user_class->credits); ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Gold</span>
-                        <img src="assets/images/icons/Gold Bars.png" />
+                        <img src="/assets/images/icons/Gold Bars.png" />
                         <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->credits); ?></span>
                     </span>
                 </div>
@@ -200,7 +200,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         title="<?= $user_class->formattedawake; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Awake</span>
-                        <img src="assets/images/icons/Sleep.png" />
+                        <img src="/assets/images/icons/Sleep.png" />
                         <span class="ml-2 text-white text-sm"><?= $user_class->awakepercent; ?>%</span>
                     </span>
 
@@ -208,7 +208,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         title="<?= $user_class->formattednerve; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Nerve</span>
-                        <img src="assets/images/icons/Brain.png" />
+                        <img src="/assets/images/icons/Brain.png" />
                         <span class="ml-2 text-white text-sm"><?= $user_class->nervepercent; ?>%</span>
                     </span>
 
@@ -216,7 +216,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         title="<?= $user_class->formattedenergy; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Energy</span>
-                        <img src="assets/images/icons/Lightning Bolt.png" />
+                        <img src="/assets/images/icons/Lightning Bolt.png" />
                         <span class="ml-2 text-white text-sm"><?= $user_class->energypercent; ?>%</span>
                     </span>
 
@@ -224,7 +224,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         title="<?= $user_class->formattedhp; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Health</span>
-                        <img src="assets/images/icons/Heart.png" />
+                        <img src="/assets/images/icons/Heart.png" />
                         <span class="ml-2 text-white text-sm"><?= $user_class->hppercent; ?>%</span>
                     </span>
                 </div>

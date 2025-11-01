@@ -239,7 +239,7 @@ include 'header.php';
 <br /><br />
 <center>
     <div id="med-pack-holder">
-        <img src="css/images/NewGameImages/medi_cert.png" style="max-width: 75px;" class="img-responsive" /><br />
+        <img src="/css/images/NewGameImages/medi_cert.png" style="max-width: 75px;" class="img-responsive" /><br />
         <a class="ajax-link" href="ajax_med_cert.php?alv=yes">Use 100% Med Cert</a>
     </div>
 </center> 
@@ -323,16 +323,16 @@ include 'header.php';
         <h1><font color=blue>Common Items</font></h1>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/items/common_diamond.png" width="50" height="50" alt="Diamond (Common)">', 209, '#7eff11') . '
+                ' . item_popup('<img src="/css/images/items/common_diamond.png" width="50" height="50" alt="Diamond (Common)">', 209, '#7eff11') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/items/common_ruby.jpg" width="50" height="50" alt="Ruby">', 210, '#7eff11') . '
+                ' . item_popup('<img src="/css/images/items/common_ruby.jpg" width="50" height="50" alt="Ruby">', 210, '#7eff11') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/items/common_emerald.png" width="50" height="50" alt="Emerald Stone">', 211, '#7eff11') . '
+                ' . item_popup('<img src="/css/images/items/common_emerald.png" width="50" height="50" alt="Emerald Stone">', 211, '#7eff11') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/items/common_sapphire.png" width="50" height="50" alt="Sapphire">', 212, '#7eff11') . '
+                ' . item_popup('<img src="/css/images/items/common_sapphire.png" width="50" height="50" alt="Sapphire">', 212, '#7eff11') . '
             </div>
         </div>
     </div>
@@ -342,16 +342,16 @@ include 'header.php';
         <h1><font color=green>Uncommon Items</font></h1>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/items/uncommon_diamond.png" width="50" height="50" alt="Diamond Stone">', 225, '#00ff00') . '
+                ' . item_popup('<img src="/css/images/items/uncommon_diamond.png" width="50" height="50" alt="Diamond Stone">', 225, '#00ff00') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/items/uncommon_ruby.png" width="50" height="50" alt="Ruby">', 226, '#00ff00') . '
+                ' . item_popup('<img src="/css/images/items/uncommon_ruby.png" width="50" height="50" alt="Ruby">', 226, '#00ff00') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/items/uncommon_emerald.png" width="50" height="50" alt="Emerald Stone">', 227, '#00ff00') . '
+                ' . item_popup('<img src="/css/images/items/uncommon_emerald.png" width="50" height="50" alt="Emerald Stone">', 227, '#00ff00') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/items/uncommon_sapphire.png" width="50" height="50" alt="Sapphire">', 228, '#00ff00') . '
+                ' . item_popup('<img src="/css/images/items/uncommon_sapphire.png" width="50" height="50" alt="Sapphire">', 228, '#00ff00') . '
             </div>
         </div>
     </div>
@@ -361,38 +361,38 @@ include 'header.php';
         <h1><font color=gold>Rare Item Finds</font></h1>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/mugprotection.png" width="50" height="50" alt="Diamond Stone">', 206, '#ffd700') . '
+                ' . item_popup('<img src="/css/images/NewGameImages/mugprotection.png" width="50" height="50" alt="Diamond Stone">', 206, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/attackprotection.png" width="50" height="50" alt="Ruby">', 207, '#ffd700') . '
+                ' . item_popup('<img src="/css/images/NewGameImages/attackprotection.png" width="50" height="50" alt="Ruby">', 207, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/doubleexp.png" width="50" height="50" alt="Emerald Stone">', 208, '#ffd700') . '
+                ' . item_popup('<img src="/css/images/NewGameImages/doubleexp.png" width="50" height="50" alt="Emerald Stone">', 208, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/exoticbooster.png" width="50" height="50" alt="Exotic Booster">', 230, '#ffd700') . '
+                ' . item_popup('<img src="/css/images/NewGameImages/exoticbooster.png" width="50" height="50" alt="Exotic Booster">', 230, '#ffd700') . '
 
             </div>
         </div>
         <br />
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/metal.png" width="50" height="50" alt="Metal">', 273, '#ffd700') . '
+                ' . item_popup('<img src="/css/images/NewGameImages/metal.png" width="50" height="50" alt="Metal">', 273, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/wood.png" width="50" height="50" alt="Wood">', 275, '#ffd700') . '
+                ' . item_popup('<img src="/css/images/NewGameImages/wood.png" width="50" height="50" alt="Wood">', 275, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/leather.png" width="50" height="50" alt="Leather">', 274, '#ffd700') . '
+                ' . item_popup('<img src="/css/images/NewGameImages/leather.png" width="50" height="50" alt="Leather">', 274, '#ffd700') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/cpu.png" width="50" height="50" alt="CPU">', 318, '#ffd700') . '
+                ' . item_popup('<img src="/css/images/NewGameImages/cpu.png" width="50" height="50" alt="CPU">', 318, '#ffd700') . '
             </div>
         </div>
         <br />
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/plastic.png" width="50" height="50" alt="Plastic">', 319, '#ffd700') . '
+                ' . item_popup('<img src="/css/images/NewGameImages/plastic.png" width="50" height="50" alt="Plastic">', 319, '#ffd700') . '
             </div>
         </div>
     </div>
@@ -402,10 +402,10 @@ include 'header.php';
         <h1><font color=red>Super Rare Finds</font></h1>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="css/images/NewGameImages/heroicbooster.png" width="50" height="50" alt="Heroic Booster">', 231, '#ff0000') . '
+                ' . item_popup('<img src="/css/images/NewGameImages/heroicbooster.png" width="50" height="50" alt="Heroic Booster">', 231, '#ff0000') . '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); border-radius: 8px;">
-                ' . item_popup('<img src="images/raidspeedup.png" width="50" height="50" alt="Raid Speedup">', 194, '#ff0000') . '
+                ' . item_popup('<img src="/images/raidspeedup.png" width="50" height="50" alt="Raid Speedup">', 194, '#ff0000') . '
             </div>
         </div>
     </div>

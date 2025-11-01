@@ -63,7 +63,7 @@ perform_query("UPDATE `grpgusers` SET `captcha` = ? WHERE `id` = ?", [$code, $us
     <div class="col-md-6">
         <center>
             <p>Please enter the code below.</p>
-            <img src="captcha_image.php?code=<?php echo $code ?>" width="100%" /><br />
+            <img src="/captcha_image.php?code=<?php echo $code ?>" width="100%" /><br />
             <form method="POST" action="captcha.php?token=<?php echo $newToken ?>&page=<?php echo $page ?>">
                 <input type="text" name="code" class="form-control" />
                 <?php if (isset($_GET['pid'])): ?>

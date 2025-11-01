@@ -7,7 +7,7 @@ include 'header.php';
         <?php
         if ($user_class->prayer == 0)
             error("You have already prayed today.");
-        $whereone = '<img src="images/prayer.png"></tr></td><tr><td class="contentcontent">';
+        $whereone = '<img src="/images/prayer.png"></tr></td><tr><td class="contentcontent">';
         if ($user_class->jail > 0)
             error("You can't access this page if you are in jail.");
         if ($user_class->hospital > 0)

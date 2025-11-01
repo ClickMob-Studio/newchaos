@@ -650,7 +650,7 @@ $no2 = $db->num_rows();
                 <div class="max-w-7xl mx-auto mt-2 mb-4 px-2 md:px-6 lg:px-8">
 
                     <div class="w-full flex flex-row gap-x-2 text-white bg-black/40 rounded-lg p-2 px-4 items-center">
-                        <img src="assets/images/svg/Ad.svg" class="size-6 mr-2" alt="Advertisement">
+                        <img src="/assets/images/svg/Ad.svg" class="size-6 mr-2" alt="Advertisement">
                         <span class="flex items-center pr-2"><?= $formattedname ?></span>
                         <span class="flex items-center"><?= $advertisement['message'] ?></span>
                     </div>

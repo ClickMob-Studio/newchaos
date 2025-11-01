@@ -486,8 +486,8 @@ echo '<style>
 
 echo '<table id="newtables" style="margin:auto;">';
 echo '    <tr>';
-echo '        <td><img src="images/muscles1.png" style="width:100px; height:100px;"></td>';
-echo '        <td><img src="images/exp.png" style="width:100px; height:100px;"></td>';
+echo '        <td><img src="/images/muscles1.png" style="width:100px; height:100px;"></td>';
+echo '        <td><img src="/images/exp.png" style="width:100px; height:100px;"></td>';
 echo '    </tr>';
 // Removed the key.png image and its row as per request.
 echo '    </tr>';
@@ -513,7 +513,7 @@ echo '<div style="text-align:center; margin-bottom:20px;">';
                         // Generate cells for badges and descriptions
                         for ($i = 1; $i <= 5; $i++) {
                             echo '<td class="text-center">';
-                            echo '<img src="images/skullpres_' . $i . '.png?v=4" class="img-fluid" style="max-width: 80px; height: auto;">';
+                            echo '<img src="/images/skullpres_' . $i . '.png?v=4" class="img-fluid" style="max-width: 80px; height: auto;">';
                             echo '<br><p style="color:#fff">Prestige ' . $i . '</p>';
                             echo '</td>';
                         }

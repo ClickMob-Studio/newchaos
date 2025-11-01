@@ -658,7 +658,7 @@ $no2 = $db->num_rows();
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ca284bbf02.js" crossorigin="anonymous"></script>
-    <link href="newassets/css/style.css?v=1714569ss35a" rel="stylesheet" type="text/css">
+    <link href="/newassets/css/style.css?v=1714569ss35a" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -797,7 +797,7 @@ $no2 = $db->num_rows();
         <div class="d-flex justify-content-between align-items-center">
             <div class="logo pe-3" role="banner">
                 <a href="/index.php" class="d-flex align-items-center text-decoration-none">
-                    <img src="assets/images/logo1.png" style="width:30px" />
+                    <img src="/assets/images/logo1.png" style="width:30px" />
                     <h1 class="h3 ms-2">ChaosCity</h1>
                 </a>
 

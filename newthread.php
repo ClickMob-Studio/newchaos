@@ -287,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 
     const icons = Quill.import('ui/icons');
-    icons.blockquote = '<img src="css/images/svgs/Quote.svg" alt="Quote" class="ql-stroke ql-fill">';
+    icons.blockquote = '<img src="/css/images/svgs/Quote.svg" alt="Quote" class="ql-stroke ql-fill">';
 
     let lastQuillRange = null;
     quill.on('selection-change', function (range) {

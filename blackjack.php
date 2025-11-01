@@ -2,12 +2,14 @@
 include 'header.php';
 
 
-function microtime_float() {
+function microtime_float()
+{
     $time = microtime();
-    return (float)substr($time, 11) + (float)substr($time, 0, 8);
+    return (float) substr($time, 11) + (float) substr($time, 0, 8);
 }
 
-function updateMoney($money) {
+function updateMoney($money)
+{
     echo '<script>$(document).ready(function(){	$("#money_container").html( "' . number_format($money) . ' ");});</script>';
 }
 
@@ -20,7 +22,7 @@ if ($user_class->sessionkey != $_SESSION['iid']) {
     session_destroy();
     header('Location: index.php');
 }
- // Assuming the header includes the database connection and user session info
+// Assuming the header includes the database connection and user session info
 
 // ... (rest of the PHP functions and game logic)
 
@@ -45,10 +47,12 @@ if ($user_class->sessionkey != $_SESSION['iid']) {
     </tr>
     <tr>
         <td>
-            <img src="images_cards/back.png" alt="Card" name="card" width="72" height="96" id="card">&nbsp;<img src="images_cards/back.png" alt="Card" name="card" width="72" height="96" id="card"><br>
+            <img src="/images_cards/back.png" alt="Card" name="card" width="72" height="96" id="card">&nbsp;<img
+                src="images_cards/back.png" alt="Card" name="card" width="72" height="96" id="card"><br>
         </td>
         <td>
-            <img src="images_cards/back.png" alt="Card" name="card" width="72" height="96" id="card">&nbsp;<img src="images_cards/back.png" alt="Card" name="card" width="72" height="96" id="card"><br>
+            <img src="/images_cards/back.png" alt="Card" name="card" width="72" height="96" id="card">&nbsp;<img
+                src="images_cards/back.png" alt="Card" name="card" width="72" height="96" id="card"><br>
         </td>
     </tr>
 </table>

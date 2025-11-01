@@ -75,13 +75,13 @@ include "header.php";
             <center>
                 <table width="600" border="0">
                     <tr>
-                        <td><a href='thedoors.php?open=x'><img src="images/018-copy.jpg" width="150" height="250"
+                        <td><a href='thedoors.php?open=x'><img src="/images/018-copy.jpg" width="150" height="250"
                                     alt="door" BORDER='0' /></a></td>
-                        <td><a href='thedoors.php?open=x'><img src="images/018-copy.jpg" width="150" height="250"
+                        <td><a href='thedoors.php?open=x'><img src="/images/018-copy.jpg" width="150" height="250"
                                     alt="door" BORDER='0' /></a></td>
-                        <td><a href='thedoors.php?open=x'><img src="images/018-copy.jpg" width="150" height="250"
+                        <td><a href='thedoors.php?open=x'><img src="/images/018-copy.jpg" width="150" height="250"
                                     alt="door" BORDER='0' /></a></td>
-                        <td><a href='thedoors.php?open=x'><img src="images/018-copy.jpg" width="150" height="250"
+                        <td><a href='thedoors.php?open=x'><img src="/images/018-copy.jpg" width="150" height="250"
                                     alt="door" BORDER='0' /></a></td>
                     </tr>
                 </table>

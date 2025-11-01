@@ -1286,7 +1286,7 @@ OUT;
             $img[1] = $img[2] = 19;
         if (isset($innarr[$img[0]]))
             continue;
-        echo ' <img src="smileys/' . $img[0] . '" onClick="addsmiley(\' ' . $index . ' \')" style="cursor:pointer;border:0;width:' . $img[1] . 'px;height:' . $img[2] . 'px;" /> ';
+        echo ' <img src="/smileys/' . $img[0] . '" onClick="addsmiley(\' ' . $index . ' \')" style="cursor:pointer;border:0;width:' . $img[1] . 'px;height:' . $img[2] . 'px;" /> ';
         $innarr[$img[0]] = 1;
     }
 }

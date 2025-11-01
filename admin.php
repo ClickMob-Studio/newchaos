@@ -408,7 +408,7 @@ echo '<div class="creditstxt">';
 echo '<p><font color=white>Credits</font></p>';
 echo '</div><!--credit-->';
 echo '<div class="credit">';
-echo '<p><span id="credits_container"><img src="images/coin.png">&nbsp;<font color=yellow><a href="rmstore.php"><font size="5px"><!_-credits-_!></font></a></font></span></p>';
+echo '<p><span id="credits_container"><img src="/images/coin.png">&nbsp;<font color=yellow><a href="rmstore.php"><font size="5px"><!_-credits-_!></font></a></font></span></p>';
 echo '</div><!--credit-->';
 echo '</div><!--creditssec-->';
 echo '<div class="logo">';

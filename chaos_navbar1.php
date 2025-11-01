@@ -3,37 +3,37 @@
 $topLinks = array(
     array(
         'name' => 'Home',
-        'url' => 'index.php',
+        'url' => '/index.php',
     ),
     array(
         'name' => '<!_-cityname-_!>',
-        'url' => 'city.php',
+        'url' => '/city.php',
     ),
     array(
         'name' => 'Crimes',
-        'url' => 'newcrimes.php',
+        'url' => '/newcrimes.php',
     ),
     array(
         'name' => 'Gym',
-        'url' => 'speedGym.php',
+        'url' => '/speedGym.php',
     ),
     array(
         'name' => 'Bank',
-        'url' => 'bank.php',
+        'url' => '/bank.php',
     ),
     array(
         'name' => 'Jail',
-        'url' => 'jail.php',
+        'url' => '/jail.php',
         'count' => '<!_-jail-_!>',
     ),
     array(
         'name' => 'Hospital',
-        'url' => 'hospital.php',
+        'url' => '/hospital.php',
         'count' => $counts['hospital'],
     ),
     array(
         'name' => 'Online',
-        'url' => 'online.php',
+        'url' => '/online.php',
     ),
 );
 
@@ -41,69 +41,69 @@ $leftLinks = array();
 $leftLinks[] =
     array(
         'name' => 'Search Players',
-        'url' => 'search.php'
+        'url' => '/search.php'
     );
 $leftLinks[] =
     array(
         'name' => 'Mail',
-        'url' => 'pms.php?view=inbox',
+        'url' => '/pms.php?view=inbox',
         'count' => $counts['mail'],
     );
 $leftLinks[] =
     array(
         'name' => 'Events',
-        'url' => 'events.php',
+        'url' => '/events.php',
         'count' => $counts['event'],
     );
 if ($counts['updates'] > 0) {
     $leftLinks[] =
         array(
             'name' => 'Updates',
-            'url' => 'gameupdates.php',
+            'url' => '/gameupdates.php',
             'count' => $counts['updates'],
         );
 }
 $leftLinks[] =
     array(
         'name' => 'Chat',
-        'url' => 'globalchat.php',
+        'url' => '/globalchat.php',
         'count' => $counts['gchat'],
     );
 $leftLinks[] =
     array(
         'name' => 'Chaos Event',
-        'url' => 'chaos.php',
+        'url' => '/chaos.php',
     );
 $leftLinks[] =
     array(
         'name' => 'Maze',
-        'url' => 'maze.php',
+        'url' => '/maze.php',
     );
 $leftLinks[] =
     array(
         'name' => 'Missions',
-        'url' => 'missions.php',
+        'url' => '/missions.php',
     );
 $leftLinks[] =
     array(
         'name' => 'Quests',
-        'url' => 'quest.php',
+        'url' => '/quest.php',
     );
 $leftLinks[] =
     array(
         'name' => 'Inventory',
-        'url' => 'inventory.php',
+        'url' => '/inventory.php',
     );
 $leftLinks[] =
     array(
         'name' => 'Raids',
-        'url' => 'raids.php',
+        'url' => '/raids.php',
         'count' => $counts['gang_raid_count'],
     );
 $leftLinks[] =
     array(
         'name' => 'Backalley',
-        'url' => 'backalley_new.php',
+        'url' => '/backalley_new.php',
     );
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
@@ -111,19 +111,19 @@ if ($userPrestigeSkills['speed_attack_unlock'] > 0) {
     $leftLinks[] =
         array(
             'name' => 'Super Attack',
-            'url' => 'super_attack.php',
+            'url' => '/super_attack.php',
         );
 }
 if ($user_class->gang) {
     $leftLinks[] =
         array(
             'name' => 'Gang',
-            'url' => 'gang.php',
+            'url' => '/gang.php',
         );
     $leftLinks[] =
         array(
             'name' => 'Gang Mail',
-            'url' => 'gangmail.php',
+            'url' => '/gangmail.php',
             'count' => $counts['gangmail'],
         );
 
@@ -131,7 +131,7 @@ if ($user_class->gang) {
     $leftLinks[] =
         array(
             'name' => 'Create Gang',
-            'url' => 'creategang.php',
+            'url' => '/creategang.php',
         );
 
 }
@@ -148,12 +148,12 @@ if ($user_class->gang) {
 $leftLinks[] =
     array(
         'name' => 'Settings',
-        'url' => 'settings.php',
+        'url' => '/settings.php',
     );
 $leftLinks[] =
     array(
         'name' => 'Forum',
-        'url' => 'forum.php',
+        'url' => '/forum.php',
     );
 $leftLinks[] =
     array(
@@ -163,7 +163,7 @@ $leftLinks[] =
 $leftLinks[] =
     array(
         'name' => 'Log Out',
-        'url' => 'index.php?action=logout',
+        'url' => '/index.php?action=logout',
     );
 
 $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
@@ -173,7 +173,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
 <nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav">
     <div class="container-fluid scrollNav">
         <a class="navbar-brand" href="index.php">
-            <img src="css/images/2025/halloween-logo.png" alt="Chaos City - Mafia PBBG" class="mainLogo">
+            <img src="/css/images/2025/halloween-logo.png" alt="Chaos City - Mafia PBBG" class="mainLogo">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -202,7 +202,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
 
                 <!-- <li class="nav-item my-auto">
                     <a class="flex nav-link px-4 py-lg-5" href="chaos.php">
-                        <img src="css/images/2025/chaos_souls_outlined.png" style="width:32px;height:32px;" />
+                        <img src="/css/images/2025/chaos_souls_outlined.png" style="width:32px;height:32px;" />
                         <span><?= ''; // $chaos_user->soulsCurrent ?></span>
                     </a>
                 </li> -->

@@ -2,10 +2,10 @@
 include 'header.php';
 ?>
 <div class='box_top'>Achievements</div>
-						<div class='box_middle'>
-							<div class='pad'>
-                                <?php
-$levelbadges = array(
+<div class='box_middle'>
+    <div class='pad'>
+        <?php
+        $levelbadges = array(
             '6' => array(
                 'needed' => 1000,
                 'payout' => 125000,
@@ -304,12 +304,12 @@ $levelbadges = array(
                 'img' => 'mugs250k',
                 'title' => 'Golden Mugger: Mugged 250,000 times'
             ),
-			'6' => array(
-				'needed' => 100000,
-				'payout' => 65000,
-				'img' => 'mugs100k',
-				'title' => 'Golden Mugger: Mugged 100,000 times'
-			),
+            '6' => array(
+                'needed' => 100000,
+                'payout' => 65000,
+                'img' => 'mugs100k',
+                'title' => 'Golden Mugger: Mugged 100,000 times'
+            ),
             '5' => array(
                 'needed' => 50000,
                 'payout' => 30000,
@@ -426,107 +426,107 @@ $levelbadges = array(
         $raidBadges = getRaidBadges();
         $racketBadges = getRacketBadges();
         $backalleyBadges = getBackalleyBadges();
-?>
-<div class="contenthead floaty">
+        ?>
+        <div class="contenthead floaty">
 
-<table id="newtables" style="width:100%;">
+            <table id="newtables" style="width:100%;">
 
-        <?php if ($user_class->badge != 0) { ?>
-            <table width="100%" align="center">
-                <tr>
+                <?php if ($user_class->badge != 0) { ?>
+                    <table width="100%" align="center">
+                        <tr>
+                            <?php
+                            echo (isset($user_class->badge1)) ? "<td align='center' style='width:100px;'>" . $user_class->badge1 . "</td>" : "";
+                            echo (isset($user_class->badge2)) ? "<td align='center' style='width:100px;'>" . $user_class->badge2 . "</td>" : "";
+                            echo (isset($user_class->badge4)) ? "<td align='center' style='width:100px;'>" . $user_class->badge4 . "</td>" : "";
+                            echo (isset($user_class->badge5)) ? "<td align='center' style='width:100px;'>" . $user_class->badge5 . "</td>" : "";
+                            echo (isset($user_class->badge6)) ? "<td align='center' style='width:100px;'>" . $user_class->badge6 . "</td>" : "";
+                            echo (isset($user_class->badge7)) ? "<td align='center' style='width:100px;'>" . $user_class->badge7 . "</td>" : "";
+                            echo (isset($user_class->badge8)) ? "<td align='center' style='width:100px;'>" . $user_class->badge8 . "</td>" : "";
+                            echo (isset($user_class->badge9)) ? "<td align='center' style='width:100px;'>" . $user_class->badge9 . "</td>" : "";
+                            echo (isset($user_class->badge10)) ? "<td align='center' style='width:100px;'>" . $user_class->badge10 . "</td>" : "";
+                            echo (isset($user_class->badge11)) ? "<td align='center' style='width:100px;'>" . $user_class->badge11 . "</td>" : "";
+                            echo (isset($user_class->badge12)) ? "<td align='center' style='width:100px;'>" . $user_class->badge12 . "</td>" : "";
+                            ?>
+                        </tr>
+                    </table>
                     <?php
-                    echo (isset($user_class->badge1)) ? "<td align='center' style='width:100px;'>" . $user_class->badge1 . "</td>" : "";
-                    echo (isset($user_class->badge2)) ? "<td align='center' style='width:100px;'>" . $user_class->badge2 . "</td>" : "";
-                    echo (isset($user_class->badge4)) ? "<td align='center' style='width:100px;'>" . $user_class->badge4 . "</td>" : "";
-                    echo (isset($user_class->badge5)) ? "<td align='center' style='width:100px;'>" . $user_class->badge5 . "</td>" : "";
-                    echo (isset($user_class->badge6)) ? "<td align='center' style='width:100px;'>" . $user_class->badge6 . "</td>" : "";
-                    echo (isset($user_class->badge7)) ? "<td align='center' style='width:100px;'>" . $user_class->badge7 . "</td>" : "";
-                    echo (isset($user_class->badge8)) ? "<td align='center' style='width:100px;'>" . $user_class->badge8 . "</td>" : "";
-                    echo (isset($user_class->badge9)) ? "<td align='center' style='width:100px;'>" . $user_class->badge9 . "</td>" : "";
-                    echo (isset($user_class->badge10)) ? "<td align='center' style='width:100px;'>" . $user_class->badge10 . "</td>" : "";
-                    echo (isset($user_class->badge11)) ? "<td align='center' style='width:100px;'>" . $user_class->badge11 . "</td>" : "";
-                    echo (isset($user_class->badge12)) ? "<td align='center' style='width:100px;'>" . $user_class->badge12 . "</td>" : "";
-                    ?>
-                </tr>
-            </table>
-            <?php
-        } else {
-            echo "You haven't achieved any achievements yet.";
-        }
-genHead("Collectible Achievements");
-$achs = array(
-	'<h4>Levels</h4>' => 'levelbadges',
-	'<h4>Crimes</h4>' => 'crimebadge',
-	'<h4>Stats</h4>' => 'statbadge',
-	'<h4>Kills</h4>' => 'battlebadge',
-	'<h4>Bank</h4>' => 'bankbadge',
-	'<h4>Mugs</h4>' => 'mugbadge',
-	'<h4>Busts</h4>' => 'bustbadge',
-	'<h4>Missions</h4>' => 'missionBadges',
-	'<h4>Raids</h4>' => 'raidBadges',
-	'<h4>Protection Rackets</h4>' => 'racketBadges',
-	'<h4>Backalley</h4>' => 'backalleyBadges'
-);
-foreach($achs as $head => $var){
-	$cur = '';
-	echo '<div class="table-container">';
-	echo'<table class="new_table" id="newtables" style="width:100%;">';
-		echo'<tr>';
-			echo'<th colspan="999">' . $head . '</td>';
+                } else {
+                    echo "You haven't achieved any achievements yet.";
+                }
+                genHead("Collectible Achievements");
+                $achs = array(
+                    '<h4>Levels</h4>' => 'levelbadges',
+                    '<h4>Crimes</h4>' => 'crimebadge',
+                    '<h4>Stats</h4>' => 'statbadge',
+                    '<h4>Kills</h4>' => 'battlebadge',
+                    '<h4>Bank</h4>' => 'bankbadge',
+                    '<h4>Mugs</h4>' => 'mugbadge',
+                    '<h4>Busts</h4>' => 'bustbadge',
+                    '<h4>Missions</h4>' => 'missionBadges',
+                    '<h4>Raids</h4>' => 'raidBadges',
+                    '<h4>Protection Rackets</h4>' => 'racketBadges',
+                    '<h4>Backalley</h4>' => 'backalleyBadges'
+                );
+                foreach ($achs as $head => $var) {
+                    $cur = '';
+                    echo '<div class="table-container">';
+                    echo '<table class="new_table" id="newtables" style="width:100%;">';
+                    echo '<tr>';
+                    echo '<th colspan="999">' . $head . '</td>';
 
-		echo'</tr>';
-		echo'<tr>';
-		$i = 1;
-	foreach(array_reverse($$var) as $ach){
-			echo'<td>';
-                echo'<div class="ach' . $ach['img'] . '" title="' . $ach['title'] . '">
-               <img src="css/images/'.$ach["img"].'.png" style="width:100px; height:100px;"> </img>
+                    echo '</tr>';
+                    echo '<tr>';
+                    $i = 1;
+                    foreach (array_reverse($$var) as $ach) {
+                        echo '<td>';
+                        echo '<div class="ach' . $ach['img'] . '" title="' . $ach['title'] . '">
+               <img src="/css/images/' . $ach["img"] . '.png" style="width:100px; height:100px;"> </img>
                 </div><br />';
-		switch($var){
-			case 'levelbadges':
-				echo'Get to level ' . prettynum($ach['needed']) . '.';
-				break;
-			case 'statbadge':
-				echo'Gain ' . prettynum($ach['needed']) . ' in the gym.';
-				break;
-			case 'battlebadge':
-				echo'Win ' . prettynum($ach['needed']) . ' fights.';
-				break;
-			case 'bankbadge':
-				echo'Bank ' . prettynum($ach['needed'], 1) . '.';
-				break;
-			case 'mugbadge':
-				echo'Gain ' . prettynum($ach['needed']) . ' mugs.';
-				break;
-			case 'bustbadge':
-				echo'Gain ' . prettynum($ach['needed']) . ' busts.';
-				break;
-			case 'crimebadge':
-				echo'Successfully complete ' . prettynum($ach['needed']) . ' crimes.';
-				break;
-            case 'missionBadges':
-                echo'Successfully complete ' . prettynum($ach['needed']) . ' missions.';
-                break;
-            case 'raidBadges':
-                echo'Successfully complete ' . prettynum($ach['needed']) . ' raids.';
-                break;
-            case 'racketBadges':
-                echo'Successfully complete ' . prettynum($ach['needed']) . ' Protection Racket Wins.';
-                break;
-            case 'backalleyBadges':
-                echo'Successfully complete ' . prettynum($ach['needed']) . ' Backalley Wins.';
-                break;
-		}
-			echo'</td>';
-		$cur .= '<th>' . prettynum($ach['payout']) . ' Points</th>';
+                        switch ($var) {
+                            case 'levelbadges':
+                                echo 'Get to level ' . prettynum($ach['needed']) . '.';
+                                break;
+                            case 'statbadge':
+                                echo 'Gain ' . prettynum($ach['needed']) . ' in the gym.';
+                                break;
+                            case 'battlebadge':
+                                echo 'Win ' . prettynum($ach['needed']) . ' fights.';
+                                break;
+                            case 'bankbadge':
+                                echo 'Bank ' . prettynum($ach['needed'], 1) . '.';
+                                break;
+                            case 'mugbadge':
+                                echo 'Gain ' . prettynum($ach['needed']) . ' mugs.';
+                                break;
+                            case 'bustbadge':
+                                echo 'Gain ' . prettynum($ach['needed']) . ' busts.';
+                                break;
+                            case 'crimebadge':
+                                echo 'Successfully complete ' . prettynum($ach['needed']) . ' crimes.';
+                                break;
+                            case 'missionBadges':
+                                echo 'Successfully complete ' . prettynum($ach['needed']) . ' missions.';
+                                break;
+                            case 'raidBadges':
+                                echo 'Successfully complete ' . prettynum($ach['needed']) . ' raids.';
+                                break;
+                            case 'racketBadges':
+                                echo 'Successfully complete ' . prettynum($ach['needed']) . ' Protection Racket Wins.';
+                                break;
+                            case 'backalleyBadges':
+                                echo 'Successfully complete ' . prettynum($ach['needed']) . ' Backalley Wins.';
+                                break;
+                        }
+                        echo '</td>';
+                        $cur .= '<th>' . prettynum($ach['payout']) . ' Points</th>';
 
-		$i++;
-	}
-		echo'</tr>';
-		echo'<tr>';
-			echo $cur;
-		echo'</tr></table></div>';
-}
-echo '</div>';
-include 'footer.php';
-?>
+                        $i++;
+                    }
+                    echo '</tr>';
+                    echo '<tr>';
+                    echo $cur;
+                    echo '</tr></table></div>';
+                }
+                echo '</div>';
+                include 'footer.php';
+                ?>
