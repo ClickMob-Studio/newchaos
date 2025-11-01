@@ -164,6 +164,89 @@ if (isset($_GET['claim_prize']) && (int) $_GET['claim_prize']) {
     }
 }
 
+if (isset($_GET['claim_all'])) {
+    $totalPoints = 0;
+    $totalMoney = 0;
+    $totalRaidTokens = 0;
+    $totalExp = 0;
+    $totalVipDays = 0;
+    $claimedAnyVip = false;
+
+    foreach ($bpCategoryPrizes as $prize) {
+        if ($prize['is_premium'] > 0 && $bpCategoryUser['is_premium'] < 1) {
+            continue;
+        }
+        if ($bpCategoryUser['points'] >= $prize['cost'] && !in_array($prize['id'], $prizesClaimed)) {
+            $prizesClaimed[] = $prize['id'];
+
+            if ($prize['type'] === 'points') {
+                $totalPoints += $prize['amount'];
+            }
+
+            if ($prize['type'] === 'money') {
+                $totalMoney += $prize['amount'];
+            }
+
+            if ($prize['type'] === 'item') {
+                Give_Item($prize['entity_id'], $user_class->id, $prize['amount']);
+            }
+
+            if ($prize['type'] === 'raid_tokens') {
+                $totalRaidTokens += $prize['amount'];
+            }
+
+            if ($prize['type'] === 'exp') {
+                $expBoost = $user_class->maxexp / 100 * $prize['amount'];
+                $totalExp += $expBoost;
+            }
+
+            if ($prize['type'] === 'vip') {
+                $totalVipDays += $prize['amount'];
+                $claimedAnyVip = true;
+            }
+        }
+    }
+
+    $newPrizesClaimed = serialize($prizesClaimed);
+    $db->query("UPDATE bp_category_user SET prize_ids_serialized = ? WHERE user_id = ?");
+    $db->execute([$newPrizesClaimed, $bpCategoryUser['user_id']]);
+
+    if ($totalPoints > 0) {
+        $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+        $db->execute([$totalPoints, $bpCategoryUser['user_id']]);
+    }
+
+    if ($totalMoney > 0) {
+        $db->query("UPDATE grpgusers SET money = money + ? WHERE id = ?");
+        $db->execute([$totalMoney, $bpCategoryUser['user_id']]);
+    }
+
+    if ($totalRaidTokens > 0) {
+        $db->query("UPDATE grpgusers SET raidtokens = raidtokens + ? WHERE id = ?");
+        $db->execute([$totalRaidTokens, $bpCategoryUser['user_id']]);
+    }
+
+    if ($totalExp > 0) {
+        $db->query("UPDATE grpgusers SET exp = exp + ? WHERE id = ?");
+        $db->execute([$totalExp, $bpCategoryUser['user_id']]);
+    }
+
+    if ($totalVipDays > 0) {
+        $db->query("UPDATE grpgusers SET rmdays = rmdays + ? WHERE id = ?");
+        $db->execute([$totalVipDays, $bpCategoryUser['user_id']]);
+
+        if ($user_class->rmdays < 1 && $claimedAnyVip) {
+            invalidateFormattedName($user_class->id);
+        }
+    }
+
+    $resMes = 'You have successfully claimed all eligible prizes.';
+
+    // remove ?claim_all argument to avoid "refresh => claim all again"
+    header('Location: battlepass.php' . (isset($overrideId) ? '?override_id=' . $overrideId : ''));
+    exit;
+}
+
 ?>
 
 <div class='box_top'>
@@ -240,7 +323,13 @@ if (isset($_GET['claim_prize']) && (int) $_GET['claim_prize']) {
                 <tr>
                     <td>
                         <div class="row mb-3">
-                            <a href="battlepass.php?complete_all=1" class="btn btn-primary">(Complete All)</a>
+                            <?php
+                            $completeAllLink = "battlepass.php?complete_all=1";
+                            if (isset($overrideId) && $overrideId > 0) {
+                                $completeAllLink .= "&override_id=" . $overrideId;
+                            }
+                            ?>
+                            <a href="<?php echo $completeAllLink ?>" class="btn btn-primary">(Complete All)</a>
                         </div>
                         <div class="row">
                             <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
@@ -302,6 +391,15 @@ if (isset($_GET['claim_prize']) && (int) $_GET['claim_prize']) {
                 </tr>
                 <tr>
                     <td>
+                        <div class="row mb-3">
+                            <?php
+                            $claimAllLink = "battlepass.php?claim_all=1";
+                            if (isset($overrideId) && $overrideId > 0) {
+                                $claimAllLink .= "&override_id=" . $overrideId;
+                            }
+                            ?>
+                            <a href="<?php echo $claimAllLink ?>" class="btn btn-primary">(Claim All)</a>
+                        </div>
                         <div class="row">
                             <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
                                 <?php
