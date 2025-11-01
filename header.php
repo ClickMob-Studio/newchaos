@@ -1513,9 +1513,10 @@ $no2 = $db->num_rows();
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
                                                 class="mx-auto fas fa-piggy-bank"></i></div>
-                                        <div class="col-10 d-flex align-items-center">$<div>
-                                                <?= $user_class->is_stats_abbreviated ? shorthandNumber($user_class->bank) : prettynum($user_class->bank); ?>
-                                            </div>
+                                        <div class="col-10 d-flex align-items-center"><a href="bank.php?h_deposit=cash"
+                                                class="d-flex">$<div>
+                                                    <?= $user_class->is_stats_abbreviated ? shorthandNumber($user_class->bank) : prettynum($user_class->bank); ?>
+                                                </div></a>
                                         </div>
                                     </div>
                                     <div class="row my-1 g-0">
