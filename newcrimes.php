@@ -291,6 +291,7 @@ if (isset($_GET['ner'])) {
 
 <script>
     let doingcrime = false;
+    let isStatsAbbreviated = <?php echo $user_class->is_stats_abbreviated ? 'true' : 'false'; ?>;
 
     var id = 0;
     const element = document.querySelector('.mission-crime-counter');
@@ -313,11 +314,11 @@ if (isset($_GET['ner'])) {
 
             missionCrimesCount += cm;
             $('.mission-crime-counter').data('value', missionCrimesCount);
-            $('.money').html(res.stats.mb_money);
+            $('.money').html(isStatsAbbreviated ? res.stats.mb_money : res.stats.money);
             $(".level").html(res.stats.level);
-            $(".points").html(res.stats.mb_points);
-            $(".mb-points").html(res.stats.mb_points);
-            $(".mb-money").html(res.stats.mb_money);
+            $(".points").html(isStatsAbbreviated ? res.stats.mb_points : res.stats.points);
+            $(".mb-points").html(isStatsAbbreviated ? res.stats.mb_points : res.stats.points);
+            $(".mb-money").html(isStatsAbbreviated ? res.stats.mb_money : res.stats.money);
             $(".response-text").html(res.text);
             $("#missiontext").html(res.stats.mission);
 
