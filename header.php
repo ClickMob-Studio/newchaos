@@ -916,6 +916,7 @@ $no2 = $db->num_rows();
 
     $requiredItems = array(
         "city",
+        "chaos",
         "updates",
         "gang",
         "gmail",
