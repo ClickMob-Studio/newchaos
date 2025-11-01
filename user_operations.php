@@ -505,7 +505,7 @@ if (isset($_GET['cancel']) && $_GET['cancel'] == 'yes') {
                 <?php endforeach; ?>
             </div>
 
-            <h1>Online Attacks</h1>
+            <h1>Attacks</h1>
             <div class="row">
                 <?php $categories = array('online_attacks_cash', 'online_attacks_points', 'online_attacks_premium'); ?>
 
@@ -514,6 +514,7 @@ if (isset($_GET['cancel']) && $_GET['cancel'] == 'yes') {
                     $categoryForDisplay = explode('_', $category);
                     $categoryForDisplay = join(' ', $categoryForDisplay);
                     $categoryForDisplay = ucwords($categoryForDisplay);
+                    $categoryForDisplay = str_replace('Online Attacks', 'Attacks', $categoryForDisplay);
                     ?>
 
                     <div class="col-md-4">
@@ -540,7 +541,7 @@ if (isset($_GET['cancel']) && $_GET['cancel'] == 'yes') {
                                         <?php endif; ?>
 
                                         <?php if ($toUse['online_attacks'] > 0): ?>
-                                            <?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks
+                                            <?php echo number_format($toUse['online_attacks'], 0) ?> Attacks
                                         <?php endif; ?>
 
                                         <?php if ($toUse['offline_attacks'] > 0): ?>
