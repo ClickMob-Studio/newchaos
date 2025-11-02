@@ -119,6 +119,9 @@ try {
 
             if (method_exists($repo, 'bustCategoriesCache'))
                 $repo->bustCategoriesCache();
+
+            check_redirect('updated');
+
             jok(['id' => $id, 'month_year' => $month_year]);
         }
 
@@ -149,6 +152,9 @@ try {
                 $db->endTrans();
                 if (method_exists($repo, 'bustCategoriesCache'))
                     $repo->bustCategoriesCache();
+
+                check_redirect('deleted');
+
                 jok(['deleted' => $id]);
             } catch (Throwable $e) {
                 $db->cancelTransaction();
@@ -240,6 +246,8 @@ try {
                 $db->endTrans();
                 if (method_exists($repo, 'bustCategoriesCache'))
                     $repo->bustCategoriesCache();
+
+                check_redirect('saved');
 
                 jok(['category_id' => $category_id]);
             } catch (Throwable $e) {
@@ -359,4 +367,23 @@ try {
     }
 } catch (Throwable $e) {
     jerr(500, 'server error', ['detail' => $e->getMessage()]);
+}
+
+function check_redirect($key = 'saved')
+{
+    if (!empty($_REQUEST['redirect_to'])) {
+        $to = $_REQUEST['redirect_to'];
+        if (strpos($to, '://') === false && str_starts_with($to, '/')) {
+            $qs = [];
+
+            $qs[$key] = 1;
+
+            if (!empty($category_id))
+                $qs['category_id'] = (int) $category_id;
+
+            $sep = (strpos($to, '?') === false) ? '?' : '&';
+            header('Location: ' . $to . $sep . http_build_query($qs));
+            exit;
+        }
+    }
 }

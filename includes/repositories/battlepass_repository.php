@@ -160,4 +160,12 @@ class BattlepassRepository
         $this->db->query("DELETE FROM bp_category_prizes WHERE bp_category_id = ?");
         $this->db->execute([$categoryId]);
     }
+
+    public function loadItems(): array
+    {
+        $this->db->query("SELECT * FROM items ORDER BY itemname ASC");
+        $this->db->execute();
+
+        return $this->db->fetch_row();
+    }
 }

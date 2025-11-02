@@ -6,12 +6,21 @@ if ($user_class->admin < 1) {
     exit();
 }
 
+// CSRF
 if (empty($_SESSION['csrf'])) {
     $_SESSION['csrf'] = bin2hex(random_bytes(16));
 }
 
 $repo = new BattlepassRepository();
 $categories = $repo->getAllCategories();
+$items = $repo->LoadItems();
+
+$self = '/admin/battlepass/index.php';
+
+$saved = isset($_GET['saved']);
+$updated = isset($_GET['updated']);
+$deleted = isset($_GET['deleted']);
+$flashId = isset($_GET['category_id']) ? (int) $_GET['category_id'] : 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,8 +29,21 @@ $categories = $repo->getAllCategories();
     <meta charset="utf-8">
     <title>Battlepass Editor</title>
     <style>
+        :root {
+            --bp-row-h: 44px;
+        }
+
+        .bp-input,
+        .bp-select {
+            height: calc(var(--bp-row-h) - 2px);
+            line-height: normal;
+            display: block;
+            margin: 0;
+        }
+
         .bp-admin {
             max-width: 1100px;
+            margin: 20px auto;
         }
 
         .bp-card {
@@ -43,14 +65,6 @@ $categories = $repo->getAllCategories();
         .bp-title {
             font-size: 1.1rem;
             font-weight: 600;
-        }
-
-        .bp-badge {
-            font-size: .75rem;
-            padding: 2px 8px;
-            border: 1px solid #3a3a3a;
-            border-radius: 999px;
-            color: #bbb;
         }
 
         .bp-body {
@@ -91,7 +105,7 @@ $categories = $repo->getAllCategories();
         }
 
         .bp-help {
-            font-size: .85rem;
+            font-size: 1.1rem;
             color: var(--cc-muted, #9aa);
         }
 
@@ -140,7 +154,7 @@ $categories = $repo->getAllCategories();
         table.bp-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 760px;
+            min-width: 780px;
         }
 
         table.bp-table th,
@@ -159,9 +173,17 @@ $categories = $repo->getAllCategories();
             font-size: .9rem;
         }
 
-        table.bp-table input {
+        table.bp-table input,
+        table.bp-table select {
             width: 100%;
             box-sizing: border-box;
+        }
+
+        table.bp-table tbody td {
+            padding: 0 10px;
+            height: var(--bp-row-h);
+            vertical-align: middle;
+            line-height: 1;
         }
 
         .bp-del {
@@ -190,29 +212,66 @@ $categories = $repo->getAllCategories();
         }
 
         .bp-note {
-            font-size: .85rem;
+            font-size: 1rem;
             color: var(--cc-muted, #9aa);
         }
 
-        .bp-switch {
-            display: inline-flex;
+        .bp-mini {
+            font-size: 1rem;
+            color: #9aa;
+        }
+
+        table.bp-table td.center {
+            display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            height: var(--bp-row-h);
+            padding: 10px;
+        }
+
+        td.center .cell-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .td-center-inner {
+            height: var(--bp-row-h);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .bp-checkbox {
-            transform: scale(1.05);
+            margin: 0;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
         }
 
-        .bp-tag {
-            font-size: .8rem;
-            letter-spacing: .02em;
-            color: #aaa;
+        .col-mini {
+            width: 64px;
+            text-align: center;
         }
 
-        .bp-mini {
-            font-size: .85rem;
-            color: #9aa;
+        .center {
+            text-align: center;
+        }
+
+        .flash {
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            border: 1px solid #335533;
+            background: #112211;
+            color: #bfe6bf;
+            border-radius: 8px;
+        }
+
+        .flash.error {
+            border-color: #553333;
+            background: #221111;
+            color: #f0b3b3;
         }
 
         @media (max-width: 900px) {
@@ -220,16 +279,32 @@ $categories = $repo->getAllCategories();
                 grid-template-columns: 1fr;
             }
         }
+
+        button {
+            margin: 0px !important;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="bp-admin">
-        <!-- Main save form -> save_full -->
+
+        <?php if ($saved): ?>
+            <div class="flash">Saved successfully<?php if ($flashId): ?> (category #<?php echo $flashId; ?>)<?php endif; ?>.
+            </div>
+        <?php elseif ($updated): ?>
+            <div class="flash">Category label updated<?php if ($flashId): ?> (#<?php echo $flashId; ?>)<?php endif; ?>.
+            </div>
+        <?php elseif ($deleted): ?>
+            <div class="flash">Category deleted.</div>
+        <?php endif; ?>
+
+        <!-- MAIN SAVE FORM -> save_full -->
         <form action="/admin/battlepass/bp_handler.php?action=save_full" method="post" id="bpForm">
             <input type="hidden" name="csrf"
                 value="<?php echo htmlspecialchars($_SESSION['csrf'] ?? '', ENT_QUOTES); ?>">
+            <input type="hidden" name="redirect_to" value="<?php echo htmlspecialchars($self, ENT_QUOTES); ?>">
             <input type="hidden" id="bpCategoryId" name="category_id" value="">
             <input type="hidden" id="bpMonthYear" name="month_year" value="">
 
@@ -243,7 +318,7 @@ $categories = $repo->getAllCategories();
                         <div class="bp-field">
                             <label for="bpMonth">Battlepass month</label>
                             <input class="bp-input" type="month" id="bpMonth" required>
-                            <div class="bp-help">Saved to <code>bp_category.month_year</code> as <code>mm-YYYY</code>.
+                            <div class="bp-help">Stored as <code>mm-YYYY</code> in <code>bp_category.month_year</code>.
                             </div>
                         </div>
 
@@ -258,6 +333,9 @@ $categories = $repo->getAllCategories();
                                     </option>
                                 <?php endforeach; ?>
                             </select>
+                            <div class="bp-help">Loads via
+                                <code>GET /admin/battlepass/bp_handler.php?action=get_category&id=…</code>
+                            </div>
                         </div>
                     </div>
 
@@ -266,10 +344,8 @@ $categories = $repo->getAllCategories();
                             <div class="bp-field" style="max-width: 560px;">
                                 <label>Quick notes</label>
                                 <div class="bp-mini">
-                                    • Challenges → <code>bp_category_challenges</code> (type, amount, prize,
-                                    is_premium)<br>
-                                    • Prizes → <code>bp_category_prizes</code> (cost, type, amount, entity_id,
-                                    is_premium)
+                                    • Challenges → <code>type, amount, prize, is_premium</code><br>
+                                    • Prizes → <code>cost, type, amount, entity_id, is_premium</code>
                                 </div>
                             </div>
                             <div class="bp-actions">
@@ -283,7 +359,7 @@ $categories = $repo->getAllCategories();
                     <div class="bp-section">
                         <div class="bp-row" style="justify-content: space-between; align-items: baseline;">
                             <h3 style="margin:0;">Challenges</h3>
-                            <span class="bp-tag">bp_category_challenges</span>
+                            <span class="bp-mini">Table: bp_category_challenges</span>
                         </div>
                         <div class="bp-spacer"></div>
                         <div class="bp-table-wrap">
@@ -293,7 +369,7 @@ $categories = $repo->getAllCategories();
                                         <th>Type</th>
                                         <th>Amount</th>
                                         <th>Prize</th>
-                                        <th>Premium?</th>
+                                        <th class="col-mini">★</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -306,7 +382,7 @@ $categories = $repo->getAllCategories();
                     <div class="bp-section">
                         <div class="bp-row" style="justify-content: space-between; align-items: baseline;">
                             <h3 style="margin:0;">Prizes</h3>
-                            <span class="bp-tag">bp_category_prizes</span>
+                            <span class="bp-mini">Table: bp_category_prizes</span>
                         </div>
                         <div class="bp-spacer"></div>
                         <div class="bp-table-wrap">
@@ -317,7 +393,7 @@ $categories = $repo->getAllCategories();
                                         <th>Type</th>
                                         <th>Amount</th>
                                         <th>Entity ID</th>
-                                        <th>Premium?</th>
+                                        <th class="col-mini">★</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -326,33 +402,35 @@ $categories = $repo->getAllCategories();
                         </div>
                     </div>
 
+                    <div class="bp-section">
+                        <div style="justify-content: space-between; align-items: center;">
+                            <div class="bp-mini">
+                                Duplicate the current editor contents to another month.
+                            </div>
+                            <div class="bp-row">
+                                <input class="bp-input" type="month" id="dupMonth" style="max-width: 180px;">
+                                <button type="button" class="bp-btn" id="btnDuplicateTo">Duplicate to month</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="bp-sticky-footer">
-                    <div class="bp-note">Submitting replaces all rows atomically via <code>action=save_full</code>.
-                    </div>
+                    <div class="bp-note">Submitting replaces all rows atomically.</div>
                     <div class="bp-actions">
                         <button type="submit" class="bp-btn primary">Save</button>
                         <button type="button" class="bp-btn" id="btnReset">Reset</button>
                     </div>
                 </div>
             </div>
-
-            <datalist id="dlTypes">
-                <option value="win_fights">
-                <option value="missions_completed">
-                <option value="collect_souls">
-                <option value="raid_wins">
-                <option value="boss_damage">
-                <option value="items_used">
-            </datalist>
         </form>
 
-        <!-- Update month_year for selected category -->
         <form action="/admin/battlepass/bp_handler.php?action=update_category" method="post" id="bpUpdateMonthForm"
             style="margin-top:16px;">
             <input type="hidden" name="csrf"
                 value="<?php echo htmlspecialchars($_SESSION['csrf'] ?? '', ENT_QUOTES); ?>">
+            <input type="hidden" name="redirect_to" value="<?php echo htmlspecialchars($self, ENT_QUOTES); ?>">
             <input type="hidden" name="id" id="updCatId" value="">
             <label class="bp-mini">Update month label for selected category:</label>
             <div class="bp-row">
@@ -362,28 +440,46 @@ $categories = $repo->getAllCategories();
             </div>
         </form>
 
-        <!-- Delete selected category -->
         <form action="/admin/battlepass/bp_handler.php?action=delete_category" method="post" id="bpDeleteForm"
             style="margin-top:10px;">
             <input type="hidden" name="csrf"
                 value="<?php echo htmlspecialchars($_SESSION['csrf'] ?? '', ENT_QUOTES); ?>">
+            <input type="hidden" name="redirect_to" value="<?php echo htmlspecialchars($self, ENT_QUOTES); ?>">
             <input type="hidden" name="id" id="delCatId" value="">
             <button class="bp-btn bp-del" type="submit"
                 onclick="return confirm('Delete this category and all its rows?');">Delete Selected Category</button>
         </form>
     </div>
 
-    <!-- Row templates -->
+    <datalist id="itemsList">
+        <?php foreach ($items as $it): ?>
+            <option value="<?php echo (int) $it['id']; ?>">
+                <?php echo htmlspecialchars($it['itemname'] ?? ('#' . (int) $it['id']), ENT_QUOTES); ?>
+            </option>
+        <?php endforeach; ?>
+    </datalist>
+
     <template id="tmplChallengeRow">
         <tr>
-            <td><input class="bp-input" list="dlTypes" type="text" name="challenges[__IDX__][type]"
-                    placeholder="e.g., win_fights" required></td>
+            <td>
+                <select class="bp-select" name="challenges[__IDX__][type]" required>
+                    <option value="crimes">crimes</option>
+                    <option value="mugs">mugs</option>
+                    <option value="busts">busts</option>
+                    <option value="backalley">backalley</option>
+                    <option value="trains">trains</option>
+                    <option value="attacks">attacks</option>
+                </select>
+            </td>
             <td><input class="bp-input" type="number" min="0" step="1" name="challenges[__IDX__][amount]"
                     placeholder="25" required></td>
             <td><input class="bp-input" type="number" min="0" step="1" name="challenges[__IDX__][prize]"
                     placeholder="1000" required></td>
-            <td><label class="bp-switch"><input class="bp-checkbox" type="checkbox"
-                        name="challenges[__IDX__][is_premium]" value="1"><span>Premium</span></label></td>
+            <td class="center">
+                <div class="cell-fill">
+                    <input type="checkbox" class="bp-checkbox" name="challenges[__IDX__][is_premium]" value="1">
+                </div>
+            </td>
             <td><button type="button" class="bp-btn bp-del btnDelRow">Delete</button></td>
         </tr>
     </template>
@@ -392,14 +488,27 @@ $categories = $repo->getAllCategories();
         <tr>
             <td><input class="bp-input" type="number" min="0" step="1" name="prizes[__IDX__][cost]" placeholder="100"
                     required></td>
-            <td><input class="bp-input" list="dlTypes" type="text" name="prizes[__IDX__][type]"
-                    placeholder="item | cash | souls" required></td>
+            <td>
+                <select class="bp-select prize-type" name="prizes[__IDX__][type]" required>
+                    <option value="money">money</option>
+                    <option value="raid_tokens">raid_tokens</option>
+                    <option value="points">points</option>
+                    <option value="item">item</option>
+                    <option value="exp">exp</option>
+                </select>
+            </td>
             <td><input class="bp-input" type="number" min="0" step="1" name="prizes[__IDX__][amount]" placeholder="1"
                     required></td>
-            <td><input class="bp-input" type="number" min="0" step="1" name="prizes[__IDX__][entity_id]"
-                    placeholder="0 (optional)"></td>
-            <td><label class="bp-switch"><input class="bp-checkbox" type="checkbox" name="prizes[__IDX__][is_premium]"
-                        value="1"><span>Premium</span></label></td>
+            <td>
+                <input class="bp-input entity-num" type="number" min="0" step="1" name="prizes[__IDX__][entity_id]"
+                    placeholder="0">
+                <input class="bp-input entity-item" list="itemsList" placeholder="Search item…" style="display:none;">
+            </td>
+            <td class="center">
+                <div class="cell-fill">
+                    <input type="checkbox" class="bp-checkbox" name="prizes[__IDX__][is_premium]" value="1">
+                </div>
+            </td>
             <td><button type="button" class="bp-btn bp-del btnDelRow">Delete</button></td>
         </tr>
     </template>
@@ -409,7 +518,6 @@ $categories = $repo->getAllCategories();
             const $ = (s, r = document) => r.querySelector(s);
             const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-            // Elements
             const bpMonth = $('#bpMonth');
             const bpMonthYear = $('#bpMonthYear');
             const bpCategoryId = $('#bpCategoryId');
@@ -422,9 +530,11 @@ $categories = $repo->getAllCategories();
             const tmplCh = $('#tmplChallengeRow');
             const tmplPr = $('#tmplPrizeRow');
 
+            const dupMonth = $('#dupMonth');
+            const btnDuplicate = $('#btnDuplicateTo');
+
             let chIdx = 0, prIdx = 0;
 
-            // Helpers
             const monthToLabel = (yyyyMm) => {
                 if (!yyyyMm) return '';
                 const [y, m] = yyyyMm.split('-');
@@ -442,7 +552,7 @@ $categories = $repo->getAllCategories();
 
             function addChallengeRow(pref = {}) {
                 const node = tmplCh.content.firstElementChild.cloneNode(true);
-                $$('input', node).forEach(inp => inp.name = inp.name.replace('__IDX__', chIdx));
+                $$('input,select', node).forEach(inp => inp.name = inp.name.replace('__IDX__', chIdx));
                 if (pref.type) node.querySelector(`[name="challenges[${chIdx}][type]"]`).value = pref.type;
                 if (Number.isFinite(pref.amount)) node.querySelector(`[name="challenges[${chIdx}][amount]"]`).value = pref.amount;
                 if (Number.isFinite(pref.prize)) node.querySelector(`[name="challenges[${chIdx}][prize]"]`).value = pref.prize;
@@ -450,18 +560,36 @@ $categories = $repo->getAllCategories();
                 tblChallenges.appendChild(node); chIdx++;
             }
 
+            function configurePrizeEntityUI(row, typeValue, idx, prefillEntityId) {
+                const num = row.querySelector('.entity-num');
+                const item = row.querySelector('.entity-item');
+
+                if (typeValue === 'item') {
+                    num.style.display = 'none'; num.disabled = true; num.name = '';
+                    item.style.display = ''; item.disabled = false; item.name = `prizes[${idx}][entity_id]`;
+                    if (prefillEntityId != null) item.value = String(prefillEntityId);
+                } else {
+                    item.style.display = 'none'; item.disabled = true; item.name = '';
+                    num.style.display = ''; num.disabled = false; num.name = `prizes[${idx}][entity_id]`;
+                    if (prefillEntityId != null) num.value = String(prefillEntityId);
+                }
+            }
+
             function addPrizeRow(pref = {}) {
                 const node = tmplPr.content.firstElementChild.cloneNode(true);
-                $$('input', node).forEach(inp => inp.name = inp.name.replace('__IDX__', prIdx));
+                $$('input,select', node).forEach(inp => { if (inp.name) inp.name = inp.name.replace('__IDX__', prIdx); });
+                const typeSel = node.querySelector('.prize-type');
+                typeSel.addEventListener('change', () => configurePrizeEntityUI(node, typeSel.value, prIdx, null));
+
                 if (Number.isFinite(pref.cost)) node.querySelector(`[name="prizes[${prIdx}][cost]"]`).value = pref.cost;
-                if (pref.type) node.querySelector(`[name="prizes[${prIdx}][type]"]`).value = pref.type;
+                if (pref.type) typeSel.value = pref.type;
                 if (Number.isFinite(pref.amount)) node.querySelector(`[name="prizes[${prIdx}][amount]"]`).value = pref.amount;
-                if (Number.isFinite(pref.entity_id)) node.querySelector(`[name="prizes[${prIdx}][entity_id]"]`).value = pref.entity_id;
                 if (pref.is_premium) node.querySelector(`[name="prizes[${prIdx}][is_premium]"]`).checked = !!pref.is_premium;
+
+                configurePrizeEntityUI(node, typeSel.value, prIdx, Number.isFinite(pref.entity_id) ? pref.entity_id : null);
                 tblPrizes.appendChild(node); prIdx++;
             }
 
-            // Delete row (delegation)
             document.addEventListener('click', (e) => {
                 const btn = e.target.closest('.btnDelRow');
                 if (!btn) return;
@@ -469,11 +597,9 @@ $categories = $repo->getAllCategories();
                 if (tr) tr.remove();
             });
 
-            // Add row buttons
             $('#btnAddChallenge').addEventListener('click', () => addChallengeRow());
             $('#btnAddPrize').addEventListener('click', () => addPrizeRow());
 
-            // Reset form
             $('#btnReset').addEventListener('click', () => {
                 $('#bpForm').reset();
                 bpCategoryId.value = '';
@@ -487,16 +613,13 @@ $categories = $repo->getAllCategories();
                 addPrizeRow();
             });
 
-            // Month sync
             bpMonth.addEventListener('change', () => {
                 syncMonthYearHidden();
-                // If user picked a month manually, clear selected category to avoid accidental overwrite
                 bpCategoryId.value = '';
                 updCatId.value = delCatId.value = '';
                 updMonthYear.value = bpMonthYear.value;
             });
 
-            // Load existing category via handler
             $('#bpExisting').addEventListener('change', async (e) => {
                 const id = e.target.value;
                 if (!id) return;
@@ -505,18 +628,15 @@ $categories = $repo->getAllCategories();
                     const json = await res.json();
                     if (!json.ok) throw new Error(json.error || 'Failed to load');
 
-                    // Set ids for save/update/delete
                     bpCategoryId.value = json.category.id;
                     updCatId.value = delCatId.value = json.category.id;
 
-                    // Month sync (mm-YYYY -> YYYY-MM)
                     if (json.category.month_year) {
                         bpMonth.value = labelToMonth(json.category.month_year);
                         syncMonthYearHidden();
                         updMonthYear.value = json.category.month_year;
                     }
 
-                    // Hydrate rows
                     tblChallenges.innerHTML = ''; tblPrizes.innerHTML = '';
                     chIdx = prIdx = 0;
                     (json.challenges || []).forEach(addChallengeRow);
@@ -530,10 +650,18 @@ $categories = $repo->getAllCategories();
                 }
             });
 
-            // Initial UX: one empty row each
+            $('#btnDuplicateTo').addEventListener('click', () => {
+                if (!dupMonth.value) { alert('Pick a target month'); return; }
+                bpMonth.value = dupMonth.value;
+                syncMonthYearHidden();
+                bpCategoryId.value = '';
+                updCatId.value = delCatId.value = '';
+                updMonthYear.value = bpMonthYear.value;
+                $('#bpForm').submit();
+            });
+
             addChallengeRow();
             addPrizeRow();
-
             if (bpMonth.value) syncMonthYearHidden();
         })();
     </script>
