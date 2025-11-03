@@ -430,7 +430,7 @@ Show
 <br />
 <br />
 <div id='banklog'>
-    " . banklog($bi['limit'], $bi['show'], $bi['format']) . "
+    " . banklog($user_class->id, $bi['limit'], $bi['show'], $bi['format']) . "
 </div>";
 
         print <<<TEXT

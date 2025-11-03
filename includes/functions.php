@@ -1677,6 +1677,7 @@ function pet_refill($which)
 function banklog(int $userId, $limit = 25, $which = 'all', $format = 'us')
 {
     global $db;
+
     $dateformat = ($format == 'us') ? "m/d/Y, g:i:s a" : "d/m/Y, g:i:s a";
     $ret = "
         <table id='newtables' style='width:90%;table-layout:fixed;'>
@@ -1685,7 +1686,6 @@ function banklog(int $userId, $limit = 25, $which = 'all', $format = 'us')
                 <th>Adjustment</th>
                 <th>New Balance</th>
             </tr>";
-    echo $which;
 
     switch ($which) {
         case 'all':
