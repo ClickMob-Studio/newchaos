@@ -470,7 +470,7 @@ class ChaosRepository
                 $item = Get_Item($ref);
                 return $item['itemname'] . " x$qty";
             case 'money':
-                $this->db->query("SELECT bank WHERE id = ?");
+                $this->db->query("SELECT bank FROM grpgusers WHERE id = ?");
                 $this->db->execute([$userId]);
                 $balance = $this->db->fetch_single();
 
