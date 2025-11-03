@@ -281,7 +281,7 @@ class ChaosRepository
                 $current = (int) $raw;
         }
 
-        $cache->setEx($key, $ttl, (string) ($current + $delta));
+        $cache->setEx($key, $ttl - 1, (string) ($current + $delta));
     }
 
     public function getChaosPassUser(int $userId, bool $ensureRow = true): array
