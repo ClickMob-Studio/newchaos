@@ -634,7 +634,7 @@ class ChaosRepository
             $rank = 1;
             foreach ($rows as $row) {
                 $uid = (int) ($row['user_id'] ?? 0);
-                $uname = htmlspecialchars($row['username'] ?? 'Unknown', ENT_QUOTES, 'UTF-8');
+                $uname = formatName($uid);
                 $lanternName = htmlspecialchars($row['lantern_name'] ?? '—', ENT_QUOTES, 'UTF-8');
                 $lanternImg = htmlspecialchars($row['lantern_image'] ?? '', ENT_QUOTES, 'UTF-8');
                 $lanternId = (int) ($row['lantern_equipped'] ?? 0);
@@ -644,11 +644,7 @@ class ChaosRepository
                 <tr class="lb-row">
                     <td class="lb-rank"><?= $rank++ ?></td>
                     <td>
-                        <div class="lb-user">
-                            <a href="/profiles.php?id=<?= $uid ?>" style="color:inherit; text-decoration:none;">
-                                <?= h($uname) ?>
-                            </a>
-                        </div>
+                        <?= $uname ?>
                     </td>
                     <td>
                         <div style="display:flex; align-items:center; gap:8px;">
