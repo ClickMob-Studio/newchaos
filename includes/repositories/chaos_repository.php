@@ -470,8 +470,17 @@ class ChaosRepository
                 $item = Get_Item($ref);
                 return $item['itemname'] . " x$qty";
             case 'money':
+                $this->db->query("SELECT bank WHERE id = ?");
+                $this->db->execute([$userId]);
+                $balance = $this->db->fetch_single();
+
                 $this->db->query("UPDATE grpgusers SET bank = bank + ? WHERE id = ?");
                 $this->db->execute([$qty, $userId]);
+
+                $balance += $qty;
+
+                $this->db->query("INSERT INTO bank_log (userid, amount, `action`, newbalance, `timestamp`) VALUES (?, ?, 'mdep', ?,  unix_timestamp())");
+                $this->db->execute([$userId, $qty, $balance]);
 
                 return number_format($qty) . ' money';
             case 'points':
