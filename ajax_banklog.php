@@ -21,5 +21,5 @@ $db->execute(array(
     $limit,
     $show
 ));
-print banklog($limit, $show, $format);
+print banklog($id, $limit, $show, $format);
 ?>

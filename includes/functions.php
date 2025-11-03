@@ -1674,9 +1674,9 @@ function pet_refill($which)
             break;
     }
 }
-function banklog($limit = 25, $which = 'all', $format = 'us')
+function banklog(int $userId, $limit = 25, $which = 'all', $format = 'us')
 {
-    global $user_class, $db;
+    global $db;
     $dateformat = ($format == 'us') ? "m/d/Y, g:i:s a" : "d/m/Y, g:i:s a";
     $ret = "
         <table id='newtables' style='width:90%;table-layout:fixed;'>
@@ -1703,9 +1703,7 @@ function banklog($limit = 25, $which = 'all', $format = 'us')
             break;
     }
     $db->query("SELECT * FROM bank_log WHERE userid = ?{$sql} ORDER BY `id` DESC LIMIT $limit");
-    $db->execute(array(
-        $user_class->id
-    ));
+    $db->execute([$userId]);
     $rows = $db->fetch_row();
     foreach ($rows as $line) {
         switch ($line['action']) {
@@ -1741,7 +1739,7 @@ function banklog($limit = 25, $which = 'all', $format = 'us')
 
 function staff_banklog($user, $limit = 25, $which = 'all', $format = 'us')
 {
-    global $user_class, $db;
+    global $db;
     $dateformat = ($format == 'us') ? "m/d/Y, g:i:s a" : "d/m/Y, g:i:s a";
     $ret = "
         <table id='newtables' style='width:90%;table-layout:fixed;'>
