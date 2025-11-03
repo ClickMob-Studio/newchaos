@@ -1685,6 +1685,8 @@ function banklog(int $userId, $limit = 25, $which = 'all', $format = 'us')
                 <th>Adjustment</th>
                 <th>New Balance</th>
             </tr>";
+    echo $which;
+
     switch ($which) {
         case 'all':
             $sql = "";

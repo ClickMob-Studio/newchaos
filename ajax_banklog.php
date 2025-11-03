@@ -7,7 +7,7 @@ $limit = isset($_POST['limit']) && $_POST['limit'] !== '' ? $_POST['limit'] : 0;
 $id = $_SESSION['id'];
 $limit = $_POST['limit'];
 $format = $_POST['format'];
-$show = $_POST['show'];
+$show = $_POST['show'] ?: null;
 if ($limit != abs($limit))
     die();
 if (!in_array($format, array('us', 'uk')))
