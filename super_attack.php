@@ -16,91 +16,103 @@ $_SESSION['csrf'] = $csrf;
 
 ?>
 
-    <div class='box_top'>Super Attacks</div>
-    <div class='box_middle'>
-        <div class='pad'>
-            <center>
-                <p>Welcome to Super Attacks, click the button below to start attacking! With every click, you'll attack a random attackable offline player.</p>
-                <p>Select a level category below to attack...</p>
+<div class='box_top'>Super Attacks</div>
+<div class='box_middle'>
+    <div class='pad'>
+        <center>
+            <p>Welcome to Super Attacks, click the button below to start attacking! With every click, you'll attack a
+                random attackable offline player.</p>
+            <p>Select a level category below to attack...</p>
 
-                <a href="ajax_super_attack_id.php?v2=yes&level_limit=50" class="commit-super-attack-link"><button>0-50</button></a>
-                <a href="ajax_super_attack_id.php?v2=yes&level_limit=100" class="commit-super-attack-link"><button>0-100</button></a>
-                <a href="ajax_super_attack_id.php?v2=yes&level_limit=250" class="commit-super-attack-link"><button>0-250</button></a>
-                <a href="ajax_super_attack_id.php?v2=yes&level_limit=5000" class="commit-super-attack-link"><button>All</button></a>
+            <a href="ajax_super_attack_id.php?v2=yes&level_limit=50"
+                class="commit-super-attack-link"><button>0-50</button></a>
+            <a href="ajax_super_attack_id.php?v2=yes&level_limit=100"
+                class="commit-super-attack-link"><button>0-100</button></a>
+            <a href="ajax_super_attack_id.php?v2=yes&level_limit=250"
+                class="commit-super-attack-link"><button>0-250</button></a>
+            <a href="ajax_super_attack_id.php?v2=yes&level_limit=5000"
+                class="commit-super-attack-link"><button>All</button></a>
 
-                <div class="notification-holder" style="min-height:70px;">
+            <div class="notification-holder" style="min-height:70px;">
 
-                </div>
-            </center>
+            </div>
+        </center>
 
 
-        </div>
     </div>
+</div>
 
-    <script type="text/javascript">
-        let inProcess = 0;
-        $('.commit-super-attack-link').click(function(e) {
-            e.preventDefault();
+<script type="text/javascript">
+    let inProcess = 0;
+    $('.commit-super-attack-link').click(function (e) {
+        e.preventDefault();
 
-            if (inProcess > 0) {
-                return false;
-            }
-            inProcess = 1;
+        if (inProcess > 0) {
+            return false;
+        }
+        inProcess = 1;
 
-            $('.commit-super-attack-link').hide();
-            $(".ajax-alert-div").remove();
-            $(this).hide();
-            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/> <span class="loading-msg">Performing Attacks...</span>');
+        $('.commit-super-attack-link').hide();
+        $(".ajax-alert-div").remove();
+        $(this).hide();
+        $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/> <span class="loading-msg">Performing Attacks...</span>');
 
-            window.setTimeout(function(){
-                $('.commit-super-attack-link').show();
-                inProcess = 0;
-            },500);
+        window.setTimeout(function () {
+            $('.commit-super-attack-link').show();
+            inProcess = 0;
+        }, 500);
 
 
-            var request = $.ajax({
-                url: $(this).attr('href') + '&alv=yes',
-                method: "GET",
-                dataType: "json"
-            });
-            request.done(function (res) {
-                if (res.success == false || res.success == 'false') {
-                    var resMes = "<div class='alert alert-danger ajax-alert-div'><p>You don't have anyone you can attack at the moment. Consider trying a different city.</p></div>";
-                    $(".notification-holder").html(resMes);
-                    $(".notification-holder").show();
-                } else {
-                    var i = 1;
-                    var arLength = res.attack_id.length;
-                    for (let attackingId of res.attack_id) {
-                        var request = $.ajax({
-                            url: 'ajax_attack.php?attack=' + attackingId.id + '&csrf=<?php echo $csrf  ?>&alv=yes',
-                            method: "GET",
-                            dataType: "json"
-                        });
-                        request.done(function (resTwo) {
-                            if (resTwo.success == false || resTwo.success == 'false') {
-                                var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + resTwo.error + "</p></div>";
-                            } else {
-                                var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + resTwo.message + "</p></div>";
-                            }
-
-                            $(".notification-holder").html(resMes);
-                            $(".notification-holder").show();
-                            $(".temp-spinner").remove();
-                            $(".loading-msg").remove();
-                        });
-
-                        console.log((arLength - 1));
-                        if (i > (arLength - 1)) {
-                            //$('.commit-super-attack-link').show();
-                            // inProcess = 0;
-                        }
-                        i++;
-                    }
-                }
-            });
+        var request = $.ajax({
+            url: $(this).attr('href') + '&alv=yes',
+            method: "GET",
+            dataType: "json"
         });
-    </script>
+        request.done(function (res) {
+            if (res.success == false || res.success == 'false') {
+                var resMes = "<div class='alert alert-danger ajax-alert-div'><p>You don't have anyone you can attack at the moment. Consider trying a different city.</p></div>";
+                $(".notification-holder").html(resMes);
+                $(".notification-holder").show();
+            } else {
+                var i = 1;
+                var arLength = res.attack_id.length;
+
+                if (res.attack_id.length <= 0) {
+                    var resMes = "<div class='alert alert-danger ajax-alert-div'><p>No one available to attack, try again later.</p></div>";
+                    inProcess = 0;
+                    return;
+                }
+
+                for (let attackingId of res.attack_id) {
+                    var request = $.ajax({
+                        url: 'ajax_attack.php?attack=' + attackingId.id + '&csrf=<?php echo $csrf ?>&alv=yes',
+                        method: "GET",
+                        dataType: "json"
+                    });
+                    request.done(function (resTwo) {
+                        if (resTwo.success == false || resTwo.success == 'false') {
+                            var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + resTwo.error + "</p></div>";
+                        } else {
+                            var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + resTwo.message + "</p></div>";
+                        }
+
+                        $(".notification-holder").html(resMes);
+                        $(".notification-holder").show();
+                        $(".temp-spinner").remove();
+                        $(".loading-msg").remove();
+                    });
+
+                    console.log((arLength - 1));
+                    if (i > (arLength - 1)) {
+                        //$('.commit-super-attack-link').show();
+                        // inProcess = 0;
+                    }
+                    i++;
+                }
+            }
+        });
+    });
+</script>
 
 <?php
 
