@@ -80,6 +80,11 @@ $_SESSION['csrf'] = $csrf;
                 if (res.attack_id.length <= 0) {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><p>No one available to attack, try again later.</p></div>";
                     inProcess = 0;
+
+                    $(".notification-holder").html(resMes);
+                    $(".notification-holder").show();
+                    $(".temp-spinner").remove();
+                    $(".loading-msg").remove();
                     return;
                 }
 
