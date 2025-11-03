@@ -645,7 +645,7 @@ class ChaosRepository
                     <td class="lb-rank"><?= $rank++ ?></td>
                     <td>
                         <div class="lb-user">
-                            <a href="/viewuser.php?u=<?= $uid ?>" style="color:inherit; text-decoration:none;">
+                            <a href="/profiles.php?id=<?= $uid ?>" style="color:inherit; text-decoration:none;">
                                 <?= h($uname) ?>
                             </a>
                         </div>
