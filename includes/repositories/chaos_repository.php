@@ -611,6 +611,7 @@ class ChaosRepository
         FROM chaos_event_user ceu
         JOIN grpgusers u          ON u.id = ceu.user_id
         LEFT JOIN chaos_lanterns cl ON cl.id = ceu.lantern_equipped
+        WHERE u.admin < 1
         ORDER BY $orderBy
         LIMIT 10
     ");
