@@ -1,13 +1,28 @@
 <?php
 
-include 'header.php';
 include_once 'includes/repositories/chaos_repository.php';
+$chaosRepository = new ChaosRepository($db);
+
+if (isset($_GET['ajax_lb'])) {
+    include_once 'dbcon.php';
+    include_once 'database/pdo_class.php';
+
+    $chaosRepository = new ChaosRepository($db);
+    $sort = strtolower($_GET['ajax_lb']);
+    if (!in_array($sort, ['current', 'lifetime', 'lantern'], true))
+        $sort = 'current';
+
+    header('Content-Type: text/html; charset=utf-8');
+    echo $chaosRepository->renderLeaderboardHTML($sort);
+    exit;
+}
+
+include 'header.php';
 
 if (empty($_SESSION['csrf'])) {
     $_SESSION['csrf'] = bin2hex(random_bytes(16));
 }
 
-$chaosRepository = new ChaosRepository($db);
 
 $state = $chaosRepository->getChaosUserState($user_class->id);
 $lanterns = $chaosRepository->getLanterns();
@@ -237,6 +252,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     back();
 }
 
+$lbSort = strtolower($_GET['lb'] ?? 'current');
+if (!in_array($lbSort, ['current', 'lifetime', 'lantern'], true))
+    $lbSort = 'current';
+$leaderboard = $chaosRepository->getLeaderboard($lbSort);
+
+function lb_active($k, $cur)
+{
+    return $k === $cur ? 'active' : '';
+}
 ?>
 
 <style>
@@ -884,6 +908,106 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .cc-btn-ghost:hover {
         background: rgba(255, 255, 255, .06);
     }
+
+    /* Leaderboard */
+    .lb {
+        margin: 16px 0 20px;
+        background: rgba(255, 255, 255, .03);
+        border: 1px solid rgba(255, 255, 255, .08);
+        border-radius: 16px;
+        padding: 12px;
+        box-shadow: var(--shadow);
+        color: var(--text);
+    }
+
+    .lb-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .lb-tabs {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .lb-tab {
+        font-weight: 800;
+        font-size: .85rem;
+        padding: .45rem .7rem;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, .12);
+        color: #cfd6e8;
+        text-decoration: none;
+        background: rgba(255, 255, 255, .03);
+    }
+
+    .lb-tab.active {
+        background: linear-gradient(90deg, #ff7a8d, #d93d3d);
+        color: #07141a;
+        border-color: transparent;
+    }
+
+    .lb-list {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 0;
+    }
+
+    .lb-row {
+        background: rgba(0, 0, 0, .25);
+        border: 1px solid rgba(255, 255, 255, .08);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .lb-list th,
+    .lb-list td {
+        padding: 10px 12px;
+    }
+
+    .lb-rank {
+        width: 56px;
+        font-weight: 800;
+        color: #ffd15a;
+        text-align: center;
+    }
+
+    .lb-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+    }
+
+    .lb-user img {
+        width: 26px;
+        height: 26px;
+        object-fit: contain;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .35));
+    }
+
+    .lb-stat {
+        text-align: right;
+        font-weight: 700;
+    }
+
+    .lb-sub {
+        color: var(--muted);
+        font-size: .85rem;
+    }
+
+    .lb-list th,
+    .lb-list td {
+        vertical-align: middle;
+    }
+
+    th {
+        text-align: left !important;
+    }
 </style>
 
 <!-- Message -->
@@ -1040,6 +1164,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </section>
 <?php endif; ?>
+
+<br />
+
+<?php
+$lbSort = strtolower($_GET['lb'] ?? 'current');
+if (!in_array($lbSort, ['current', 'lifetime', 'lantern'], true))
+    $lbSort = 'current';
+?>
+<section class="lb" id="leaderboard" aria-label="Event Leaderboard">
+    <div class="lb-head">
+        <h3 style="margin:0;">Leaderboard</h3>
+        <nav class="lb-tabs">
+            <button type="button" class="lb-tab <?= $lbSort === 'current' ? 'active' : '' ?>" data-sort="current">Souls
+                (Current)</button>
+            <button type="button" class="lb-tab <?= $lbSort === 'lifetime' ? 'active' : '' ?>"
+                data-sort="lifetime">Souls
+                (Lifetime)</button>
+            <button type="button" class="lb-tab <?= $lbSort === 'lantern' ? 'active' : '' ?>"
+                data-sort="lantern">Lantern
+                Rank</button>
+        </nav>
+    </div>
+
+    <table class="lb-list">
+        <thead>
+            <tr>
+                <th class="lb-rank">#</th>
+                <th>User</th>
+                <th>Lantern</th>
+                <th class="lb-stat">Souls (Current)</th>
+                <th class="lb-stat">Souls (Lifetime)</th>
+            </tr>
+        </thead>
+        <tbody id="lb-body">
+            <?= $chaosRepository->renderLeaderboardHTML($lbSort) ?>
+        </tbody>
+    </table>
+</section>
 
 <br />
 
@@ -1244,6 +1406,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         modal.addEventListener('click', function (e) { if (e.target === modal || e.target.classList.contains('cc-modal-backdrop')) close(); });
         document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
     })();
+
+    $(function () {
+        $('.lb-tab').on('click', function () {
+            const sort = $(this).data('sort');
+            $('.lb-tab').removeClass('active');
+            $(this).addClass('active');
+
+            $('#lb-body').html('<tr><td colspan="5" style="text-align:center;padding:16px;">Loading...</td></tr>');
+
+            $.get(window.location.pathname, { ajax_lb: sort }, function (html) {
+                $('#lb-body').html(html);
+            }).fail(function () {
+                $('#lb-body').html('<tr><td colspan="5" style="text-align:center;padding:16px;color:#f66;">Error loading leaderboard.</td></tr>');
+            });
+        });
+    });
 </script>
 
 

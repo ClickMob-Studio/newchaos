@@ -574,4 +574,99 @@ class ChaosRepository
             return 'Upgrade failed: ' . $e->getMessage();
         }
     }
+
+    public function getLeaderboard(string $sort = 'current'): array
+    {
+        $map = [
+            'current' => 'ceu.souls_current DESC, ceu.souls_collected DESC',
+            'lifetime' => 'ceu.souls_collected DESC, ceu.souls_current DESC',
+            'lantern' => 'ceu.lantern_equipped DESC, ceu.souls_current DESC, ceu.souls_collected DESC',
+        ];
+        $sort = strtolower($sort);
+        if (!isset($map[$sort]))
+            $sort = 'current';
+        $orderBy = $map[$sort];
+
+        global $cache;
+        $ckey = "chaos_lb:$sort";
+        if ($cache->exists($ckey)) {
+            $raw = $cache->get($ckey);
+            if ($raw !== false) {
+                $dec = json_decode($raw, true);
+                if (is_array($dec))
+                    return $dec;
+            }
+        }
+
+        // Join users + lanterns
+        $this->db->query("
+        SELECT
+            u.id            AS user_id,
+            u.username      AS username,
+            ceu.lantern_equipped,
+            ceu.souls_current,
+            ceu.souls_collected,
+            cl.name         AS lantern_name,
+            cl.image        AS lantern_image
+        FROM chaos_event_user ceu
+        JOIN grpgusers u          ON u.id = ceu.user_id
+        LEFT JOIN chaos_lanterns cl ON cl.id = ceu.lantern_equipped
+        ORDER BY $orderBy
+        LIMIT 10
+    ");
+        $this->db->execute();
+        $rows = $this->db->fetch_row() ?: [];
+
+        $cache->setEx($ckey, 60, json_encode($rows));
+        return $rows;
+    }
+
+    public function renderLeaderboardHTML(string $sort = 'current'): string
+    {
+        $rows = $this->getLeaderboard($sort);
+
+        ob_start();
+
+        if (!$rows) {
+            echo '<tr class="lb-row"><td colspan="5" style="text-align:center; padding:16px;">No entries yet.</td></tr>';
+        } else {
+            $rank = 1;
+            foreach ($rows as $row) {
+                $uid = (int) ($row['user_id'] ?? 0);
+                $uname = htmlspecialchars($row['username'] ?? 'Unknown', ENT_QUOTES, 'UTF-8');
+                $lanternName = htmlspecialchars($row['lantern_name'] ?? '—', ENT_QUOTES, 'UTF-8');
+                $lanternImg = htmlspecialchars($row['lantern_image'] ?? '', ENT_QUOTES, 'UTF-8');
+                $lanternId = (int) ($row['lantern_equipped'] ?? 0);
+                $soulsCurrent = number_format((int) floor($row['souls_current'] ?? 0));
+                $soulsCollected = number_format((int) floor($row['souls_collected'] ?? 0));
+                ?>
+                <tr class="lb-row">
+                    <td class="lb-rank"><?= $rank++ ?></td>
+                    <td>
+                        <div class="lb-user">
+                            <a href="/viewuser.php?u=<?= $uid ?>" style="color:inherit; text-decoration:none;">
+                                <?= h($uname) ?>
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <?php if ($lanternImg): ?>
+                                <img src="<?= $lanternImg ?>" alt="" width="36" height="36" />
+                            <?php endif; ?>
+                            <div>
+                                <div><?= $lanternName ?></div>
+                                <div class="lb-sub">Level <?= $lanternId ?></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="lb-stat"><?= $soulsCurrent ?></td>
+                    <td class="lb-stat"><?= $soulsCollected ?></td>
+                </tr>
+                <?php
+            }
+        }
+
+        return ob_get_clean();
+    }
 }
