@@ -78,6 +78,7 @@ include("header.php");
                 $user_class->moddedspeed = rand(1000, 5000);
                 $attack_person->lastactive = time();
             }
+            $error = isset($error) ? $error : null;
             $error = ($worked['target'] == "") ? "That hit doesn't exist." : $error;
             $error = ($worked['from'] == $user_class->id) ? "You can't take your own hit." : $error;
             if ($user_class->energypercent < 25)
@@ -92,13 +93,11 @@ include("header.php");
             $error = ($_GET['hit'] == "") ? "You didn't choose someone to hit." : $error;
             $error = ($user_class->gang == $attack_person->gang && $user_class->gang > 0) ? "You can't hit someone in your gang." : $error;
             $error = ($worked['target'] == $user_class->id) ? "You can't hit yourself." : $error;
-            $error = ($attack_person->protectionact > time()) ? "This player is under the MW protection act for another " . howlongleft($attack_person->protectionact) . "." : $error;
-            //$error = ($attack_person->hppercent < 50) ? "This player has under 50% HP therefore you can't hit him/her yet." : $error;
             $error = ($attack_person->username == "") ? "That person doesn't exist." : $error;
             $error = ($attack_person->hospital > 0) ? "You can't hit someone that is in hospital." : $error;
             $error = ($attack_person->jail > 0) ? "You can't hit someone that is in prison." : $error;
             $error = ($attack_person->admin == 1) ? "Im sorry, You cannot attack the owner" : $error;
-            $error = ($attack_person->aprotection > time()) ? "Im sorry, You cannot attack a person under protection" : $error;
+            $error = ($attack_person->aprotection > time()) ? "I'm sorry, You cannot attack a person under protection" : $error;
 
 
             $error = (time() - $attack_person->lastactive >= 900) ? "The target must be online." : $error;
@@ -161,7 +160,7 @@ include("header.php");
                     $theirhp = 0;
                 if ($theirhp <= 0) {
                     $winner = $user_class->id;
-                    perform_query("UPDATE grpgusers SET hwho = ?, hhow = 'wasattacked', hwhen = ?, hospital = 300 WHERE id = ?", [$user_class->id, date(g . ":" . i . ":" . sa, time()), $attack_person->id]);
+                    perform_query("UPDATE grpgusers SET hwho = ?, hhow = 'wasattacked', hwhen = ?, hospital = 300 WHERE id = ?", [$user_class->id, date("g:i:sa", time()), $attack_person->id]);
                     $theirhp = 0;
                     $newmoney = $user_class->bank + $worked['bounty'];
                     contribute_mission('k');
