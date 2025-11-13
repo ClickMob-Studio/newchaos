@@ -53,7 +53,7 @@ $commands = array(
     'echo $PWD',
     'whoami',
     'git fetch',
-    'git reset --hard origin/php8',
+    'git reset --hard origin/main',
     'git status',
 );
 
