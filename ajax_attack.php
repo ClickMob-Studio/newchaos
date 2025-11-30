@@ -512,15 +512,14 @@ if ($theirhp <= 0) {
     }
 
     // Chaos (Halloween Event)
-    include_once 'includes/repositories/chaos_repository.php';
-    $chaosRepository = new ChaosRepository();
+    // include_once 'includes/repositories/chaos_repository.php';
+    // $chaosRepository = new ChaosRepository();
 
-    // 25% chance to get a soul
-    $rnd = mt_rand(1, 4);
-    if ($rnd == 1) {
-        $chaosRepository->awardSouls($user_class->id, 1, 'attack');
-    }
-
+    // // 25% chance to get a soul
+    // $rnd = mt_rand(1, 4);
+    // if ($rnd == 1) {
+    //     $chaosRepository->awardSouls($user_class->id, 1, 'attack');
+    // }
 
     contribute_mission('k');
     newmissions('kills');

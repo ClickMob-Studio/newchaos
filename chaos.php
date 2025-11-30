@@ -1,5 +1,8 @@
 <?php
 
+exit; // Disabled Halloween
+
+
 include_once 'includes/repositories/chaos_repository.php';
 $chaosRepository = new ChaosRepository($db);
 

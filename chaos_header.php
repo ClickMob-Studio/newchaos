@@ -6,8 +6,8 @@ ini_set('log_errors', '1');
 
 ob_start();
 
-require_once 'includes/cache.php';
-include_once 'includes/functions.php';
+require_once __DIR__ . '/includes/cache.php';
+include_once __DIR__ . '/includes/functions.php';
 
 start_session_guarded();
 
@@ -59,10 +59,13 @@ $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
 register_shutdown_function('ob_end_flush');
 $starttime = microtime_float();
 
-include_once 'dbcon.php';
-include_once 'database/pdo_class.php';
-include_once "classes.php";
-include_once "codeparser.php";
+include_once __DIR__ . '/dbcon.php';
+include_once __DIR__ . '/database/pdo_class.php';
+include_once __DIR__ . "/classes.php";
+include_once __DIR__ . "/codeparser.php";
+include_once __DIR__ . "/includes/repositories/chaos_repository.php";
+
+$chaos_repository = new ChaosRepository($db);
 
 if (empty($ignoreslashes)) {
     foreach ($_POST as $k => $v) {
@@ -79,7 +82,7 @@ if (isIPBanned($ip)) {
 }
 
 if (!isset($_SESSION['id'])) {
-    include('home.php');
+    include __DIR__ . '/home.php';
     die();
 }
 
@@ -689,6 +692,35 @@ $no2 = $db->num_rows();
                 position: static;
             }
         }
+
+        body {
+            font: 1.4rem "Montserrat", sans-serif;
+            color: #fff;
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)),
+                url('/css/images/2025/halloween-background.png');
+            background-repeat: no-repeat;
+            background-position: top center;
+            background-size: cover;
+            background-attachment: fixed;
+            padding: 85px 0;
+        }
+
+        .dcLeftNavContainer {
+            background: #1c0000 !important;
+        }
+
+        .dcNav a:hover {
+            background: #351515 !important;
+        }
+
+        .mainHeader {
+            background: #1c0000 !important;
+        }
+
+        .dcLeftNav a.active {
+            background: linear-gradient(75deg, #331313, #3f0606) !important;
+        }
     </style>
 </head>
 
@@ -707,7 +739,7 @@ $no2 = $db->num_rows();
         <div class="row mx-auto mainHeaderContent d-none d-md-block">
             <?php
 
-            require 'navbar.php'; ?>
+            require 'chaos_navbar1.php'; ?>
         </div>
 
     </header>
@@ -797,7 +829,7 @@ $no2 = $db->num_rows();
         <div class="d-flex justify-content-between align-items-center">
             <div class="logo pe-3" role="banner">
                 <a href="/index.php" class="d-flex align-items-center text-decoration-none">
-                    <img src="/assets/images/logo1.png" style="width:30px" />
+                    <img src="/css/images/2025/halloween-logo.png" style="width:32px" />
                     <h1 class="h3 ms-2">ChaosCity</h1>
                 </a>
 
@@ -884,6 +916,7 @@ $no2 = $db->num_rows();
 
     $requiredItems = array(
         "city",
+        "chaos",
         "updates",
         "gang",
         "gmail",
@@ -1054,7 +1087,7 @@ $no2 = $db->num_rows();
             <div class="carousel-item active">
                 <div class="d-flex" id="sortable-container">
                     <?php foreach ($carousel_order as $item_id) {
-                        include 'menu_items/' . $item_id . '.php';
+                        include __DIR__ . '/menu_items/' . $item_id . '.php';
                     } ?>
                 </div>
             </div>
@@ -1193,6 +1226,12 @@ $no2 = $db->num_rows();
                     <p>Points</p>
                 </div>
             </div>
+            <!-- <div class="col-3">
+                <div class="text-center">
+                    <span class="badge bg-danger mb-points"><?= ''; //shorthandNumber($chaos_user->soulsCurrent); ?></span>
+                    <p>Souls</p>
+                </div>
+            </div> -->
             <div class="col-3">
                 <div class="d-flex">
                     <p class="text-center">Level:</p>
@@ -1210,7 +1249,7 @@ $no2 = $db->num_rows();
 
     <div class="row mx-auto my-3 mainContent">
         <div class="d-none d-lg-block col-2 dcLeftNavContainer p-0">
-            <?php require 'leftnav.php'; ?>
+            <?php require __DIR__ . '/leftnav.php'; ?>
         </div>
 
         <div class="col-12 col-lg-10">
@@ -1475,9 +1514,10 @@ $no2 = $db->num_rows();
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
                                                 class="mx-auto fas fa-piggy-bank"></i></div>
-                                        <div class="col-10 d-flex align-items-center">$<div class="money">
-                                                <?= $user_class->is_stats_abbreviated ? shorthandNumber($user_class->bank) : prettynum($user_class->bank); ?>
-                                            </div>
+                                        <div class="col-10 d-flex align-items-center"><a href="bank.php?h_deposit=cash"
+                                                class="d-flex">$<div>
+                                                    <?= $user_class->is_stats_abbreviated ? shorthandNumber($user_class->bank) : prettynum($user_class->bank); ?>
+                                                </div></a>
                                         </div>
                                     </div>
                                     <div class="row my-1 g-0">
@@ -1495,6 +1535,18 @@ $no2 = $db->num_rows();
                                                 <?= $user_class->is_stats_abbreviated ? shorthandNumber($user_class->credits) : prettynum($user_class->credits); ?>
                                             </a></div>
                                     </div>
+                                    <!-- <div class="row my-1 g-0">
+                                        <div class="col-2 d-flex align-items-center">
+                                            <img src="/css/images/2025/chaos_souls_outlined.png" class="mx-auto"
+                                                style="width:22px;height:22px;" />
+                                        </div>
+                                        <div class="col-10 d-flex align-items-center souls"><a href="chaos.php"
+                                                style="text-decoration: none;">
+                                                <?=
+                                                    ''; // $user_class->is_stats_abbreviated ? shorthandNumber($chaos_user->soulsCurrent) : prettynum($chaos_user->soulsCurrent);
+                                                ?>
+                                            </a></div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="col-7 col-md-12 g-0 row dcStatsPanel">
@@ -1911,7 +1963,7 @@ $no2 = $db->num_rows();
                         </style>
 
 
-                        <div class="dcPanel p-3" style="text-align:center" id="message-container">
+                        <div class="dcPanel p-3" style="text-align:center;margin-bottom: 12px;" id="message-container">
                             <ul id="messages"
                                 style="list-style-type: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0; margin: 0;">
                             </ul>
